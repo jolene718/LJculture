@@ -1,0 +1,230 @@
+/* 基础导航样式 */
+.header {
+  width: 100%;
+  background-color: #edeee8;
+  border-bottom: 1px solid #a05f48;
+  padding: 25px 0;
+  position: relative;
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, transparent, #c2412d, transparent);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding: 0 20px;
+}
+
+.site-title {
+  font-size: 80px;
+  color: #000;
+  text-decoration: none;
+  font-family: "方正礼器碑隶书 简";
+  margin: 0;
+  padding: 0;
+  margin-left: 10px;
+  transition: font-size 0.1s ease;
+}
+
+.site-title:hover {
+  font-size: 85px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.site-title:active {
+  font-size: 80px;
+}
+
+.nav-item {
+  font-family: "阿里妈妈刀隶体";
+  position: relative;
+  font-size: 42px;
+  color: #c2412d;
+  text-decoration: none;
+  white-space: nowrap;
+  padding: 5px 0;
+  border-radius: 8px;
+  background-color: rgba(194, 65, 45, 0.1);
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: #000;
+}
+
+.nav-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #c2412d;
+  transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
+
+/* 响应式导航优化 */
+@media (min-width: 1600px) {
+  .home-title {
+    font-size: 6.5em;
+  }
+
+  .home-description {
+    font-size: 2.2em;
+  }
+}
+
+@media (max-width: 1600px) and (min-width: 1400px) {
+  .home-title {
+    font-size: 6em;
+  }
+
+  .home-description {
+    font-size: 2.1em;
+  }
+
+  .nav-item {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 1400px) {
+  .home-title {
+    font-size: 5.5em;
+  }
+
+  .home-description {
+    font-size: 2em;
+  }
+
+  .nav-item {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .home-title {
+    font-size: 5em;
+  }
+
+  .home-description {
+    font-size: 1.8em;
+  }
+
+  .nav-item {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .home-title {
+    font-size: 4.5em;
+  }
+
+  .home-description {
+    font-size: 1.6em;
+  }
+
+  .nav-item {
+    font-size: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .home-title {
+    font-size: 4em;
+  }
+
+  .home-description {
+    font-size: 1.4em;
+  }
+
+  .nav-item {
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 800px) {
+  .header-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .site-title {
+    font-size: 60px;
+    margin: 0;
+  }
+
+  .nav-item {
+    font-size: 24px;
+    padding: 5px 10px;
+  }
+
+  .home-title {
+    font-size: 3.5em;
+  }
+
+  .home-description {
+    font-size: 1.2em;
+  }
+}
+
+@media (max-width: 600px) {
+  .site-title {
+    font-size: 50px;
+  }
+
+  .nav-item {
+    font-size: 20px;
+    padding: 5px 8px;
+  }
+
+  .home-title {
+    font-size: 3em;
+  }
+
+  .home-description {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px 0;
+  }
+
+  .site-title {
+    font-size: 40px;
+  }
+
+  .nav-item {
+    font-size: 18px;
+    padding: 4px 6px;
+  }
+
+  .home-title {
+    font-size: 2.5em;
+  }
+
+  .home-description {
+    font-size: 0.9em;
+    margin-bottom: 40px;
+  }
+}

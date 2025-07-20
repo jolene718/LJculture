@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>机杼千年 - 黎锦飞光</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+  <link rel="stylesheet" href="./navbar.css">
+  <style>
+    :root {
+      --rotate-speed: 60;
+      --count: 14;
+      --easing: linear;
+      --radius: 200px;
+      --primary-color: #c2412d;
+      --border-color: #a05f48;
+      --bg-light: #edeee8;
+      --text-dark: #3e3a2f;
+      --accent-gray: #b7a9a1;
+      --accent-green: #5f7161;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: "KaiTi", "STKaiti", serif;
+      color: #3e3a2f;
+      background: linear-gradient(to bottom, #edeee8, #f3e6e8);
+      cursor: url('./鼠标.cur'), auto;
+    }
+
+    /* 页面标题样式 */
+    .page-title-container {
+      text-align: center;
+      padding: 60px 20px 40px;
+      position: relative;
+    }
+
+    .page-title {
+      font-family: "阿里妈妈刀隶体";
+      color: var(--primary-color);
+      margin-bottom: 0.5em;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+      font-size: 3rem;
+      transition: all 0.5s ease;
+    }
+
+    .page-title:hover {
+      transform: scale(1.05);
+    }
+
+    .page-description {
+      font-family: "方正国美进道体 简";
+      color: var(--text-dark);
+      max-width: 800px;
+      margin: 0 auto 60px;
+      font-size: 1.2rem;
+      line-height: 1.8;
+    }
+
+    /* 时间轴样式 */
+    .timeline-container {
+      position: relative;
+      max-width: 1200px;
+      margin: 0 auto 100px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* 时间轴中心线 */
+    .timeline-center {
+      position: absolute;
+      width: 4px;
+      background-color: var(--primary-color);
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    /* 时间轴项目 */
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 40px 40px 20px;
+      box-sizing: border-box;
+      margin-bottom: 60px;
+      transition: all 0.5s ease;
+    }
+
+    /* 左半部分时间轴项目 */
+    .timeline-item.left {
+      left: 0;
+      text-align: right;
+      padding-right: 80px;
+    }
+
+    /* 右半部分时间轴项目 */
+    .timeline-item.right {
+      left: 50%;
+      padding-left: 80px;
+    }
+
+    /* 时间轴项目圆点 */
+    .timeline-dot {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: var(--primary-color);
+      top: 40px;
+      z-index: 10;
+      transition: all 0.3s ease;
+    }
+
+    /* 左半部分圆点位置 */
+    .timeline-item.left .timeline-dot {
+      right: -15px;
+    }
+
+    /* 右半部分圆点位置 */
+    .timeline-item.right .timeline-dot {
+      left: -15px;
+    }
+
+    /* 时间轴项目悬停效果 */
+    .timeline-item:hover {
+      transform: translateY(-10px);
+    }
+
+    .timeline-item:hover .timeline-dot {
+      transform: scale(1.5);
+      background-color: var(--border-color);
+    }
+
+    /* 时间轴内容框 */
+    .timeline-content {
+      position: relative;
+      padding: 30px;
+      background-color: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-content {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 时间轴时期标题 */
+    .timeline-period {
+      font-family: "阿里妈妈刀隶体";
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+    }
+
+    .timeline-period:after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background-color: var(--primary-color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+
+    .timeline-item:hover .timeline-period:after {
+      transform: scaleX(1);
+    }
+
+    /* 时间轴描述文字 */
+    .timeline-description {
+      font-family: "方正国美进道体 简";
+      color: var(--text-dark);
+      line-height: 1.8;
+      font-size: 1.1rem;
+      margin-top: 10px;
+    }
+
+    /* 时间轴图片 */
+    .timeline-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      margin-top: 20px;
+      transition: all 0.5s ease;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .timeline-item:hover .timeline-image {
+      transform: scale(1.03);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .timeline-center {
+        left: 40px;
+      }
+
+      .timeline-item {
+        width: 100%;
+        padding-left: 80px;
+        padding-right: 20px;
+        text-align: left;
+      }
+
+      .timeline-item.right {
+        left: 0;
+      }
+
+      .timeline-dot {
+        left: 25px !important;
+        right: auto !important;
+      }
+
+      .page-title {
+        font-size: 2.2rem;
+      }
+
+      .timeline-period {
+        font-size: 1.5rem;
+      }
+    }
+
+    /* 动画效果 */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .timeline-item {
+      animation: fadeIn 0.8s ease forwards;
+      opacity: 0;
+    }
+
+    .timeline-item.left {
+      animation-delay: 0.2s;
+    }
+
+    .timeline-item.right {
+      animation-delay: 0.5s;
+    }
+
+    /* 滚动触发动画 */
+    .timeline-item.visible {
+      opacity: 1;
+    }
+
+    /* 传承与创新部分样式 */
+    .heritage-section {
+      max-width: 1200px;
+      margin: 0 auto 100px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .heritage-title {
+      font-family: "阿里妈妈刀隶体";
+      color: var(--primary-color);
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .heritage-description {
+      font-family: "方正国美进道体 简";
+      color: var(--text-dark);
+      line-height: 1.8;
+      font-size: 1.1rem;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .heritage-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 40px;
+      transition: all 0.5s ease;
+    }
+
+    .heritage-item:hover {
+      transform: translateY(-10px);
+    }
+
+    .heritage-item-image {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      margin-right: 40px;
+    }
+
+    .heritage-item-content {
+      flex: 1;
+    }
+
+    .heritage-item-title {
+      font-family: "阿里妈妈刀隶体";
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+    }
+
+    .heritage-item-text {
+      font-family: "方正国美进道体 简";
+      color: var(--text-dark);
+      line-height: 1.8;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+      .heritage-item {
+        flex-direction: column;
+      }
+
+      .heritage-item-image {
+        margin-right: 0;
+        margin-bottom: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 页顶栏 - 与首页一致 -->
+  <header class="header">
+    <div class="header-container">
+      <a href="Home_Page.html" class="site-title">纹·藏</a>
+      <a href="五色华彩.html" class="nav-item">锦纹黎韵</a>
+      <a href="千年霓裳.html" class="nav-item">黎锦飞光</a>
+      <a href="锦绣山河.html" class="nav-item">锦织经纬</a>
+      <a href="天工织造.html" class="nav-item">锦绣千针</a>
+    </div>
+  </header>
+
+  <!-- 页面标题部分 -->
+  <div class="page-title-container">
+    <h1 class="page-title">黎锦飞光 - 黎族服饰文化时间轴</h1>
+    <p class="page-description">穿越千年时光，探寻海南黎族服饰文化的发展脉络，感受黎锦技艺的传承与变迁。</p>
+  </div>
+
+  <!-- 时间轴容器 -->
+  <div class="timeline-container" id="timeline">
+    <!-- 时间轴中心线 -->
+    <div class="timeline-center"></div>
+
+    <!-- 春秋战国时期 - 左 -->
+    <div class="timeline-item left">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">春秋战国时期</h3>
+        <p class="timeline-description">黎族人已经掌握了利用木棉纤维来制作衣物的技能，这象征着黎族纺织技术的初步发展。这一时期的纺织技艺为后续黎锦文化的繁荣奠定了重要基础。</p>
+        <img src="春秋战国时期.png" alt="春秋战国时期黎族纺织" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 西汉时期 - 右 -->
+    <div class="timeline-item right">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">西汉时期</h3>
+        <p class="timeline-description">在黎族地区，所产的"广幅布"因其细腻的质地，被誉为"珍贡"的珍贵物品，这充分展现了黎族在纺织方面的卓越技艺。黎族纺织产品开始进入中原视野，成为贡品。</p>
+        <img src="西汉时期.png" alt="西汉时期广幅布" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 三国时期 - 左 -->
+    <div class="timeline-item left">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">三国时期</h3>
+        <p class="timeline-description">
+          黎族居民已经掌握了利用吉贝（一种草本植物，其纤维适合纺纱织布）来制作"色斑布"的技艺。这种布料既柔软又厚实，色彩缤纷，广受人们青睐，展现了黎族在染色和织造方面的创新。</p>
+        <img src="https://picsum.photos/seed/liethnic3/800/400" alt="三国时期色斑布" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 宋朝时期 - 右 -->
+    <div class="timeline-item right">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">宋朝时期</h3>
+        <p class="timeline-description">黎族的纺织技术达到高超水平，织出的布上能见到精细的文字和花卉等复杂图案，工艺非常精湛。黎锦、黎纱等产品色彩斑斓，受到广泛好评，成为当时的重要手工业产品。</p>
+        <img src="https://picsum.photos/seed/liethnic4/800/400" alt="宋朝时期黎锦" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 元朝时期 - 左 -->
+    <div class="timeline-item left">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">元朝时期</h3>
+        <p class="timeline-description">
+          杰出的女性纺织专家黄道婆流亡至崖州（今海南岛南部），向黎族妇女学习纺织技术，并进行推广创新和提升。她的贡献为中国纺织业的进步立下了汗马功劳，也促进了黎锦技艺的传播。</p>
+        <img src="https://picsum.photos/seed/liethnic5/800/400" alt="元朝时期黄道婆" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 明清时期 - 右 -->
+    <div class="timeline-item right">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">明清时期</h3>
+        <p class="timeline-description">明清时期是黎锦发展的鼎盛阶段，纺、染、织、绣四大工艺成熟，品种丰富，贸易繁荣。龙被成为珍品进贡入宫，黎锦不仅是实用衣物，更成为具有高度艺术价值的工艺品。</p>
+        <img src="https://picsum.photos/seed/liethnic6/800/400" alt="明清时期龙被" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 民国时期 - 左 -->
+    <div class="timeline-item left">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">民国时期</h3>
+        <p class="timeline-description">民国时期，因社会动荡、战乱及西方文化冲击，黎锦传承受阻，出现简化工艺、质量下降的情况。黎锦文化面临前所未有的挑战，传统技艺的传承陷入困境。</p>
+        <img src="https://picsum.photos/seed/liethnic7/800/400" alt="民国时期黎锦" class="timeline-image">
+      </div>
+    </div>
+
+    <!-- 现代 - 右 -->
+    <div class="timeline-item right">
+      <div class="timeline-dot"></div>
+      <div class="timeline-content">
+        <h3 class="timeline-period">现代</h3>
+        <p class="timeline-description">
+          2024年12月5日，黎族传统纺染织绣技艺由联合国教科文组织从《急需保护的非物质文化遗产名录》转入《人类非物质文化遗产代表作名录》，标志着黎锦文化在当代获得了国际认可和保护。</p>
+        <img src="https://picsum.photos/seed/liethnic8/800/400" alt="现代黎锦技艺" class="timeline-image">
+      </div>
+    </div>
+  </div>
+
+  <!-- 传承与创新部分 -->
+  <div class="heritage-section">
+    <h2 class="heritage-title">传承与创新</h2>
+    <p class="heritage-description">在当代社会，黎锦文化在传承中不断创新，展现出独特的魅力和活力。以下是一些黎锦文化传承与创新的案例。</p>
+    <div class="heritage-item">
+      <img src="https://picsum.photos/seed/heritage1/800/400" alt="黎锦文创产品" class="heritage-item-image">
+      <div class="heritage-item-content">
+        <h3 class="heritage-item-title">文创产品开发</h3>
+        <p class="heritage-item-text">将黎锦元素融入现代文创产品设计中，如手机壳、钥匙链、笔记本等，使黎锦文化更贴近现代人的生活。</p>
+      </div>
+    </div>
+    <div class="heritage-item">
+      <img src="https://picsum.photos/seed/heritage2/800/400" alt="黎锦时装秀" class="heritage-item-image">
+      <div class="heritage-item-content">
+        <h3 class="heritage-item-title">时尚设计融合</h3>
+        <p class="heritage-item-text">设计师将黎锦与现代时尚元素相结合，推出黎锦时装秀，让黎锦在时尚舞台上绽放光彩。</p>
+      </div>
+    </div>
+    <div class="heritage-item">
+      <img src="https://picsum.photos/seed/heritage3/800/400" alt="黎锦数字化展示" class="heritage-item-image">
+      <div class="heritage-item-content">
+        <h3 class="heritage-item-title">数字化展示与传播</h3>
+        <p class="heritage-item-text">利用虚拟现实、增强现实等技术，对黎锦文化进行数字化展示和传播，让更多人了解黎锦的魅力。</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 滚动触发时间轴动画
+    document.addEventListener('DOMContentLoaded', function () {
+      const timelineItems = document.querySelectorAll('.timeline-item');
+
+      function checkVisibility() {
+        timelineItems.forEach(item => {
+          const itemTop = item.getBoundingClientRect().top;
+          const itemVisible = 150;
+
+          if (itemTop < window.innerHeight - itemVisible) {
+            item.classList.add('visible');
+          }
+        });
+      }
+
+      // 初始检查
+      checkVisibility();
+
+      // 滚动时检查
+      window.addEventListener('scroll', checkVisibility);
+    });
+  </script>
+</body>
+
+</html>

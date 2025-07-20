@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>锦绣千针：黎族传统服饰织造工艺</title>
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <link rel="stylesheet" href="./navbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background-color: #f8f5f2;
+            color: #333;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #4a5568;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .section-title {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0.5rem;
+            height: 2rem;
+            background-color: #4a5568;
+        }
+
+        .process-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .process-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .pattern-item {
+            border-left: 3px solid #4a5568;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-item:hover {
+            background-color: rgba(74, 85, 104, 0.05);
+        }
+
+        .image-hover {
+            transition: transform 0.3s ease;
+        }
+
+        .image-hover:hover {
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 768px) {
+            .section-title::before {
+                height: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen">
+    <header class="header">
+        <div class="header-container">
+            <a href="Home_Page.html" class="site-title">黎锦纹铭</a>
+            <a href="五色华彩.html" class="nav-item">锦纹黎韵</a>
+            <a href="千年霓裳.html" class="nav-item">黎锦飞光</a>
+            <a href="锦绣山河.html" class="nav-item">锦织经纬</a>
+            <a href="天工织造.html" class="nav-item">锦绣千针</a>
+        </div>
+    </header>
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="text-xl font-bold text-gray-800">锦绣千针</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#intro" class="nav-link text-gray-700">引言</a>
+                <a href="#process" class="nav-link text-gray-700">四大工艺</a>
+                <a href="#pattern" class="nav-link text-gray-700">纹样与颜色</a>
+                <a href="#double" class="nav-link text-gray-700">双面绣</a>
+                <a href="#culture" class="nav-link text-gray-700">文化传承</a>
+            </div>
+            <button class="md:hidden text-gray-700 focus:outline-none" id="mobileMenuButton">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- 移动端菜单 -->
+        <div class="md:hidden hidden bg-white py-2 px-4 shadow-md" id="mobileMenu">
+            <a href="#intro" class="block py-2 text-gray-700 hover:text-gray-900">引言</a>
+            <a href="#process" class="block py-2 text-gray-700 hover:text-gray-900">四大工艺</a>
+            <a href="#pattern" class="block py-2 text-gray-700 hover:text-gray-900">纹样与颜色</a>
+            <a href="#double" class="block py-2 text-gray-700 hover:text-gray-900">双面绣</a>
+            <a href="#culture" class="block py-2 text-gray-700 hover:text-gray-900">文化传承</a>
+        </div>
+    </nav>
+
+
+
+    <!-- 引言部分 -->
+    <section id="intro" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">引言：黎锦的千年传承</h2>
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2">
+                    <img src="https://p3-search.byteimg.com/obj/labis/c71d9c983acad6e407690ec4fbd2e7f6" alt="黎族织锦技艺传承场景"
+                        class="w-full rounded-lg shadow-md image-hover">
+                </div>
+                <div class="md:w-1/2">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        黎族传统纺染织绣技艺是中国海南省黎族妇女创造的一种纺织技艺，集纺、染、织、绣于一体，至今已有3000年左右的历史。</p>
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        《尚书·禹贡》记载："岛夷卉服，厥篚织贝"，"岛夷"指海南岛黎族先民，"织贝"是棉织品，可见黎族在战国时期前已掌握了棉纺技艺。</p>
+                    <p class="text-gray-700 leading-relaxed">2009年，黎族传统纺染织绣技艺被联合国教科文组织列入"急需保护的非物质文化遗产名录"，成为世界级非物质文化遗产。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 四大工艺部分 -->
+    <section id="process" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">一、四大工艺：纺、染、织、绣</h2>
+
+            <!-- 纺 -->
+            <div class="mb-12 bg-white p-6 rounded-lg shadow-sm process-card">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4">
+                        <span class="text-xl">1</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800">纺：经纬之初</h3>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            黎族纺纱主要工具有手捻纺轮和脚踏纺车。手捻纺纱是人类最古老的纺纱工艺，使用的工具为纺轮。黎族聚居区有极为丰富的木棉、野麻等纺织原料。</p>
+                        <p class="text-gray-700 leading-relaxed">
+                            在棉纺织品普及之前，野麻纺织品在黎族地区盛行。人们一般在雨季将采集的野麻外皮扒下，经过浸泡、漂洗等工艺，渍为麻匹。麻匹经染色后，用手搓成麻纱，或用纺轮捻线，然后织成布。野麻布质地坚实，多用于制作劳动时穿着的外衣和下裳。
+                        </p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://s.coze.cn/image/xCC4a6ZoYcc/" alt="黎族纺纱工艺"
+                            class="w-full rounded-lg shadow-md image-hover">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 染 -->
+            <div class="mb-12 bg-white p-6 rounded-lg shadow-sm process-card">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4">
+                        <span class="text-xl">2</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800">染：草木之华</h3>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <img src="https://newscdn.hndnews.com/hb/materialResource/2022/9d2f9c680fd04807ba87d435b0dac5be.jpg"
+                            alt="黎族传统染色工艺" class="w-full rounded-lg shadow-md image-hover">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            染料主要采用山区野生或家种植物作原料。这些染料色彩鲜艳，不易褪色，且来源极广。染色是黎族民间一项重要的经验知识。</p>
+                        <p class="text-gray-700 mb-6 leading-relaxed">
+                            美孚方言区还有一种扎染的染色技术，古称绞缬染。先扎经后染线再织布，把扎、染、织的工艺巧妙地结合一起，在我国是独一无二的。</p>
+
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full bg-gray-50 rounded-lg">
+                                <thead>
+                                    <tr class="bg-gray-800 text-white">
+                                        <th class="py-2 px-4 text-left">染料植物</th>
+                                        <th class="py-2 px-4 text-left">颜色</th>
+                                        <th class="py-2 px-4 text-left">用途</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="py-2 px-4">蓝靛草</td>
+                                        <td class="py-2 px-4">蓝色/深蓝色</td>
+                                        <td class="py-2 px-4">传统服饰底色</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">苏木</td>
+                                        <td class="py-2 px-4">红色/棕红色</td>
+                                        <td class="py-2 px-4">装饰纹样</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">黄姜</td>
+                                        <td class="py-2 px-4">黄色</td>
+                                        <td class="py-2 px-4">象征丰收</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">乌墨树皮</td>
+                                        <td class="py-2 px-4">黑色</td>
+                                        <td class="py-2 px-4">庄重场合</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 px-4">文昌锥树皮</td>
+                                        <td class="py-2 px-4">红色</td>
+                                        <td class="py-2 px-4">重要仪式</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 织 -->
+            <div class="mb-12 bg-white p-6 rounded-lg shadow-sm process-card">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4">
+                        <span class="text-xl">3</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800">织：经纬交错</h3>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            织机主要分为脚踏织机和踞腰织机两种。踞腰织机是一种十分古老的织机，与六七千年前半坡氏族使用的织机十分相似，黎族妇女用踞腰织机可以织出精美华丽的复杂图案，其提花工艺令现代大型提花设备望尘莫及。
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">不同图案、色彩和风格的黎锦曾是区分具有不同血缘关系的部落群体的重要标志，具有极其重要的人文价值。</p>
+                    </div>
+                    <div class="md:w-1/2">
+                        <img src="https://p3-search.byteimg.com/obj/labis/d9baf5fe1b565deaa66f7a33162ff2a8"
+                            alt="黎族传统织布场景" class="w-full rounded-lg shadow-md image-hover">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 绣 -->
+            <div class="bg-white p-6 rounded-lg shadow-sm process-card">
+                <div class="flex items-center mb-4">
+                    <div class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4">
+                        <span class="text-xl">4</span>
+                    </div>
+                    <h3 class="text-2xl font-semibold text-gray-800">绣：双面奇工</h3>
+                </div>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/2">
+                        <img src="https://s.coze.cn/image/yU3UbD2_axQ/" alt="黎族刺绣工艺"
+                            class="w-full rounded-lg shadow-md image-hover">
+                    </div>
+                    <div class="md:w-1/2">
+                        <p class="text-gray-700 mb-4 leading-relaxed">
+                            黎族刺绣分为单面绣和双面绣。其中以白沙润方言区女子上衣的双面绣最为著名。我国著名的民族学家梁钊韬先生评价："黎族中的本地黎妇女则长于双面绣，而以构图、造型精巧为特点，她们刺出的双面绣工艺奇美，不逊于苏州地区的汉族双面绣"。
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            黎族的刺绣有单面绣和双面绣。单面绣又分为"手绣"和"脚绣"、"手绣"指在棉布上绣图案花纹。"脚绣"是指在踞腰织机上织棉后，再绣上图案花纹，以增加美的效果。双面绣是在一种特制的双层经纱上进行两面花纹的刺绣。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 纹样与颜色部分 -->
+    <section id="pattern" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">二、纹样与颜色的文化寓意</h2>
+
+            <div class="flex flex-col md:flex-row gap-8 mb-12">
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800">1. 纹样的故事</h3>
+                    <img src="https://imgs.zsbeike.com/imgs/I/I09595/i09595_tm.txt.0934d9.jpg" alt="黎锦纹样示例"
+                        class="w-full rounded-lg shadow-md mb-4 image-hover">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        黎族织锦的图案丰富多彩，有160种以上，主要有人物、动物、植物、花卉、生活用具、几何图案等纹样，而以人物、动物、植物图案为主。黎族分哈、杞、润、台、美孚5大方言区，各方言区由于生活习惯、生产环境等的不同，织锦图案也有所差异。
+                    </p>
+
+                    <div class="space-y-3">
+                        <div class="pattern-item pl-4 py-2">
+                            <h4 class="font-semibold text-gray-800">人形纹</h4>
+                            <p class="text-gray-600 text-sm">主要有婚礼图、舞蹈图、青春幸福图等，寄寓了人们对生育繁衍、人丁兴旺、追求美好生活的愿望</p>
+                        </div>
+                        <div class="pattern-item pl-4 py-2">
+                            <h4 class="font-semibold text-gray-800">动物纹</h4>
+                            <p class="text-gray-600 text-sm">龙纹（吉祥）、蛙纹（多子多福）、鹿纹（吉祥长寿）、鱼纹（丰衣足食）等</p>
+                        </div>
+                        <div class="pattern-item pl-4 py-2">
+                            <h4 class="font-semibold text-gray-800">植物纹</h4>
+                            <p class="text-gray-600 text-sm">木棉纹（根深叶茂）、花草纹（家族兴旺）等</p>
+                        </div>
+                        <div class="pattern-item pl-4 py-2">
+                            <h4 class="font-semibold text-gray-800">几何纹</h4>
+                            <p class="text-gray-600 text-sm">菱形纹（生命力）、水波纹（生生不息）等</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-1/2">
+                    <h3 class="text-2xl font-semibold mb-4 text-gray-800">2. 颜色的象征</h3>
+                    <p class="text-gray-700 mb-4 leading-relaxed">黎族传统服饰多以深蓝为底，庄重大方。不同颜色有着不同的文化象征：</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="bg-gray-800 text-white p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">黑色</h4>
+                            <p class="text-gray-300 text-sm">象征吉祥、永久、庄重与驱邪逐妖</p>
+                        </div>
+                        <div class="bg-red-600 text-white p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">红色</h4>
+                            <p class="text-gray-100 text-sm">表示人的尊严、权贵，亦可赶恶挡魔</p>
+                        </div>
+                        <div class="bg-yellow-500 text-gray-800 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">黄色</h4>
+                            <p class="text-gray-700 text-sm">象征男性健美、精力充沛和性格刚强</p>
+                        </div>
+                        <div class="bg-green-600 text-white p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">绿色</h4>
+                            <p class="text-gray-100 text-sm">象征生命与健康</p>
+                        </div>
+                        <div class="bg-white border border-gray-200 p-4 rounded-lg">
+                            <h4 class="font-semibold mb-2">白色</h4>
+                            <p class="text-gray-600 text-sm">表示妇女心灵纯洁、吉祥如意</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 双面绣部分 -->
+    <section id="double" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">三、双面绣：指尖上的艺术瑰宝</h2>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2">
+                    <img src="https://p3-search.byteimg.com/obj/labis/739a14deb101954a655762b028f33bf7" alt="黎族双面绣成品"
+                        class="w-full rounded-lg shadow-md image-hover">
+                </div>
+                <div class="md:w-1/2">
+                    <p class="text-gray-700 mb-4 leading-relaxed">
+                        黎族双面绣是在一块底料上，以针引线，用直针和扭针绣出正反两面完全相同的花纹图案，所刺绣的图案有人纹图、大力神纹、蛙纹、龙纹、鹿纹、鸽纹、鱼纹等100多种，反映了黎族原始的自然崇拜、祖先崇拜、图腾崇拜等意涵。
+                    </p>
+
+                    <h3 class="text-xl font-semibold mt-6 mb-3 text-gray-800">白沙润方言区的双面绣特点：</h3>
+                    <ul class="space-y-2 text-gray-700">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>双面同形同色，正反两面针法一致</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>针脚均匀，疏密得当，线头和线尾均看不见</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>构图工整，色彩和谐，技艺精湛</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                            <span>常用人形纹、大力神纹、龙纹和蛙纹等图腾符号</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 素色传统风部分 -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">四、素色传统风的美学表达</h2>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2">
+                    <p class="text-gray-700 mb-6 leading-relaxed">
+                        黎族传统服饰以"素色典雅"为主要风格特点，多采用深蓝、黑、白、米等淡雅色调，通过简洁的线条和几何图案展现质朴之美。这种风格不仅体现了黎族人民对自然的敬畏，也反映了他们崇尚简约、内敛的生活态度。
+                    </p>
+
+                    <img src="https://p3-search.byteimg.com/obj/labis/bd46f95d0901e6664f5ea0dba90fee18" alt="黎锦素色传统风格设计"
+                        class="w-full rounded-lg shadow-md image-hover">
+                </div>
+                <div class="md:w-1/2">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">素色黎锦的美学特点：</h3>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4 mt-1">
+                                <span>1</span>
+                            </div>
+                            <div>
+                                <p class="text-gray-700">以深蓝、黑色为底色，配以少量对比色点缀</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4 mt-1">
+                                <span>2</span>
+                            </div>
+                            <div>
+                                <p class="text-gray-700">纹样以几何图形为主，线条简洁流畅</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4 mt-1">
+                                <span>3</span>
+                            </div>
+                            <div>
+                                <p class="text-gray-700">注重材质本身的质感，体现天然棉麻的质朴</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div
+                                class="w-8 h-8 rounded-full bg-gray-800 text-white flex items-center justify-center mr-4 mt-1">
+                                <span>4</span>
+                            </div>
+                            <div>
+                                <p class="text-gray-700">整体风格庄重典雅，适合各种场合穿着</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 文化传承部分 -->
+    <section id="culture" class="py-12 bg-gray-800 text-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">五、文化传承与当代价值</h2>
+
+            <div class="flex flex-col md:flex-row gap-8">
+                <div class="md:w-1/2">
+                    <p class="mb-4 leading-relaxed">
+                        黎族传统纺染织绣技艺是黎族文化的重要载体，记录了黎族人民的历史记忆、生产生活和精神信仰。近年来，通过政府、传承人和社会各界的努力，黎锦技艺得到了有效保护和传承。</p>
+                    <p class="mb-6 leading-relaxed">目前黎族传统纺染织绣技艺共有3名国家级非遗传承人、25名省级传承人，传承人队伍从2009年的不足1000人发展到今天的2万多人。</p>
+
+                </div>
+                <div class="md:w-1/2">
+                    <p class="mb-6 leading-relaxed">
+                        黎锦不仅是一种传统工艺，也成为海南文化的重要名片，通过与现代设计的结合，开发出围巾、服饰、家居用品等多种文创产品，让古老技艺在当代生活中焕发新的生机。</p>
+
+                    <div class="bg-gray-700 p-6 rounded-lg">
+                        <h3 class="text-2xl font-bold mb-4 text-center">结语</h3>
+                        <p class="mb-4 leading-relaxed">
+                            黎族传统纺染织绣技艺是中华民族宝贵的文化遗产，是黎族妇女智慧的结晶。"锦绣千针"不仅是一门工艺，更是一部记录黎族历史文化的"无字史书"。</p>
+                        <p class="leading-relaxed">在新时代背景下，我们应当珍视这份遗产，传承这份技艺，让黎锦这朵纺织艺术的奇葩在世界文化之林中绽放出更加绚丽的光彩。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 移动端菜单切换
+        document.getElementById('mobileMenuButton').addEventListener('click', function () {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+
+                    // 如果是移动端菜单，点击后隐藏菜单
+                    if (window.innerWidth < 768) {
+                        document.getElementById('mobileMenu').classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

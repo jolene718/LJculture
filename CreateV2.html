@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stable Diffusion 纹样生成器</title>
+    <link rel="stylesheet" href="./navbar.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #444;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+            color: #666;
+        }
+
+        #error {
+            display: none;
+            background-color: #ffebee;
+            color: #b71c1c;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        #results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .result-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .download-btn {
+            background-color: #008CBA;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .preset-btn {
+            background-color: #607D8B;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+
+        .presets {
+            margin-bottom: 15px;
+        }
+
+        .advanced-options {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .advanced-toggle {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #008CBA;
+            cursor: pointer;
+        }
+
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* 用户生成图示例区域样式 */
+        .user-generated-examples {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-generated-examples h2 {
+            font-family: "阿里妈妈刀隶体";
+            color: #c2412d;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .example-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .example-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="header-container">
+            <a href="Home_Page.html" class="site-title">纹·藏</a>
+            <a href="五色华彩.html" class="nav-item">锦纹黎韵</a>
+            <a href="千年霓裳.html" class="nav-item">黎锦飞光</a>
+            <a href="锦绣山河.html" class="nav-item">锦织经纬</a>
+            <a href="天工织造.html" class="nav-item">锦绣千针</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Stable Diffusion 纹样生成器</h1>
+
+        <div class="form-group">
+            <label for="api-url">API地址</label>
+            <input type="text" id="api-url" placeholder="http://localhost:7860" value="http://localhost:7860">
+        </div>
+
+        <div class="presets">
+            <label>预设提示词:</label>
+            <div>
+                <button class="preset-btn" onclick="setPreset('黎族蛙纹，对称布局，精细线条，传统黎锦风格')">黎族蛙纹</button>
+                <button class="preset-btn" onclick="setPreset('几何纹样，红黑配色，纺织质感，黎族传统图案')">几何纹样</button>
+                <button class="preset-btn" onclick="setPreset('螺旋图案，抽象设计，手工编织感，高清细节')">螺旋图案</button>
+                <button class="preset-btn" onclick="setPreset('人形纹样，图腾元素，传统工艺，黎族文化')">人形纹样</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="prompt">主要提示词</label>
+            <textarea id="prompt" placeholder="描述你想要生成的纹样..."></textarea>
+        </div>
+
+        <!-- 高级选项 -->
+        <div class="advanced-options">
+            <div class="advanced-toggle" onclick="toggleAdvancedOptions()">
+                <span id="toggle-text">显示高级选项</span> <span class="arrow">&or;</span>
+            </div>
+            <div id="advanced-content" style="display: none;">
+                <div class="form-group">
+                    <label for="negative-prompt">负向提示词</label>
+                    <textarea id="negative-prompt" placeholder="不想要出现在图片中的元素...">ng_deepnegative_v1_75t, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, soft, deformed, distorted, disfigured, ugly, missing arms, missing legs, extra arms, extra legs, mutated hands, mutated feet</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="sampler">采样器</label>
+                    <select id="sampler">
+                        <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+                        <option value="Euler a">Euler a</option>
+                        <option value="Euler">Euler</option>
+                        <option value="LMS">LMS</option>
+                        <option value="Heun">Heun</option>
+                        <option value="DPM2">DPM2</option>
+                        <option value="DPM2 a">DPM2 a</option>
+                        <option value="DPM++ 2S a">DPM++ 2S a</option>
+                        <option value="DPM++ SDE">DPM++ SDE</option>
+                        <option value="DPM fast">DPM fast</option>
+                        <option value="DPM adaptive">DPM adaptive</option>
+                        <option value="LMS Karras">LMS Karras</option>
+                        <option value="DPM2 Karras">DPM2 Karras</option>
+                        <option value="DPM2 a Karras">DPM2 a Karras</option>
+                        <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="steps">采样步数</label>
+                    <input type="number" id="steps" min="1" max="150" value="25">
+                </div>
+
+                <div class="form-group">
+                    <label for="cfg-scale">CFG缩放</label>
+                    <input type="number" id="cfg-scale" min="1" max="30" step="0.1" value="7.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="width">宽度</label>
+                    <input type="number" id="width" min="64" max="2048" step="64" value="512">
+                </div>
+
+                <div class="form-group">
+                    <label for="height">高度</label>
+                    <input type="number" id="height" min="64" max="2048" step="64" value="512">
+                </div>
+
+                <div class="form-group">
+                    <label for="batch-count">批次数量</label>
+                    <input type="number" id="batch-count" min="1" max="100" value="3">
+                </div>
+            </div>
+        </div>
+
+        <button onclick="generateImages()" id="generate-btn">生成图片</button>
+
+        <div id="loading">
+            <p>正在生成图片，请稍候...</p>
+            <div class="spinner" style="border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #4CAF50; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+            <style>
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            </style>
+        </div>
+
+        <div id="error"></div>
+
+        <div id="debug-info" class="debug-info"></div>
+
+        <div id="results"></div>
+    </div>
+
+    <!-- 用户生成图示例区域 -->
+    <div class="user-generated-examples">
+        <h2>用户生成图示例</h2>
+        <div class="example-images">
+            <!-- 请将以下图片路径替换为你电脑上文件夹里的图片路径 -->
+            <img src="E:\sd-proxy\public\Lora模型测试图\人神纹\flux-lora_e000002.png" alt="示例图片1">
+            <img src="E:\sd-proxy\public\Lora模型测试图\人神纹\flux-lora_e000009.png" alt="示例图片2">
+            <img src="E:\sd-proxy\public\Lora模型测试图\人神纹\flux-lora_e000004.png" alt="示例图片3">
+            <img src="E:\sd-proxy\public\Lora模型测试图\SD\00007-3319918608.png" alt="示例图片1">
+            <img src="E:\sd-proxy\public\Lora模型测试图\SD\00008-2274050148.png" alt="示例图片2">
+            <img src="E:\sd-proxy\public\Lora模型测试图\SD\00009-2630558314.png" alt="示例图片3">
+            <img src="E:\sd-proxy\public\Lora模型测试图\SD\generated_pattern_4.png" alt="示例图片1">
+            <img src="E:\sd-proxy\public\Lora模型测试图\SD\generated_pattern_5.png" alt="示例图片2">
+            <img src="E:\sd-proxy\public\Lora模型测试图\SD\generated_pattern_6.png" alt="示例图片3">
+        </div>
+    </div>
+
+    <script>
+        function toggleAdvancedOptions() {
+            const content = document.getElementById('advanced-content');
+            const text = document.getElementById('toggle-text');
+            const arrow = document.querySelector('.arrow');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                text.textContent = '隐藏高级选项';
+                arrow.innerHTML = '&and;';
+            } else {
+                content.style.display = 'none';
+                text.textContent = '显示高级选项';
+                arrow.innerHTML = '&or;';
+            }
+        }
+
+        function setPreset(text) {
+            document.getElementById('prompt').value = text;
+        }
+
+        async function generateImages() {
+            const apiUrl = document.getElementById('api-url').value.trim();
+            const prompt = document.getElementById('prompt').value.trim();
+
+            // 输入验证
+            if (!prompt) {
+                showError('请输入主要提示词');
+                return;
+            }
+
+            if (!apiUrl) {
+                showError('请输入API地址');
+                return;
+            }
+
+            // 显示加载状态
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('generate-btn').disabled = true;
+            document.getElementById('debug-info').innerHTML = '';
+
+            // 获取高级选项值
+            const negativePrompt = document.getElementById('negative-prompt').value.trim();
+            const sampler = document.getElementById('sampler').value;
+            const steps = parseInt(document.getElementById('steps').value);
+            const cfgScale = parseFloat(document.getElementById('cfg-scale').value);
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+            const batchCount = parseInt(document.getElementById('batch-count').value);
+
+            // 构建API请求参数（基于Create.html但包含用户输入的高级选项）
+            const requestData = {
+                "prompt": `${prompt}Li nationality dialect cultural patterns, (changing frog patterns:1.3), (traditional geometric patterns:1.2), (black and white:1.5), symmetrical layout, delicate lines, high definition, ethnic art, textile patterns ,<lora:frog:0.8>`,
+                "negative_prompt": negativePrompt,
+                "sampler_index": sampler,
+                "steps": steps,
+                "cfg_scale": cfgScale,
+                "width": width,
+                "height": height,
+                "n_iter": batchCount
+            }
+
+            // 显示调试信息
+            document.getElementById('debug-info').innerHTML = `
+            <strong>请求参数:</strong>
+            <pre>${JSON.stringify(requestData, null, 2)}</pre>
+            `;
+
+            console.log('请求数据:', requestData);
+
+            try {
+                // 发送API请求
+                const response = await fetch(`${apiUrl}/sdapi/v1/txt2img`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API请求失败: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // 处理返回的图片
+                if (data.images && data.images.length > 0) {
+                    const resultsContainer = document.getElementById('results');
+
+                    data.images.forEach((imgBase64, index) => {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'result-item';
+
+                        const img = document.createElement('img');
+                        img.src = `data:image/png;base64,${imgBase64}`;
+                        img.alt = `生成的纹样 ${index + 1}`;
+                        imgContainer.appendChild(img);
+
+                        const downloadBtn = document.createElement('button');
+                        downloadBtn.className = 'download-btn';
+                        downloadBtn.textContent = '下载图片';
+                        downloadBtn.onclick = () => downloadImage(imgBase64, `纹样_${index + 1}.png`);
+                        imgContainer.appendChild(downloadBtn);
+
+                        resultsContainer.appendChild(imgContainer);
+                    });
+                } else {
+                    throw new Error('未返回图片数据');
+                }
+
+            } catch (error) {
+                console.error('生成错误:', error);
+                showError(`生成失败: ${error.message}`);
+            } finally {
+                // 隐藏加载状态
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('generate-btn').disabled = false;
+            }
+        }
+
+        function showError(message) {
+            const errorElement = document.getElementById('error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function downloadImage(base64Data, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = `data:image/png;base64,${base64Data}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+
+</html>
