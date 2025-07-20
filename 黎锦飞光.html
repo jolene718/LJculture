@@ -1,502 +1,659 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh-CN">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>机杼千年 - 黎锦飞光</title>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+  <title>黎锦飞光：海南黎族服饰文化历史</title>
+  <script src="https://cdn.tailwindcss.com/3.3.3"></script>
   <link rel="stylesheet" href="./navbar.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <style>
-    :root {
-      --rotate-speed: 60;
-      --count: 14;
-      --easing: linear;
-      --radius: 200px;
-      --primary-color: #c2412d;
-      --border-color: #a05f48;
-      --bg-light: #edeee8;
-      --text-dark: #3e3a2f;
-      --accent-gray: #b7a9a1;
-      --accent-green: #5f7161;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
 
     body {
-      margin: 0;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      font-family: "KaiTi", "STKaiti", serif;
-      color: #3e3a2f;
-      background: linear-gradient(to bottom, #edeee8, #f3e6e8);
-      cursor: url('./鼠标.cur'), auto;
+      font-family: 'Noto Sans SC', sans-serif;
+      background-color: #f8f5f0;
+      color: #333;
+      line-height: 1.6;
     }
 
-    /* 页面标题样式 */
-    .page-title-container {
-      text-align: center;
-      padding: 60px 20px 40px;
-      position: relative;
+    .navbar {
+      background-color: #c2412d;
+      color: white;
+      transition: all 0.3s ease;
     }
 
-    .page-title {
-      font-family: "阿里妈妈刀隶体";
-      color: var(--primary-color);
-      margin-bottom: 0.5em;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-      font-size: 3rem;
-      transition: all 0.5s ease;
+    .navbar a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
     }
 
-    .page-title:hover {
-      transform: scale(1.05);
+    .section-title {
+      color: #c2412d;
+      border-left: 4px solid #c2412d;
+      padding-left: 1rem;
     }
 
-    .page-description {
-      font-family: "方正国美进道体 简";
-      color: var(--text-dark);
-      max-width: 800px;
-      margin: 0 auto 60px;
-      font-size: 1.2rem;
-      line-height: 1.8;
-    }
-
-    /* 时间轴样式 */
-    .timeline-container {
-      position: relative;
-      max-width: 1200px;
-      margin: 0 auto 100px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    /* 时间轴中心线 */
-    .timeline-center {
-      position: absolute;
-      width: 4px;
-      background-color: var(--primary-color);
-      top: 0;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 2px;
-    }
-
-    /* 时间轴项目 */
     .timeline-item {
       position: relative;
-      width: 50%;
-      padding: 40px 40px 20px;
-      box-sizing: border-box;
-      margin-bottom: 60px;
-      transition: all 0.5s ease;
+      padding-left: 2.5rem;
+      margin-bottom: 2rem;
     }
 
-    /* 左半部分时间轴项目 */
-    .timeline-item.left {
-      left: 0;
-      text-align: right;
-      padding-right: 80px;
-    }
-
-    /* 右半部分时间轴项目 */
-    .timeline-item.right {
-      left: 50%;
-      padding-left: 80px;
-    }
-
-    /* 时间轴项目圆点 */
-    .timeline-dot {
-      position: absolute;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background-color: var(--primary-color);
-      top: 40px;
-      z-index: 10;
-      transition: all 0.3s ease;
-    }
-
-    /* 左半部分圆点位置 */
-    .timeline-item.left .timeline-dot {
-      right: -15px;
-    }
-
-    /* 右半部分圆点位置 */
-    .timeline-item.right .timeline-dot {
-      left: -15px;
-    }
-
-    /* 时间轴项目悬停效果 */
-    .timeline-item:hover {
-      transform: translateY(-10px);
-    }
-
-    .timeline-item:hover .timeline-dot {
-      transform: scale(1.5);
-      background-color: var(--border-color);
-    }
-
-    /* 时间轴内容框 */
-    .timeline-content {
-      position: relative;
-      padding: 30px;
-      background-color: white;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .timeline-item:hover .timeline-content {
-      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    }
-
-    /* 时间轴时期标题 */
-    .timeline-period {
-      font-family: "阿里妈妈刀隶体";
-      color: var(--primary-color);
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      position: relative;
-      display: inline-block;
-    }
-
-    .timeline-period:after {
+    .timeline-item:before {
       content: '';
       position: absolute;
-      bottom: -5px;
       left: 0;
-      width: 100%;
-      height: 3px;
-      background-color: var(--primary-color);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s ease;
+      top: 0;
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 50%;
+      background-color: #c2412d;
+      border: 3px solid #f8f5f0;
     }
 
-    .timeline-item:hover .timeline-period:after {
-      transform: scaleX(1);
+    .timeline-item:after {
+      content: '';
+      position: absolute;
+      left: 0.75rem;
+      top: 1.5rem;
+      bottom: -2rem;
+      width: 2px;
+      background-color: #d9c7b8;
     }
 
-    /* 时间轴描述文字 */
-    .timeline-description {
-      font-family: "方正国美进道体 简";
-      color: var(--text-dark);
-      line-height: 1.8;
-      font-size: 1.1rem;
-      margin-top: 10px;
+    .timeline-item:last-child:after {
+      display: none;
     }
 
-    /* 时间轴图片 */
-    .timeline-image {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 15px;
-      margin-top: 20px;
-      transition: all 0.5s ease;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    .timeline-content {
+      background-color: white;
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
     }
 
-    .timeline-item:hover .timeline-image {
-      transform: scale(1.03);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    .timeline-content:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
-    /* 响应式设计 */
-    @media (max-width: 768px) {
-      .timeline-center {
-        left: 40px;
-      }
-
-      .timeline-item {
-        width: 100%;
-        padding-left: 80px;
-        padding-right: 20px;
-        text-align: left;
-      }
-
-      .timeline-item.right {
-        left: 0;
-      }
-
-      .timeline-dot {
-        left: 25px !important;
-        right: auto !important;
-      }
-
-      .page-title {
-        font-size: 2.2rem;
-      }
-
-      .timeline-period {
-        font-size: 1.5rem;
-      }
+    .timeline-year {
+      font-weight: bold;
+      color: #a05f48;
+      margin-bottom: 0.5rem;
     }
 
-    /* 动画效果 */
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    .mobile-menu {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
     }
 
-    .timeline-item {
-      animation: fadeIn 0.8s ease forwards;
-      opacity: 0;
+    .mobile-menu.active {
+      max-height: 300px;
     }
 
-    .timeline-item.left {
-      animation-delay: 0.2s;
+    .pattern-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .timeline-item.right {
-      animation-delay: 0.5s;
-    }
-
-    /* 滚动触发动画 */
-    .timeline-item.visible {
-      opacity: 1;
-    }
-
-    /* 传承与创新部分样式 */
-    .heritage-section {
-      max-width: 1200px;
-      margin: 0 auto 100px;
-      padding: 20px;
-      box-sizing: border-box;
-    }
-
-    .heritage-title {
-      font-family: "阿里妈妈刀隶体";
-      color: var(--primary-color);
-      font-size: 2.5rem;
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .heritage-description {
-      font-family: "方正国美进道体 简";
-      color: var(--text-dark);
-      line-height: 1.8;
-      font-size: 1.1rem;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-
-    .heritage-item {
-      display: flex;
-      align-items: center;
-      margin-bottom: 40px;
-      transition: all 0.5s ease;
-    }
-
-    .heritage-item:hover {
-      transform: translateY(-10px);
-    }
-
-    .heritage-item-image {
-      width: 300px;
-      height: 200px;
-      object-fit: cover;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      margin-right: 40px;
-    }
-
-    .heritage-item-content {
-      flex: 1;
-    }
-
-    .heritage-item-title {
-      font-family: "阿里妈妈刀隶体";
-      color: var(--primary-color);
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-    }
-
-    .heritage-item-text {
-      font-family: "方正国美进道体 简";
-      color: var(--text-dark);
-      line-height: 1.8;
-      font-size: 1.1rem;
-    }
-
-    @media (max-width: 768px) {
-      .heritage-item {
-        flex-direction: column;
-      }
-
-      .heritage-item-image {
-        margin-right: 0;
-        margin-bottom: 20px;
-      }
+    .modal {
+      transition: all 0.3s ease;
     }
   </style>
 </head>
 
 <body>
-  <!-- 页顶栏 - 与首页一致 -->
   <header class="header">
     <div class="header-container">
-      <a href="Home_Page.html" class="site-title">纹·藏</a>
-      <a href="五色华彩.html" class="nav-item">锦纹黎韵</a>
-      <a href="千年霓裳.html" class="nav-item">黎锦飞光</a>
-      <a href="锦绣山河.html" class="nav-item">锦织经纬</a>
-      <a href="天工织造.html" class="nav-item">锦绣千针</a>
+      <a href="index.html" class="site-title">黎锦纹铭</a>
+      <a href="黎纹锦韵.html" class="nav-item">锦纹黎韵</a>
+      <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
+      <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
+      <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
+      <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
     </div>
   </header>
 
-  <!-- 页面标题部分 -->
-  <div class="page-title-container">
-    <h1 class="page-title">黎锦飞光 - 黎族服饰文化时间轴</h1>
-    <p class="page-description">穿越千年时光，探寻海南黎族服饰文化的发展脉络，感受黎锦技艺的传承与变迁。</p>
+
+  <!-- 主要内容 -->
+  <div class="container mx-auto px-4 py-8">
+    <!-- 历史传承 -->
+    <section id="history" class="mb-16">
+      <h2 class="section-title text-2xl font-bold mb-6">一、千年织锦的历史传承</h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="mb-4">
+          黎族传统纺染织绣技艺拥有三千年悠久历史，是中国乃至世界最古老的棉纺技艺之一，被誉为纺织业的"活化石"。早在春秋战国时期，黎族先民就掌握了植物纤维纺纱织造技艺，是我国最早利用棉花纺纱织布的民族之一，其织品"织贝"曾作为贡品入贡中周。
+        </p>
+
+        <blockquote class="border-l-4 border-gray-400 pl-4 italic text-gray-700">
+          <p>"妇女服装是海南土著居民中最有艺术性和最美丽的，这里纺织和刺绣的技术特别发达。"</p>
+          <footer class="mt-2 text-right">——德国民族学家史图博，1931年</footer>
+        </blockquote>
+
+        <!-- 时间线部分 -->
+        <div class="mt-8">
+          <h3 class="text-xl font-bold mb-6 text-center">黎锦发展历史时间线</h3>
+          <div class="timeline-container">
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">春秋战国时期</div>
+                <p>"织贝"作为贡品入贡中周</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">汉代</div>
+                <p>"广福布"成为岁贡珍品</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">唐代</div>
+                <p>五色藤线织出飞禽走兽图案</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">宋代</div>
+                <p>黎锦成为重要贸易商品</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">元代</div>
+                <p>黄道婆将黎锦技艺传入江南</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">明清时期</div>
+                <p>"儋崖二帐"闻名全国</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">2006年</div>
+                <p>列入第一批国家级非物质文化遗产名录</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">2009年</div>
+                <p>列入联合国教科文组织急需保护的非物质文化遗产名录</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-content">
+                <div class="timeline-year">2024年</div>
+                <p>转入人类非物质文化遗产代表作名录</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 四大工艺 -->
+    <section id="craft" class="mb-16">
+      <h2 class="section-title text-2xl font-bold mb-6">二、精湛绝伦的四大工艺</h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="mb-6">黎族传统纺染织绣技艺集纺、染、织、绣于一体，每道工序都凝聚着黎族妇女的智慧与匠心。</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- 纺线工艺 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 flex items-center">
+              <span
+                class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mr-2">1</span>
+              纺线工艺
+            </h3>
+            <p class="text-gray-700">
+              黎族妇女使用火索麻、苎麻、木棉、草棉等天然纤维，通过手搓去籽十字棍、木制手摇轧花机、脚踏纺纱机等工具加工成线。每年三四月采木棉，八九月采草棉，收集的棉花果实入筐后纺线，整个过程完全依靠手工完成。
+            </p>
+          </div>
+
+          <!-- 染色技艺 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 flex items-center">
+              <span
+                class="w-8 h-8 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center mr-2">2</span>
+              染色技艺
+            </h3>
+            <p class="text-gray-700">采用纯天然染料，以草木灰、泥土、河泥、矿物质作助剂，先染纱线后织布。染料主要来源于热带雨林的植物资源：</p>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              <div class="bg-blue-50 text-blue-800 px-2 py-1 rounded text-sm">蓝色：蓝靛草</div>
+              <div class="bg-yellow-50 text-yellow-800 px-2 py-1 rounded text-sm">黄色：黄姜</div>
+              <div class="bg-red-50 text-red-800 px-2 py-1 rounded text-sm">红色：苏木、茜草</div>
+              <div class="bg-green-50 text-green-800 px-2 py-1 rounded text-sm">绿色：谷木</div>
+            </div>
+            <p class="text-gray-700 mt-2">美孚方言区的"絣染"技艺最为独特，先将丝线上架扎染后再织布，是我国染色技艺的活化石。</p>
+          </div>
+
+          <!-- 织造技术 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 flex items-center">
+              <span
+                class="w-8 h-8 rounded-full bg-green-100 text-green-800 flex items-center justify-center mr-2">3</span>
+              织造技术
+            </h3>
+            <p class="text-gray-700">
+              黎族织锦主要使用踞腰织机，织女席地而坐，腰缠腰带，脚蹬撑经杆两端，提梭引纬、上下交替间完成织造。织就一套盛装往往需要3至4个月甚至更长时间，所有图案全凭织女记忆完成，无需图纸。</p>
+          </div>
+
+          <!-- 刺绣工艺 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 flex items-center">
+              <span
+                class="w-8 h-8 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center mr-2">4</span>
+              刺绣工艺
+            </h3>
+            <p class="text-gray-700">以平绣、贴布绣、珠绣为主要针法，其中润方言的双面绣技艺最为精湛，正反两面同形同色，针脚均匀，线头线尾均看不见，堪称黎族刺绣艺术的巅峰。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 图案体系 -->
+    <section id="patterns" class="mb-16">
+      <h2 class="section-title text-2xl font-bold mb-6">三、寓意深远的图案体系</h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="mb-6">黎族没有文字，黎锦图案成为承载民族历史文化的重要载体。据统计，黎锦织物上的图案共有160多种，归纳为六大类：</p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- 人形纹 -->
+          <div
+            class="pattern-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all cursor-pointer"
+            onclick="openModal('人形纹', '最具代表性的图案之一，常表现舞蹈、生产、婚嫁等场景，寓意人丁兴旺、幸福安康。常见形式有大力神纹、婚礼图、舞蹈图等。', 'https://p3-search.byteimg.com/obj/labis/64735cede215ec9be3fc9e5e5bc8145f')">
+            <div class="h-48 bg-gray-100 flex items-center justify-center">
+              <img
+                src="https://ts1.tc.mm.bing.net/th/id/R-C.e19d760dfe6a235b1339bd145fae7fc7?rik=6kze6Ll%2f3hxdiw&riu=http%3a%2f%2fwww.hinews.cn%2fnews%2fpic%2f003%2f230%2f396%2f00323039670_5f2a35d3.jpg&ehk=jITt%2fTPgNHU%2b6WdRXOBYLXUQIsQvY2MOAB72OJJLTpg%3d&risl=&pid=ImgRaw&r=0"
+                alt="人形纹" class="h-full w-full object-cover">
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold mb-2">1. 人形纹</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">表现舞蹈、生产、婚嫁等场景，寓意人丁兴旺、幸福安康</p>
+            </div>
+          </div>
+
+          <!-- 动物纹 -->
+          <div
+            class="pattern-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all cursor-pointer"
+            onclick="openModal('动物纹', '反映黎族对自然的观察与崇拜，常见蛙纹、龙纹、甘工鸟纹等。蛙纹象征风调雨顺、五谷丰登、子孙满堂；龙纹与黎族龙的传说相关，象征吉祥；甘工鸟纹源自黎族爱情传说，象征忠贞爱情。', 'https://s.coze.cn/image/cvr-cEjGdMQ/')">
+            <div class="h-48 bg-gray-100 flex items-center justify-center">
+              <img src="https://s.coze.cn/image/7mfUv2nyFBk/" alt="动物纹" class="h-full w-full object-cover">
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold mb-2">2. 动物纹</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">蛙纹、龙纹、甘工鸟纹等，反映自然崇拜与传说</p>
+            </div>
+          </div>
+
+          <!-- 植物纹 -->
+          <div
+            class="pattern-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all cursor-pointer"
+            onclick="openModal('植物纹', '以木棉花、泥嫩花、龙骨花等为灵感，如木棉纹象征根深叶茂，家庭美满幸福；花草纹寓意家族人丁兴旺，繁衍生息。', 'https://s.coze.cn/image/kw10rJkuoCI/')">
+            <div class="h-48 bg-gray-100 flex items-center justify-center">
+              <img src="https://s.coze.cn/image/6wmWnhXx8Wc/" alt="植物纹" class="h-full w-full object-cover">
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold mb-2">3. 植物纹</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">木棉花、泥嫩花等为灵感，象征家庭美满</p>
+            </div>
+          </div>
+
+          <!-- 几何纹 -->
+          <div
+            class="pattern-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all cursor-pointer"
+            onclick="openModal('几何纹', '利用直线、平行线、方形、菱形、三角形等构成，反映原始思维特征，常见于各支系服饰。', 'https://s.coze.cn/image/jnXT3SNeZfA/')">
+            <div class="h-48 bg-gray-100 flex items-center justify-center">
+              <img src="https://s.coze.cn/image/z4N4Bb1cp6c/" alt="几何纹" class="h-full w-full object-cover">
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold mb-2">4. 几何纹</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">直线、方形、菱形等构成，反映原始思维</p>
+            </div>
+          </div>
+
+          <!-- 工具纹 -->
+          <div
+            class="pattern-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all cursor-pointer"
+            onclick="openModal('日常生活工具纹', '包括煮饭、纺织、农耕等生产生活用具，体现黎族人民的生活智慧。', 'https://s.coze.cn/image/eEWAhUFOZ4c/')">
+            <div class="h-48 bg-gray-100 flex items-center justify-center">
+              <img src="https://s.coze.cn/image/EH41dvkN138/" alt="工具纹" class="h-full w-full object-cover">
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold mb-2">5. 工具纹</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">煮饭、纺织、农耕用具，体现生活智慧</p>
+            </div>
+          </div>
+
+          <!-- 汉字符号纹 -->
+          <div
+            class="pattern-card bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm transition-all cursor-pointer"
+            onclick="openModal('汉字符号纹', '受汉文化影响，出现喜、福、禄、寿、万字等汉字符号，反映文化交流融合。', 'https://s.coze.cn/image/KGUtKEVayUw/')">
+            <div class="h-48 bg-gray-100 flex items-center justify-center">
+              <img src="https://s.coze.cn/image/wZMRMyaFUnQ/" alt="汉字符号纹" class="h-full w-full object-cover">
+            </div>
+            <div class="p-4">
+              <h3 class="font-bold mb-2">6. 汉字符号纹</h3>
+              <p class="text-sm text-gray-600 line-clamp-2">喜、福、禄等汉字，反映文化交流</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 服饰风采 -->
+    <section id="costumes" class="mb-16">
+      <h2 class="section-title text-2xl font-bold mb-6">四、五大方言区的服饰风采</h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="mb-6">黎族因分布区域、语言差异分为哈、杞、润、赛、美孚五大方言区，服饰各具特色，成为区分不同血缘集团的重要标志。</p>
+
+        <div class="mb-8">
+          <img src="https://p3-search.byteimg.com/obj/labis/64735cede215ec9be3fc9e5e5bc8145f" alt="黎族五大方言服饰区分"
+            class="w-full rounded-lg shadow">
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- 哈方言 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 text-amber-800">1. 哈方言服饰</h3>
+            <p class="text-gray-700 mb-2"><strong>分布：</strong>乐东、陵水、昌江、白沙等市县</p>
+            <p class="text-gray-700 mb-2"><strong>特点：</strong>服饰底色多为深蓝色，筒裙和头帕用精美黎锦制作</p>
+            <div class="bg-amber-50 p-3 rounded mt-2">
+              <p class="text-sm text-amber-800"><strong>女子服饰：</strong>无领对襟衣、筒裙、包筒状头帕，喜佩银饰</p>
+              <p class="text-sm text-amber-800 mt-1"><strong>男子服饰：</strong>条纹布对襟无纽扣中长衣，系兜裆布，头扦羽毛</p>
+            </div>
+          </div>
+
+          <!-- 杞方言 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 text-red-800">2. 杞方言服饰</h3>
+            <p class="text-gray-700 mb-2"><strong>分布：</strong>琼中、保亭、五指山等地</p>
+            <p class="text-gray-700 mb-2"><strong>特点：</strong>善织精美的黎锦，以红色为尊贵色</p>
+            <div class="bg-red-50 p-3 rounded mt-2">
+              <p class="text-sm text-red-800"><strong>女子服饰：</strong>黑色或深蓝色中长袖对襟开胸衣，及膝中筒裙，衣背下摆和袖口有彩色图案</p>
+              <p class="text-sm text-red-800 mt-1"><strong>特色：</strong>筒裙和头帕皆用精美黎锦制作</p>
+            </div>
+          </div>
+
+          <!-- 润方言 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 text-blue-800">3. 润方言服饰</h3>
+            <p class="text-gray-700 mb-2"><strong>分布：</strong>白沙东部及鹦哥岭以北地区</p>
+            <p class="text-gray-700 mb-2"><strong>特点：</strong>以"双面绣"技艺闻名，服饰色彩最为丰富</p>
+            <div class="bg-blue-50 p-3 rounded mt-2">
+              <p class="text-sm text-blue-800"><strong>女子服饰：</strong>独特的"贯头衣"，长袖无领无纽，领口为"V"字形，下穿短而窄的"超短裙"
+              </p>
+              <p class="text-sm text-blue-800 mt-1"><strong>特色：</strong>上衣两侧、衣襟下边沿、衣背下半部均以双面绣技艺绣上宽边横幅花纹
+              </p>
+            </div>
+          </div>
+
+          <!-- 赛方言 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 text-green-800">4. 赛方言服饰</h3>
+            <p class="text-gray-700 mb-2"><strong>分布：</strong>保亭、陵水、三亚交界地区</p>
+            <p class="text-gray-700 mb-2"><strong>特点：</strong>人口最少的支系，服饰受汉化影响</p>
+            <div class="bg-green-50 p-3 rounded mt-2">
+              <p class="text-sm text-green-800"><strong>女子服饰：</strong>蓝色或深蓝色长袖右衽高领衣，长而宽的筒裙，裙身和裙尾有青蛙纹</p>
+              <p class="text-sm text-green-800 mt-1"><strong>特色：</strong>筒裙下方绣有云母片，阳光下熠熠生辉</p>
+            </div>
+          </div>
+
+          <!-- 美孚方言 -->
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h3 class="font-bold text-lg mb-3 text-purple-800">5. 美孚方言服饰</h3>
+            <p class="text-gray-700 mb-2"><strong>分布：</strong>东方、昌江境内昌化江下游两岸</p>
+            <p class="text-gray-700 mb-2"><strong>特点：</strong>以絣染技术为最大特色</p>
+            <div class="bg-purple-50 p-3 rounded mt-2">
+              <p class="text-sm text-purple-800"><strong>女子服饰：</strong>黑色或深蓝色短领长袖开胸衣，下穿絣染技术织造的宽大筒裙</p>
+              <p class="text-sm text-purple-800 mt-1"><strong>特色：</strong>头巾为黑白条纹布，上衣两侧缝口和袖口以白色布条镶边</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 传承之路 -->
+    <section id="heritage" class="mb-16">
+      <h2 class="section-title text-2xl font-bold mb-6">五、从濒危到新生的传承之路</h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="font-bold text-lg mb-4">1. 保护历程</h3>
+            <p class="text-gray-700 mb-4">
+              黎锦技艺曾一度濒临灭绝，2006年王学萍等全国人大代表提交申遗提案，2009年列入联合国教科文组织急需保护非遗名录。经过15年系统保护，传承人从不足1000人发展到2万多人，全省100多所中小学开展实践课，建成5个黎锦技艺传习馆和16个传承村。
+            </p>
+
+            <h3 class="font-bold text-lg mb-4 mt-6">2. 当代传承</h3>
+            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+              <li><strong>传承人体系：</strong>现有3名国家级非遗传承人、25名省级传承人</li>
+              <li><strong>生产性保护：</strong>黎锦工坊实现从输血式扶持到造血式发展的转变，成为乡村振兴重要抓手</li>
+              <li><strong>教育传承：</strong>非遗进校园、研培计划、传统工艺工作站等多种方式培养新人</li>
+            </ul>
+          </div>
+
+          <div>
+            <h3 class="font-bold text-lg mb-4">3. 创新发展</h3>
+            <p class="text-gray-700 mb-4">黎锦技艺在新时代焕发生机：</p>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div class="bg-blue-50 p-3 rounded-lg">
+                <div class="text-blue-600 mb-1"><i class="fas fa-tshirt"></i> 时尚融合</div>
+                <p class="text-sm text-gray-700">黎锦元素亮相巴黎时装周，传统工艺与现代设计碰撞出新火花</p>
+              </div>
+              <div class="bg-green-50 p-3 rounded-lg">
+                <div class="text-green-600 mb-1"><i class="fas fa-shopping-bag"></i> 文创产品</div>
+                <p class="text-sm text-gray-700">开发出手提包、围巾、首饰、抱枕等各类文创产品</p>
+              </div>
+              <div class="bg-purple-50 p-3 rounded-lg">
+                <div class="text-purple-600 mb-1"><i class="fas fa-laptop"></i> 数字化保护</div>
+                <p class="text-sm text-gray-700">建立黎锦数字博物馆，对图案进行数字化保存</p>
+              </div>
+              <div class="bg-yellow-50 p-3 rounded-lg">
+                <div class="text-yellow-600 mb-1"><i class="fas fa-globe"></i> 国际交流</div>
+                <p class="text-sm text-gray-700">赴意大利、新加坡、日本等国家进行文化展示</p>
+              </div>
+            </div>
+
+            <div class="bg-gray-100 p-4 rounded-lg mt-6">
+              <p class="text-gray-700">
+                黎族传统纺染织绣技艺2024年成功转入人类非物质文化遗产代表作名录，标志着这一古老技艺的保护工作取得显著成效，正从"濒危"走向"新生"。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 文化价值 -->
+    <section class="mb-16">
+      <h2 class="section-title text-2xl font-bold mb-6">六、黎锦的文化价值与精神内涵</h2>
+      <div class="bg-white rounded-lg shadow-md p-6">
+        <p class="mb-6">黎锦不仅是一种纺织技艺，更是黎族文化的百科全书，承载着民族的历史记忆、情感表达和价值观念。</p>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <div class="flex items-start mb-4">
+              <div
+                class="w-10 h-10 rounded-full bg-red-100 text-red-800 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-history"></i>
+              </div>
+              <div>
+                <h3 class="font-bold mb-1">1. 历史价值</h3>
+                <p class="text-gray-700">作为中国最早的棉纺织品，黎锦为研究中国纺织史提供了鲜活例证，黄道婆将黎族纺织技术传入江南的历史，促进了中国纺织业的革命性发展。
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start mb-4">
+              <div
+                class="w-10 h-10 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-palette"></i>
+              </div>
+              <div>
+                <h3 class="font-bold mb-1">2. 艺术价值</h3>
+                <p class="text-gray-700">
+                  黎锦图案原始拙朴，色彩对比强烈，构图饱满和谐，体现了黎族人民独特的审美情趣和艺术创造力。如海南省民族博物馆馆藏的明双凤朝阳双狮戏球图三联幅龙被，以藏青色为底，金橙色为绣线，将冷暖色系调和得恰如其分，美学价值极高。
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <div
+                class="w-10 h-10 rounded-full bg-green-100 text-green-800 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-users"></i>
+              </div>
+              <div>
+                <h3 class="font-bold mb-1">3. 文化认同</h3>
+                <p class="text-gray-700">黎锦服饰是黎族各支系身份认同的重要标志，不同支系、甚至不同村落的服饰图案都有所区别，成为维系族群认同的文化符号。</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-start mb-4">
+              <div
+                class="w-10 h-10 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-heart"></i>
+              </div>
+              <div>
+                <h3 class="font-bold mb-1">4. 精神寄托</h3>
+                <p class="text-gray-700">
+                  黎族女性将内心情感与朴素思想通过织锦这一无声语言表达，从六七岁拥有织机到优雅老去，织锦工具伴随黎族妇女一生。三亚黎族更有将织机和生前最华丽的黎锦服饰作为陪葬物的风俗，体现了黎锦在黎族人民精神生活中的重要地位。
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-start">
+              <div
+                class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-800 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-leaf"></i>
+              </div>
+              <div>
+                <h3 class="font-bold mb-1">5. 生态智慧</h3>
+                <p class="text-gray-700">
+                  黎锦制作全过程采用天然材料，体现了黎族人民"天人合一"的生态理念，染料取自自然，使用后可降解，对环境友好，为现代可持续设计提供了宝贵借鉴。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 结语 -->
+    <section class="mb-16">
+      <div class="bg-gradient-to-r from-amber-100 to-amber-50 rounded-lg shadow-md p-8">
+        <h2 class="text-2xl font-bold mb-4 text-center text-amber-800">经纬之间的文明传承</h2>
+        <p class="text-gray-700 mb-4">
+          黎族传统纺染织绣技艺是黎族妇女集体智慧的结晶，一色一纹、一针一线间闪烁着黎族文明的思想与认知。从春秋战国的"织贝"到当代的时尚设计，黎锦跨越三千年时光，依然焕发着迷人光彩。</p>
+        <p class="text-gray-700 mb-4">
+          在五指山的黎村苗寨，在三亚的时尚秀场，在联合国的非遗名录上，黎锦正以崭新的面貌走向世界。这不仅是一门技艺的传承，更是一个民族文化基因的延续，是中华文明多样性的生动体现。</p>
+        <p class="text-gray-700">正如黎族织娘手中的丝线，一端连着古老的过去，一端通向充满希望的未来，在经纬交织中，编织着黎族文化新的辉煌篇章。</p>
+      </div>
+    </section>
   </div>
 
-  <!-- 时间轴容器 -->
-  <div class="timeline-container" id="timeline">
-    <!-- 时间轴中心线 -->
-    <div class="timeline-center"></div>
+  </footer>
 
-    <!-- 春秋战国时期 - 左 -->
-    <div class="timeline-item left">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">春秋战国时期</h3>
-        <p class="timeline-description">黎族人已经掌握了利用木棉纤维来制作衣物的技能，这象征着黎族纺织技术的初步发展。这一时期的纺织技艺为后续黎锦文化的繁荣奠定了重要基础。</p>
-        <img src="春秋战国时期.png" alt="春秋战国时期黎族纺织" class="timeline-image">
+  <!-- 图案详情模态框 -->
+  <div
+    class="modal fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity"
+    id="patternModal">
+    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-4 border-b flex justify-between items-center">
+        <h3 class="text-xl font-bold" id="modalTitle"></h3>
+        <button class="text-gray-500 hover:text-gray-700 focus:outline-none" onclick="closeModal()">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-    </div>
-
-    <!-- 西汉时期 - 右 -->
-    <div class="timeline-item right">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">西汉时期</h3>
-        <p class="timeline-description">在黎族地区，所产的"广幅布"因其细腻的质地，被誉为"珍贡"的珍贵物品，这充分展现了黎族在纺织方面的卓越技艺。黎族纺织产品开始进入中原视野，成为贡品。</p>
-        <img src="西汉时期.png" alt="西汉时期广幅布" class="timeline-image">
-      </div>
-    </div>
-
-    <!-- 三国时期 - 左 -->
-    <div class="timeline-item left">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">三国时期</h3>
-        <p class="timeline-description">
-          黎族居民已经掌握了利用吉贝（一种草本植物，其纤维适合纺纱织布）来制作"色斑布"的技艺。这种布料既柔软又厚实，色彩缤纷，广受人们青睐，展现了黎族在染色和织造方面的创新。</p>
-        <img src="https://picsum.photos/seed/liethnic3/800/400" alt="三国时期色斑布" class="timeline-image">
-      </div>
-    </div>
-
-    <!-- 宋朝时期 - 右 -->
-    <div class="timeline-item right">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">宋朝时期</h3>
-        <p class="timeline-description">黎族的纺织技术达到高超水平，织出的布上能见到精细的文字和花卉等复杂图案，工艺非常精湛。黎锦、黎纱等产品色彩斑斓，受到广泛好评，成为当时的重要手工业产品。</p>
-        <img src="https://picsum.photos/seed/liethnic4/800/400" alt="宋朝时期黎锦" class="timeline-image">
-      </div>
-    </div>
-
-    <!-- 元朝时期 - 左 -->
-    <div class="timeline-item left">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">元朝时期</h3>
-        <p class="timeline-description">
-          杰出的女性纺织专家黄道婆流亡至崖州（今海南岛南部），向黎族妇女学习纺织技术，并进行推广创新和提升。她的贡献为中国纺织业的进步立下了汗马功劳，也促进了黎锦技艺的传播。</p>
-        <img src="https://picsum.photos/seed/liethnic5/800/400" alt="元朝时期黄道婆" class="timeline-image">
-      </div>
-    </div>
-
-    <!-- 明清时期 - 右 -->
-    <div class="timeline-item right">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">明清时期</h3>
-        <p class="timeline-description">明清时期是黎锦发展的鼎盛阶段，纺、染、织、绣四大工艺成熟，品种丰富，贸易繁荣。龙被成为珍品进贡入宫，黎锦不仅是实用衣物，更成为具有高度艺术价值的工艺品。</p>
-        <img src="https://picsum.photos/seed/liethnic6/800/400" alt="明清时期龙被" class="timeline-image">
-      </div>
-    </div>
-
-    <!-- 民国时期 - 左 -->
-    <div class="timeline-item left">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">民国时期</h3>
-        <p class="timeline-description">民国时期，因社会动荡、战乱及西方文化冲击，黎锦传承受阻，出现简化工艺、质量下降的情况。黎锦文化面临前所未有的挑战，传统技艺的传承陷入困境。</p>
-        <img src="https://picsum.photos/seed/liethnic7/800/400" alt="民国时期黎锦" class="timeline-image">
-      </div>
-    </div>
-
-    <!-- 现代 - 右 -->
-    <div class="timeline-item right">
-      <div class="timeline-dot"></div>
-      <div class="timeline-content">
-        <h3 class="timeline-period">现代</h3>
-        <p class="timeline-description">
-          2024年12月5日，黎族传统纺染织绣技艺由联合国教科文组织从《急需保护的非物质文化遗产名录》转入《人类非物质文化遗产代表作名录》，标志着黎锦文化在当代获得了国际认可和保护。</p>
-        <img src="https://picsum.photos/seed/liethnic8/800/400" alt="现代黎锦技艺" class="timeline-image">
-      </div>
-    </div>
-  </div>
-
-  <!-- 传承与创新部分 -->
-  <div class="heritage-section">
-    <h2 class="heritage-title">传承与创新</h2>
-    <p class="heritage-description">在当代社会，黎锦文化在传承中不断创新，展现出独特的魅力和活力。以下是一些黎锦文化传承与创新的案例。</p>
-    <div class="heritage-item">
-      <img src="https://picsum.photos/seed/heritage1/800/400" alt="黎锦文创产品" class="heritage-item-image">
-      <div class="heritage-item-content">
-        <h3 class="heritage-item-title">文创产品开发</h3>
-        <p class="heritage-item-text">将黎锦元素融入现代文创产品设计中，如手机壳、钥匙链、笔记本等，使黎锦文化更贴近现代人的生活。</p>
-      </div>
-    </div>
-    <div class="heritage-item">
-      <img src="https://picsum.photos/seed/heritage2/800/400" alt="黎锦时装秀" class="heritage-item-image">
-      <div class="heritage-item-content">
-        <h3 class="heritage-item-title">时尚设计融合</h3>
-        <p class="heritage-item-text">设计师将黎锦与现代时尚元素相结合，推出黎锦时装秀，让黎锦在时尚舞台上绽放光彩。</p>
-      </div>
-    </div>
-    <div class="heritage-item">
-      <img src="https://picsum.photos/seed/heritage3/800/400" alt="黎锦数字化展示" class="heritage-item-image">
-      <div class="heritage-item-content">
-        <h3 class="heritage-item-title">数字化展示与传播</h3>
-        <p class="heritage-item-text">利用虚拟现实、增强现实等技术，对黎锦文化进行数字化展示和传播，让更多人了解黎锦的魅力。</p>
+      <div class="p-4">
+        <div class="mb-4">
+          <img id="modalImage" src="" alt="" class="w-full h-64 object-contain bg-gray-100">
+        </div>
+        <p class="text-gray-700" id="modalContent"></p>
       </div>
     </div>
   </div>
 
   <script>
-    // 滚动触发时间轴动画
-    document.addEventListener('DOMContentLoaded', function () {
-      const timelineItems = document.querySelectorAll('.timeline-item');
+    // 移动端菜单切换
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
 
-      function checkVisibility() {
-        timelineItems.forEach(item => {
-          const itemTop = item.getBoundingClientRect().top;
-          const itemVisible = 150;
+    mobileMenuBtn.addEventListener('click', function () {
+      mobileMenu.classList.toggle('active');
+    });
 
-          if (itemTop < window.innerHeight - itemVisible) {
-            item.classList.add('visible');
+    // 平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          window.scrollTo({
+            top: targetElement.offsetTop - 20,
+            behavior: 'smooth'
+          });
+
+          // 如果是移动端菜单中的链接，点击后关闭菜单
+          if (mobileMenu.classList.contains('active')) {
+            mobileMenu.classList.remove('active');
           }
-        });
+        }
+      });
+    });
+
+    // 图案详情模态框
+    function openModal(title, content, imageUrl) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalContent').textContent = content;
+      document.getElementById('modalImage').src = imageUrl;
+      document.getElementById('modalImage').alt = title;
+
+      const modal = document.getElementById('patternModal');
+      modal.classList.remove('pointer-events-none');
+      modal.classList.add('opacity-100');
+      document.body.classList.add('overflow-hidden');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('patternModal');
+      modal.classList.add('pointer-events-none');
+      modal.classList.remove('opacity-100');
+      document.body.classList.remove('overflow-hidden');
+    }
+
+    // 点击模态框外部关闭
+    document.getElementById('patternModal').addEventListener('click', function (e) {
+      if (e.target === this) {
+        closeModal();
       }
+    });
 
-      // 初始检查
-      checkVisibility();
-
-      // 滚动时检查
-      window.addEventListener('scroll', checkVisibility);
+    // 导航栏滚动效果
+    window.addEventListener('scroll', function () {
+      const nav = document.querySelector('nav');
+      if (window.scrollY > 50) {
+        nav.classList.add('shadow-lg');
+      } else {
+        nav.classList.remove('shadow-lg');
+      }
     });
   </script>
 </body>
