@@ -1,0 +1,220 @@
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>机杼千年 - 首页</title><script src="https://cdn.plot.ly/plotly-latest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script><link rel="stylesheet" href="./navbar.css"></link><style> :root {
+    --rotate-speed: 60;
+    --count: 14;
+    --easing: linear;
+    --radius: 200px;
+    --primary-color: #c2412d;
+    --border-color: #a05f48;
+    --bg-light: #edeee8;
+    --text-dark: #3e3a2f;
+    --accent-gray: #b7a9a1;
+    --accent-green: #5f7161;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "KaiTi", "STKaiti", serif;
+    color: #3e3a2f;
+    background: linear-gradient(to bottom, #edeee8, #f3e6e8);
+    cursor: url('./鼠标.cur'), auto;
+}
+
+/* 视频样式 */
+video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 首页内容样式 */
+.home-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.home-title {
+    font-family: "阿里妈妈刀隶体";
+    color: var(--primary-color);
+    margin-bottom: 0.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    transition: font-size 0.3s ease;
+    line-height: 1.2;
+}
+
+.home-description {
+    font-family: "方正国美进道体 简";
+    color: var(--text-dark);
+    max-width: 800px;
+    margin-bottom: 60px;
+    transition: font-size 0.3s ease;
+    line-height: 1.6;
+}
+
+
+/* Click 页面样式 - 整合抽屉式效果 */
+.shell {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.box {
+    overflow: hidden;
+    transition: .5s;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, .5);
+    border-radius: 20px;
+    border: 10px solid #fff;
+    background-color: #fff;
+}
+
+.box>video {
+    object-fit: cover;
+    transition: .5s;
+}
+
+.box>span {
+    font: 200 45px '阿里妈妈刀隶体';
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 大屏幕抽屉式效果（横向排列） */
+@media (min-width: 768px) {
+    .shell {
+        height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box-container {
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .box {
+        flex: 1;
+        margin: 0 20px;
+    }
+
+    .box>video {
+        width: 200%;
+        height: 85%;
+    }
+
+    .box>span {
+        height: 15%;
+    }
+
+    .box:hover {
+        flex-basis: 40%;
+    }
+
+    .box:hover>video {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* 小屏幕垂直排列 */
+@media (max-width: 767px) {
+    .box {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 20px;
+    }
+
+    .box>video {
+        width: 100%;
+        height: auto;
+    }
+
+    .box>span {
+        height: auto;
+        padding: 20px 0;
+        font-size: 28px;
+    }
+}
+
+.svg-map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    padding: 32px 0;
+    background: linear-gradient(135deg, #f8f5f0 60%, #e9e2d8 100%);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(194, 65, 45, 0.08), 0 2px 8px rgba(160, 95, 72, 0.10);
+    border: 2px solid #e6d6c3;
+    max-width: 1400px;
+    /* 更宽 */
+    width: 95vw;
+    /* 响应式宽度 */
+    margin-left: auto;
+    margin-right: auto;
+    transition: box-shadow 0.3s;
+}
+
+.svg-map-container spline-viewer {
+    width: 100% !important;
+    max-width: 1280px;
+    height: 700px !important;
+    margin: 0 auto;
+    display: block;
+}
+
+.svg-map-container:hover {
+    box-shadow: 0 12px 40px rgba(194, 65, 45, 0.16), 0 4px 16px rgba(160, 95, 72, 0.18);
+    background: linear-gradient(135deg, #f3e6e8 60%, #f8f5f0 100%);
+}
+
+.svg-map-container object {
+    border-radius: 16px;
+    border: 1.5px solid #b7a9a1;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(160, 95, 72, 0.10);
+    transition: box-shadow 0.3s;
+    width: 100%;
+    max-width: 900px;
+    /* 放大SVG最大宽度 */
+    height: 600px;
+    /* 放大SVG高度 */
+    display: block;
+    margin: 0 auto;
+}
+
+.map-desc {
+    max-width: 1200px;
+    margin: 48px auto 0 auto;
+    padding: 28px 36px 18px 36px;
+    background: linear-gradient(90deg, #f8f5f0 80%, #f3e6e8 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(194, 65, 45, 0.07);
+    border: 1.5px solid #e6d6c3;
+    font-family: "方正国美进道体 简", "KaiTi", serif;
+    color: #5f7161;
+    font-size: 1.18rem;
+    line-height: 1.85;
+    text-align: justify;
+    letter-spacing: 0.02em;
+}
+
+</style></head>

@@ -37,7 +37,7 @@
     .timeline-item {
       position: relative;
       padding-left: 2.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
 
     .timeline-item:before {
@@ -50,6 +50,7 @@
       border-radius: 50%;
       background-color: #c2412d;
       border: 3px solid #f8f5f0;
+      z-index: 1;
     }
 
     .timeline-item:after {
@@ -57,32 +58,88 @@
       position: absolute;
       left: 0.75rem;
       top: 1.5rem;
-      bottom: -2rem;
+      bottom: -2.5rem;
       width: 2px;
       background-color: #d9c7b8;
     }
 
-    .timeline-item:last-child:after {
-      display: none;
-    }
-
     .timeline-content {
       background-color: white;
-      border-radius: 0.5rem;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 0.75rem;
+      padding: 1.2rem;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
       transition: all 0.3s ease;
     }
 
     .timeline-content:hover {
       transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
     }
 
     .timeline-year {
-      font-weight: bold;
+      font-weight: 700;
       color: #a05f48;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.6rem;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-brief {
+      color: #c2412d;
+      font-weight: 500;
+      margin: 0 0 1rem 0;
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .timeline-media {
+      display: flex;
+      gap: 1.2rem;
+      align-items: center;
+    }
+
+    .timeline-img {
+      width: 300px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      border: 1px solid #f0e8e0;
+    }
+
+    .timeline-desc-box {
+      flex: 2;
+      border: 1px solid #d9c7b8;
+      border-radius: 0.5rem;
+      padding: 1.2rem;
+      background-color: #fcfaf7;
+      min-height: 300px;
+      display: flex;
+      align-items: center;
+    }
+
+        /* 小屏幕响应式布局（宽度小于 768px） */
+    @media (max-width: 768px) {
+      .timeline-media {
+        flex-direction: column;
+      }
+
+      .timeline-img {
+        width: 100%;
+        max-width: 300px; /* 保持最大宽度限制 */
+        margin-bottom: 1rem;
+      }
+
+      .timeline-desc-box {
+        width: 100%;
+        min-height: auto; /* 取消最小高度限制 */
+      }
+    }
+
+    .timeline-desc {
+      color: #5a4537;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-family: 'Noto Sans SC', sans-serif;
     }
 
     .mobile-menu {
@@ -95,6 +152,10 @@
       max-height: 300px;
     }
 
+    .pattern-card {
+      transition: all 0.3s ease;
+    }
+
     .pattern-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -102,6 +163,27 @@
 
     .modal {
       transition: all 0.3s ease;
+    }
+
+    /* 公共类 */
+    .bg-custom-gray {
+      background-color: #fcfaf7;
+      border: 1px solid #d9c7b8;
+      border-radius: 0.5rem;
+    }
+
+    .text-custom-title {
+      font-weight: 700;
+      color: #a05f48;
+      font-size: 1.1rem;
+      letter-spacing: 0.5px;
+    }
+
+    .text-custom-desc {
+      color: #5a4537;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      font-family: 'Noto Sans SC', sans-serif;
     }
   </style>
 </head>
@@ -117,7 +199,6 @@
       <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
     </div>
   </header>
-
 
   <!-- 主要内容 -->
   <div class="container mx-auto px-4 py-8">
@@ -141,63 +222,136 @@
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">春秋战国时期</div>
-                <p>"织贝"作为贡品入贡中周</p>
+                <!-- 核心内容区：标题+图文组合 -->
+                <p class="timeline-brief">「织贝」作为贡品入贡中周</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\吉贝布.png" alt="吉贝布" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      黎族先民利用木棉和麻类纤维，通过石制纺轮纺织出「织贝」。这种织物以彩色纬线显花，纹理类似贝壳光泽，故称「织贝」。作为早期黎族与中原地区文化交流的见证，其精美的工艺体现了当时纺织技术的成熟，成为海南向中周王室进贡的珍贵物产。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">汉代</div>
-                <p>"广福布"成为岁贡珍品</p>
+                <p class="timeline-brief">"广福布"成为岁贡珍品</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\广幅布.png" alt="广幅布" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      汉朝黎族先民凭借精湛的纺织技术，创造出了闻名海内的‘广幅布’。这种布质地柔软，‘幅广五尺，洁白不受垢污’，是黎族妇女用木棉等原料，经过多道复杂工序织成。‘广幅布’不仅成为上贡朝廷的珍品，还远销东南亚等地，深受海内外商贾的喜爱，展现了黎族纺织业的繁荣.
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">唐代</div>
-                <p>五色藤线织出飞禽走兽图案</p>
+                <p class="timeline-brief">五色藤线织出飞禽走兽图案</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\藤编.png" alt="藤编" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      唐代，琼岛黎人将提花织锦技术运用得炉火纯青，他们用五色藤线为原料，巧妙地织出飞禽走兽等各种精美的图案。这些图案不仅具有极高的艺术价值，还蕴含着黎族人民对自然和生活的热爱与向往，反映了当时黎族纺织工艺的独特魅力和文化内涵。（图为现代黎族藤编工艺）
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
+          
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">宋代</div>
-                <p>黎锦成为重要贸易商品</p>
+                <p class="timeline-brief">黎锦成为重要贸易商品</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\丝绸之路.png" alt="丝绸之路" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      黎族的纺织水平在宋代时期达到新高度，黎锦以其色彩斑斓、工艺精湛、图案丰富等特点，成为海南贸易往来的重要商品，供不应求。当时，黎锦不仅在国内市场深受欢迎，还通过海上丝绸之路远销海外，为黎族地区带来了可观的经济收入，促进了当地经济的发展。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">元代</div>
-                <p>黄道婆将黎锦技艺传入江南</p>
+                <p class="timeline-brief">黄道婆将黎锦技艺传入江南</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\黄道婆.png" alt="黄道婆" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      元代，著名的纺织家黄道婆来到海南岛，向黎族妇女学习先进的纺织技艺。她虚心求教，将黎锦的纺、染、织、绣等技艺融会贯通，并在此基础上进行了一系列的改进和创新，如发明了新的纺织工具、改进了纺织工艺等。之后，黄道婆将黎锦技艺传入江南，极大地推动了江南地区纺织业的发展，使江南成为了全国重要的纺织业中心。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">明清时期</div>
-                <p>"儋崖二帐"闻名全国</p>
+                <p class="timeline-brief">“儋崖二帐”闻名全国，龙被成为宫廷主要贡品</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\福禄寿龙被.png" alt="福禄寿龙被" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      明清时期是黎锦工艺的鼎盛阶段，其中 “儋崖二帐”（儋州、崖州两地生产的锦帐）以极致工艺闻名全国，成为文人雅士与达官显贵的珍藏。这类锦帐采用 “通经断纬” 技法，以木棉为经、彩线为纬，纹样多融合龙凤、麒麟等吉祥图案，兼具黎族图腾与中原审美。作为黎锦中的 “织绣极品”，龙被以其宏大篇幅（最长可达 3 米）、繁复纹样（常见 “双凤朝阳”“五龙戏珠”）和精湛刺绣（融合平绣、盘金绣）成为宫廷主要贡品。史料记载，明代海南土司曾将龙被作为觐见礼物，其工艺之精令宫廷织工叹服。龙被的织造需集合多位织娘耗时数年完成，仅配色就需用到蓝靛草、苏木、黄姜等十余种天然染料，是黎族 “织、染、绣” 技艺的集大成者。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
-                <div class="timeline-year">2006年</div>
-                <p>列入第一批国家级非物质文化遗产名录</p>
+                <div class="timeline-year">2006 年</div>
+                <p class="timeline-brief">列入第一批国家级非物质文化遗产名录</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\符林早.png" alt="符林早" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      2006 年，黎族传统纺染织绣技艺（含黎锦）被列入第一批国家级非物质文化遗产名录，标志着这一古老技艺从 “民间传承” 走向 “国家保护”。此前，随着工业化冲击，黎锦技艺曾一度濒临失传 —— 年轻一代多外出务工，掌握踞腰织机与絣染技艺的织娘不足千人。此次列入名录后，海南启动了首批传承人认定（如美孚方言区织娘符林早），并在琼中、白沙等地建立传习所，通过 “老带新” 模式抢救技艺。同年，首部《黎锦技艺保护规范》发布，明确了纺轮、染缸等传统工具的保护标准，为后续传承奠定了制度基础。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
-                <div class="timeline-year">2009年</div>
-                <p>列入联合国教科文组织急需保护的非物质文化遗产名录</p>
+                <div class="timeline-year">2009 年</div>
+                <p class="timeline-brief">列入联合国教科文组织急需保护的非物质文化遗产名录</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\2009.png" alt="2009" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      2009 年，黎锦技艺因其 “活态传承面临断裂风险”，被列入联合国教科文组织“急需保护的非物质文化遗产名录”。当时评估显示：掌握双面绣、絣染等核心技艺的传承人不足 50 人，部分纹样因无文字记载濒临失传。这一认定推动了国际社会对黎锦的关注：联合国教科文组织资助建立 “黎锦数字档案馆”，对 160 余种传统图案进行数字化保存；海南与东南亚国家开展织染技艺交流，引入现代设计理念活化传统工艺。此后，黎锦工坊在乡村振兴政策支持下兴起，逐步实现 “保护 — 生产 — 销售” 的良性循环。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
             <div class="timeline-item">
               <div class="timeline-content">
-                <div class="timeline-year">2024年</div>
-                <p>转入人类非物质文化遗产代表作名录</p>
+                <div class="timeline-year">2024 年</div>
+                <p class="timeline-brief">转入人类非物质文化遗产代表作名录</p>
+                <div class="timeline-media">
+                  <img src=".\imgs\2024.png" alt="2024" class="timeline-img">
+                  <div class="timeline-desc-box">
+                    <div class="timeline-desc">
+                      2024 年，黎锦技艺从 “急需保护名录” 成功转入人类非物质文化遗产代表作名录，标志着其保护工作取得里程碑式成果。这一转变的背后，是 15 年间的系统保护：传承人从不足千人增至 2 万余人，100 多所中小学开设黎锦实践课，“黎锦 + 时尚”“黎锦 + 文旅” 等创新模式让古老技艺焕发新生 —— 巴黎时装周上的黎锦元素礼服、故宫文创中的黎锦纹样衍生品，均展现了其当代生命力。此次转入不仅是对黎族妇女集体智慧的认可，更凸显了中国传统工艺在 “活态传承” 与 “创新发展” 中的典范价值。
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -213,53 +367,53 @@
 
         <div class="grid md:grid-cols-2 gap-6">
           <!-- 纺线工艺 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 flex items-center">
               <span
                 class="w-8 h-8 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mr-2">1</span>
               纺线工艺
             </h3>
-            <p class="text-gray-700">
+            <p class="text-custom-desc">
               黎族妇女使用火索麻、苎麻、木棉、草棉等天然纤维，通过手搓去籽十字棍、木制手摇轧花机、脚踏纺纱机等工具加工成线。每年三四月采木棉，八九月采草棉，收集的棉花果实入筐后纺线，整个过程完全依靠手工完成。
             </p>
           </div>
 
           <!-- 染色技艺 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 flex items-center">
               <span
                 class="w-8 h-8 rounded-full bg-blue-100 text-blue-800 flex items-center justify-center mr-2">2</span>
               染色技艺
             </h3>
-            <p class="text-gray-700">采用纯天然染料，以草木灰、泥土、河泥、矿物质作助剂，先染纱线后织布。染料主要来源于热带雨林的植物资源：</p>
+            <p class="text-custom-desc">采用纯天然染料，以草木灰、泥土、河泥、矿物质作助剂，先染纱线后织布。染料主要来源于热带雨林的植物资源：</p>
             <div class="grid grid-cols-2 gap-2 mt-2">
               <div class="bg-blue-50 text-blue-800 px-2 py-1 rounded text-sm">蓝色：蓝靛草</div>
               <div class="bg-yellow-50 text-yellow-800 px-2 py-1 rounded text-sm">黄色：黄姜</div>
               <div class="bg-red-50 text-red-800 px-2 py-1 rounded text-sm">红色：苏木、茜草</div>
               <div class="bg-green-50 text-green-800 px-2 py-1 rounded text-sm">绿色：谷木</div>
             </div>
-            <p class="text-gray-700 mt-2">美孚方言区的"絣染"技艺最为独特，先将丝线上架扎染后再织布，是我国染色技艺的活化石。</p>
+            <p class="text-custom-desc mt-2">美孚方言区的"絣染"技艺最为独特，先将丝线上架扎染后再织布，是我国染色技艺的活化石。</p>
           </div>
 
           <!-- 织造技术 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 flex items-center">
               <span
                 class="w-8 h-8 rounded-full bg-green-100 text-green-800 flex items-center justify-center mr-2">3</span>
               织造技术
             </h3>
-            <p class="text-gray-700">
+            <p class="text-custom-desc">
               黎族织锦主要使用踞腰织机，织女席地而坐，腰缠腰带，脚蹬撑经杆两端，提梭引纬、上下交替间完成织造。织就一套盛装往往需要3至4个月甚至更长时间，所有图案全凭织女记忆完成，无需图纸。</p>
           </div>
 
           <!-- 刺绣工艺 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 flex items-center">
               <span
                 class="w-8 h-8 rounded-full bg-purple-100 text-purple-800 flex items-center justify-center mr-2">4</span>
               刺绣工艺
             </h3>
-            <p class="text-gray-700">以平绣、贴布绣、珠绣为主要针法，其中润方言的双面绣技艺最为精湛，正反两面同形同色，针脚均匀，线头线尾均看不见，堪称黎族刺绣艺术的巅峰。</p>
+            <p class="text-custom-desc">以平绣、贴布绣、珠绣为主要针法，其中润方言的双面绣技艺最为精湛，正反两面同形同色，针脚均匀，线头线尾均看不见，堪称黎族刺绣艺术的巅峰。</p>
           </div>
         </div>
       </div>
@@ -368,10 +522,10 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- 哈方言 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 text-amber-800">1. 哈方言服饰</h3>
-            <p class="text-gray-700 mb-2"><strong>分布：</strong>乐东、陵水、昌江、白沙等市县</p>
-            <p class="text-gray-700 mb-2"><strong>特点：</strong>服饰底色多为深蓝色，筒裙和头帕用精美黎锦制作</p>
+            <p class="text-custom-desc mb-2"><strong>分布：</strong>乐东、陵水、昌江、白沙等市县</p>
+            <p class="text-custom-desc mb-2"><strong>特点：</strong>服饰底色多为深蓝色，筒裙和头帕用精美黎锦制作</p>
             <div class="bg-amber-50 p-3 rounded mt-2">
               <p class="text-sm text-amber-800"><strong>女子服饰：</strong>无领对襟衣、筒裙、包筒状头帕，喜佩银饰</p>
               <p class="text-sm text-amber-800 mt-1"><strong>男子服饰：</strong>条纹布对襟无纽扣中长衣，系兜裆布，头扦羽毛</p>
@@ -379,10 +533,10 @@
           </div>
 
           <!-- 杞方言 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 text-red-800">2. 杞方言服饰</h3>
-            <p class="text-gray-700 mb-2"><strong>分布：</strong>琼中、保亭、五指山等地</p>
-            <p class="text-gray-700 mb-2"><strong>特点：</strong>善织精美的黎锦，以红色为尊贵色</p>
+            <p class="text-custom-desc mb-2"><strong>分布：</strong>琼中、保亭、五指山等地</p>
+            <p class="text-custom-desc mb-2"><strong>特点：</strong>善织精美的黎锦，以红色为尊贵色</p>
             <div class="bg-red-50 p-3 rounded mt-2">
               <p class="text-sm text-red-800"><strong>女子服饰：</strong>黑色或深蓝色中长袖对襟开胸衣，及膝中筒裙，衣背下摆和袖口有彩色图案</p>
               <p class="text-sm text-red-800 mt-1"><strong>特色：</strong>筒裙和头帕皆用精美黎锦制作</p>
@@ -390,10 +544,10 @@
           </div>
 
           <!-- 润方言 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 text-blue-800">3. 润方言服饰</h3>
-            <p class="text-gray-700 mb-2"><strong>分布：</strong>白沙东部及鹦哥岭以北地区</p>
-            <p class="text-gray-700 mb-2"><strong>特点：</strong>以"双面绣"技艺闻名，服饰色彩最为丰富</p>
+            <p class="text-custom-desc mb-2"><strong>分布：</strong>白沙东部及鹦哥岭以北地区</p>
+            <p class="text-custom-desc mb-2"><strong>特点：</strong>以"双面绣"技艺闻名，服饰色彩最为丰富</p>
             <div class="bg-blue-50 p-3 rounded mt-2">
               <p class="text-sm text-blue-800"><strong>女子服饰：</strong>独特的"贯头衣"，长袖无领无纽，领口为"V"字形，下穿短而窄的"超短裙"
               </p>
@@ -403,10 +557,10 @@
           </div>
 
           <!-- 赛方言 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 text-green-800">4. 赛方言服饰</h3>
-            <p class="text-gray-700 mb-2"><strong>分布：</strong>保亭、陵水、三亚交界地区</p>
-            <p class="text-gray-700 mb-2"><strong>特点：</strong>人口最少的支系，服饰受汉化影响</p>
+            <p class="text-custom-desc mb-2"><strong>分布：</strong>保亭、陵水、三亚交界地区</p>
+            <p class="text-custom-desc mb-2"><strong>特点：</strong>人口最少的支系，服饰受汉化影响</p>
             <div class="bg-green-50 p-3 rounded mt-2">
               <p class="text-sm text-green-800"><strong>女子服饰：</strong>蓝色或深蓝色长袖右衽高领衣，长而宽的筒裙，裙身和裙尾有青蛙纹</p>
               <p class="text-sm text-green-800 mt-1"><strong>特色：</strong>筒裙下方绣有云母片，阳光下熠熠生辉</p>
@@ -414,10 +568,10 @@
           </div>
 
           <!-- 美孚方言 -->
-          <div class="bg-gray-50 p-4 rounded-lg">
+          <div class="bg-custom-gray p-4 rounded-lg">
             <h3 class="font-bold text-lg mb-3 text-purple-800">5. 美孚方言服饰</h3>
-            <p class="text-gray-700 mb-2"><strong>分布：</strong>东方、昌江境内昌化江下游两岸</p>
-            <p class="text-gray-700 mb-2"><strong>特点：</strong>以絣染技术为最大特色</p>
+            <p class="text-custom-desc mb-2"><strong>分布：</strong>东方、昌江境内昌化江下游两岸</p>
+            <p class="text-custom-desc mb-2"><strong>特点：</strong>以絣染技术为最大特色</p>
             <div class="bg-purple-50 p-3 rounded mt-2">
               <p class="text-sm text-purple-800"><strong>女子服饰：</strong>黑色或深蓝色短领长袖开胸衣，下穿絣染技术织造的宽大筒裙</p>
               <p class="text-sm text-purple-800 mt-1"><strong>特色：</strong>头巾为黑白条纹布，上衣两侧缝口和袖口以白色布条镶边</p>
@@ -434,12 +588,12 @@
         <div class="grid md:grid-cols-2 gap-8">
           <div>
             <h3 class="font-bold text-lg mb-4">1. 保护历程</h3>
-            <p class="text-gray-700 mb-4">
+            <p class="text-custom-desc mb-4">
               黎锦技艺曾一度濒临灭绝，2006年王学萍等全国人大代表提交申遗提案，2009年列入联合国教科文组织急需保护非遗名录。经过15年系统保护，传承人从不足1000人发展到2万多人，全省100多所中小学开展实践课，建成5个黎锦技艺传习馆和16个传承村。
             </p>
 
             <h3 class="font-bold text-lg mb-4 mt-6">2. 当代传承</h3>
-            <ul class="list-disc pl-6 space-y-2 text-gray-700">
+            <ul class="list-disc pl-6 space-y-2 text-custom-desc">
               <li><strong>传承人体系：</strong>现有3名国家级非遗传承人、25名省级传承人</li>
               <li><strong>生产性保护：</strong>黎锦工坊实现从输血式扶持到造血式发展的转变，成为乡村振兴重要抓手</li>
               <li><strong>教育传承：</strong>非遗进校园、研培计划、传统工艺工作站等多种方式培养新人</li>
@@ -448,29 +602,29 @@
 
           <div>
             <h3 class="font-bold text-lg mb-4">3. 创新发展</h3>
-            <p class="text-gray-700 mb-4">黎锦技艺在新时代焕发生机：</p>
+            <p class="text-custom-desc mb-4">黎锦技艺在新时代焕发生机：</p>
 
             <div class="grid grid-cols-2 gap-4">
               <div class="bg-blue-50 p-3 rounded-lg">
                 <div class="text-blue-600 mb-1"><i class="fas fa-tshirt"></i> 时尚融合</div>
-                <p class="text-sm text-gray-700">黎锦元素亮相巴黎时装周，传统工艺与现代设计碰撞出新火花</p>
+                <p class="text-sm text-custom-desc">黎锦元素亮相巴黎时装周，传统工艺与现代设计碰撞出新火花</p>
               </div>
               <div class="bg-green-50 p-3 rounded-lg">
                 <div class="text-green-600 mb-1"><i class="fas fa-shopping-bag"></i> 文创产品</div>
-                <p class="text-sm text-gray-700">开发出手提包、围巾、首饰、抱枕等各类文创产品</p>
+                <p class="text-sm text-custom-desc">开发出手提包、围巾、首饰、抱枕等各类文创产品</p>
               </div>
               <div class="bg-purple-50 p-3 rounded-lg">
                 <div class="text-purple-600 mb-1"><i class="fas fa-laptop"></i> 数字化保护</div>
-                <p class="text-sm text-gray-700">建立黎锦数字博物馆，对图案进行数字化保存</p>
+                <p class="text-sm text-custom-desc">建立黎锦数字博物馆，对图案进行数字化保存</p>
               </div>
               <div class="bg-yellow-50 p-3 rounded-lg">
                 <div class="text-yellow-600 mb-1"><i class="fas fa-globe"></i> 国际交流</div>
-                <p class="text-sm text-gray-700">赴意大利、新加坡、日本等国家进行文化展示</p>
+                <p class="text-sm text-custom-desc">赴意大利、新加坡、日本等国家进行文化展示</p>
               </div>
             </div>
 
             <div class="bg-gray-100 p-4 rounded-lg mt-6">
-              <p class="text-gray-700">
+              <p class="text-custom-desc">
                 黎族传统纺染织绣技艺2024年成功转入人类非物质文化遗产代表作名录，标志着这一古老技艺的保护工作取得显著成效，正从"濒危"走向"新生"。</p>
             </div>
           </div>
@@ -493,7 +647,7 @@
               </div>
               <div>
                 <h3 class="font-bold mb-1">1. 历史价值</h3>
-                <p class="text-gray-700">作为中国最早的棉纺织品，黎锦为研究中国纺织史提供了鲜活例证，黄道婆将黎族纺织技术传入江南的历史，促进了中国纺织业的革命性发展。
+                <p class="text-custom-desc">作为中国最早的棉纺织品，黎锦为研究中国纺织史提供了鲜活例证，黄道婆将黎族纺织技术传入江南的历史，促进了中国纺织业的革命性发展。
                 </p>
               </div>
             </div>
@@ -505,7 +659,7 @@
               </div>
               <div>
                 <h3 class="font-bold mb-1">2. 艺术价值</h3>
-                <p class="text-gray-700">
+                <p class="text-custom-desc">
                   黎锦图案原始拙朴，色彩对比强烈，构图饱满和谐，体现了黎族人民独特的审美情趣和艺术创造力。如海南省民族博物馆馆藏的明双凤朝阳双狮戏球图三联幅龙被，以藏青色为底，金橙色为绣线，将冷暖色系调和得恰如其分，美学价值极高。
                 </p>
               </div>
@@ -518,7 +672,7 @@
               </div>
               <div>
                 <h3 class="font-bold mb-1">3. 文化认同</h3>
-                <p class="text-gray-700">黎锦服饰是黎族各支系身份认同的重要标志，不同支系、甚至不同村落的服饰图案都有所区别，成为维系族群认同的文化符号。</p>
+                <p class="text-custom-desc">黎锦服饰是黎族各支系身份认同的重要标志，不同支系、甚至不同村落的服饰图案都有所区别，成为维系族群认同的文化符号。</p>
               </div>
             </div>
           </div>
@@ -531,7 +685,7 @@
               </div>
               <div>
                 <h3 class="font-bold mb-1">4. 精神寄托</h3>
-                <p class="text-gray-700">
+                <p class="text-custom-desc">
                   黎族女性将内心情感与朴素思想通过织锦这一无声语言表达，从六七岁拥有织机到优雅老去，织锦工具伴随黎族妇女一生。三亚黎族更有将织机和生前最华丽的黎锦服饰作为陪葬物的风俗，体现了黎锦在黎族人民精神生活中的重要地位。
                 </p>
               </div>
@@ -544,7 +698,7 @@
               </div>
               <div>
                 <h3 class="font-bold mb-1">5. 生态智慧</h3>
-                <p class="text-gray-700">
+                <p class="text-custom-desc">
                   黎锦制作全过程采用天然材料，体现了黎族人民"天人合一"的生态理念，染料取自自然，使用后可降解，对环境友好，为现代可持续设计提供了宝贵借鉴。</p>
               </div>
             </div>
@@ -557,11 +711,11 @@
     <section class="mb-16">
       <div class="bg-gradient-to-r from-amber-100 to-amber-50 rounded-lg shadow-md p-8">
         <h2 class="text-2xl font-bold mb-4 text-center text-amber-800">经纬之间的文明传承</h2>
-        <p class="text-gray-700 mb-4">
+        <p class="text-custom-desc mb-4">
           黎族传统纺染织绣技艺是黎族妇女集体智慧的结晶，一色一纹、一针一线间闪烁着黎族文明的思想与认知。从春秋战国的"织贝"到当代的时尚设计，黎锦跨越三千年时光，依然焕发着迷人光彩。</p>
-        <p class="text-gray-700 mb-4">
+        <p class="text-custom-desc mb-4">
           在五指山的黎村苗寨，在三亚的时尚秀场，在联合国的非遗名录上，黎锦正以崭新的面貌走向世界。这不仅是一门技艺的传承，更是一个民族文化基因的延续，是中华文明多样性的生动体现。</p>
-        <p class="text-gray-700">正如黎族织娘手中的丝线，一端连着古老的过去，一端通向充满希望的未来，在经纬交织中，编织着黎族文化新的辉煌篇章。</p>
+        <p class="text-custom-desc">正如黎族织娘手中的丝线，一端连着古老的过去，一端通向充满希望的未来，在经纬交织中，编织着黎族文化新的辉煌篇章。</p>
       </div>
     </section>
   </div>
@@ -593,9 +747,13 @@
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
 
-    mobileMenuBtn.addEventListener('click', function () {
+    function toggleMobileMenu() {
       mobileMenu.classList.toggle('active');
-    });
+    }
+
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+    }
 
     // 平滑滚动
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -612,8 +770,8 @@
           });
 
           // 如果是移动端菜单中的链接，点击后关闭菜单
-          if (mobileMenu.classList.contains('active')) {
-            mobileMenu.classList.remove('active');
+          if (mobileMenu && mobileMenu.classList.contains('active')) {
+            toggleMobileMenu();
           }
         }
       });
@@ -640,19 +798,24 @@
     }
 
     // 点击模态框外部关闭
-    document.getElementById('patternModal').addEventListener('click', function (e) {
-      if (e.target === this) {
-        closeModal();
-      }
-    });
+    const patternModal = document.getElementById('patternModal');
+    if (patternModal) {
+      patternModal.addEventListener('click', function (e) {
+        if (e.target === this) {
+          closeModal();
+        }
+      });
+    }
 
     // 导航栏滚动效果
     window.addEventListener('scroll', function () {
       const nav = document.querySelector('nav');
-      if (window.scrollY > 50) {
-        nav.classList.add('shadow-lg');
-      } else {
-        nav.classList.remove('shadow-lg');
+      if (nav) {
+        if (window.scrollY > 50) {
+          nav.classList.add('shadow-lg');
+        } else {
+          nav.classList.remove('shadow-lg');
+        }
       }
     });
   </script>
