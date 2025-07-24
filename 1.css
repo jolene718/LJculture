@@ -1,4 +1,4 @@
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>机杼千年 - 首页</title><script src="https://cdn.plot.ly/plotly-latest.min.js"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script><link rel="stylesheet" href="./navbar.css"></link><style> :root {
+:root {
     --rotate-speed: 60;
     --count: 14;
     --easing: linear;
@@ -216,5 +216,3 @@ video {
     text-align: justify;
     letter-spacing: 0.02em;
 }
-
-</style></head>

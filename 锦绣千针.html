@@ -78,11 +78,31 @@
             transform: scale(1.02);
         }
 
+        /* 添加导航栏渐变色装饰样式 */
+        .header {
+            width: 100%;
+            background-color: #edeee8;
+            border-bottom: 1px solid #a05f48;
+            padding: 25px 0;
+            position: relative;
+        }
+    
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, #c2412d, transparent);
+        }
+
         @media (max-width: 768px) {
             .section-title::before {
                 height: 1.5rem;
             }
         }
+
     </style>
 </head>
 
@@ -90,9 +110,9 @@
     <header class="header">
         <div class="header-container">
             <a href="index.html" class="site-title">黎锦纹铭</a>
-            <a href="黎纹锦韵.html" class="nav-item">锦纹黎韵</a>
+            <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
             <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
-            <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
+            <a href="锦织经纬2.html" class="nav-item">锦织经纬</a>
             <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
             <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
         </div>

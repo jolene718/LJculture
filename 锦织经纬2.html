@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机杼千年 - 首页</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <link rel="stylesheet" href="./navbars.css">
+    </link>
+    <style>
+        :root {
+            --primary-color: #c2412d;
+            --border-color: #a05f48;
+            --bg-light: #edeee8;
+            --text-dark: #3e3a2f;
+            --accent-gray: #b7a9a1;
+            --accent-green: #5f7161;
+            --h-color: #c2412d;
+            --qi-color: #5f7161;
+            --run-color: #a05f48;
+            --meifu-color: #7d5a4f;
+            --sai-color: #6b7b8c;
+        }
+
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            font-family: "KaiTi", "STKaiti", serif;
+            color: #3e3a2f;
+            background: linear-gradient(to bottom, #edeee8, #f3e6e8);
+            cursor: url('./鼠标.cur'), auto;
+        }
+
+        /* 视频样式 */
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* 首页内容样式 */
+        .home-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px 40px;
+        }
+
+        .home-title {
+            font-family: "阿里妈妈刀隶体";
+            color: var(--primary-color);
+            margin-bottom: 0.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+            transition: font-size 0.3s ease;
+            line-height: 1.2;
+        }
+
+        .home-description {
+            font-family: "方正国美进道体 简";
+            color: var(--text-dark);
+            max-width: 800px;
+            margin-bottom: 60px;
+            transition: font-size 0.3s ease;
+            line-height: 1.6;
+        }
+
+
+        /* Click 页面样式 - 整合抽屉式效果 */
+        .shell {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .box-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px 0;
+        }
+
+        .box {
+            overflow: hidden;
+            transition: .5s;
+            box-shadow: 10px 10px 20px rgba(0, 0, 0, .5);
+            border-radius: 20px;
+            border: 10px solid #fff;
+            background-color: #fff;
+        }
+
+        .box>video {
+            object-fit: cover;
+            transition: .5s;
+        }
+
+        .box>span {
+            font: 200 45px '阿里妈妈刀隶体';
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 大屏幕抽屉式效果（横向排列） */
+        @media (min-width: 768px) {
+            .shell {
+                height: 600px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .box-container {
+                flex-wrap: nowrap;
+                width: 100%;
+            }
+
+            .box {
+                flex: 1;
+                margin: 0 20px;
+            }
+
+            .box>video {
+                width: 200%;
+                height: 85%;
+            }
+
+            .box>span {
+                height: 15%;
+            }
+
+            .box:hover {
+                flex-basis: 40%;
+            }
+
+            .box:hover>video {
+                width: 100%;
+                height: 100%;
+            }
+        }
+
+        /* 小屏幕垂直排列 */
+        @media (max-width: 767px) {
+            .box {
+                width: 100%;
+                max-width: 400px;
+                margin-bottom: 20px;
+            }
+
+            .box>video {
+                width: 100%;
+                height: auto;
+            }
+
+            .box>span {
+                height: auto;
+                padding: 20px 0;
+                font-size: 28px;
+            }
+        }
+
+        .svg-map-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px auto;
+            padding: 32px 0;
+            background: linear-gradient(135deg, #f8f5f0 60%, #e9e2d8 100%);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(194, 65, 45, 0.08), 0 2px 8px rgba(160, 95, 72, 0.10);
+            border: 2px solid #e6d6c3;
+            max-width: 1400px;
+            /* 更宽 */
+            width: 95vw;
+            /* 响应式宽度 */
+            margin-left: auto;
+            margin-right: auto;
+            transition: box-shadow 0.3s;
+        }
+
+        .svg-map-container spline-viewer {
+            width: 100% !important;
+            max-width: 1280px;
+            height: 700px !important;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .svg-map-container:hover {
+            box-shadow: 0 12px 40px rgba(194, 65, 45, 0.16), 0 4px 16px rgba(160, 95, 72, 0.18);
+            background: linear-gradient(135deg, #f3e6e8 60%, #f8f5f0 100%);
+        }
+
+        .svg-map-container object {
+            border-radius: 16px;
+            border: 1.5px solid #b7a9a1;
+            background: #fff;
+            box-shadow: 0 2px 12px rgba(160, 95, 72, 0.10);
+            transition: box-shadow 0.3s;
+            width: 100%;
+            max-width: 900px;
+            /* 放大SVG最大宽度 */
+            height: 600px;
+            /* 放大SVG高度 */
+            display: block;
+            margin: 0 auto;
+        }
+
+        .map-desc {
+            max-width: 1200px;
+            margin: 48px auto 0 auto;
+            padding: 28px 36px 18px 36px;
+            background: linear-gradient(90deg, #f8f5f0 80%, #f3e6e8 100%);
+            border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(194, 65, 45, 0.07);
+            border: 1.5px solid #e6d6c3;
+            font-family: "方正国美进道体 简", "KaiTi", serif;
+            color: #5f7161;
+            font-size: 1.18rem;
+            line-height: 1.85;
+            text-align: justify;
+            letter-spacing: 0.02em;
+        }
+
+        /* 方言区块排版优化 */
+        .culture-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-family: "阿里妈妈刀隶体";
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 方言区块采用流式布局 */
+        .dialect-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .dialect-block {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            border-left: 5px solid;
+        }
+        .dialect-block:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 各方言区块左侧标识色 */
+        .dialect-h { border-color: var(--h-color); }
+        .dialect-qi { border-color: var(--qi-color); }
+        .dialect-run { border-color: var(--run-color); }
+        .dialect-meifu { border-color: var(--meifu-color); }
+        .dialect-sai { border-color: var(--sai-color); }
+
+        .dialect-header {
+            padding: 20px 30px;
+            background: linear-gradient(90deg, #f8f5f0 0%, #f0ebe4 100%);
+            border-bottom: 1px solid #f0ebe4;
+        }
+        .dialect-title {
+            font-family: "阿里妈妈刀隶体";
+            margin: 0;
+            font-size: 1.8rem;
+            color: var(--text-dark);
+        }
+
+        .dialect-content {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            font-family: "方正国美进道体 简";
+            color: var(--text-dark);
+            line-height: 1.8;
+        }
+
+        /* 新增图片容器样式 */
+        .dialect-img {
+            max-width: 1200px;
+            margin: 0 auto 40px; /* 与下方方言区块保持间距 */
+            padding: 0 20px; /* 与内容区对齐 */
+        }
+        .dialect-img-container {
+            position: relative;
+            width: 100%;
+            border: 10px solid #fff; /* 白色边框 */
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .dialect-img img {
+            width: 100%;
+            height: auto; /* 自适应高度 */
+            display: block;
+            object-fit: cover;
+        }
+        .img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.6); /* 半透明黑底 */
+            color: white;
+            text-align: center;
+            padding: 2px 15px;
+            font-family: "方正国美进道体 简";
+            font-size: 1rem;
+        }
+
+        /* 调整方言容器间距 */
+        .dialect-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            padding: 0 20px; /* 与图片容器对齐 */
+        }
+
+        @media (max-width: 992px) {
+            .dialect-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .content-part h3 {
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #5f7161;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed #e6d6c3;
+        }
+        .feature-list {
+            padding-left: 20px;
+            margin: 0;
+        }
+        .feature-list li {
+            margin-bottom: 12px;
+            position: relative;
+            padding-left: 18px;
+        }
+        .feature-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: inherit;
+            font-weight: bold;
+        }
+
+        .tattoo-desc {
+            background-color: #f8f5f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 5px;
+        }
+
+
+        @media (max-width: 768px) {
+            .dialect-content {
+                padding: 20px;
+            }
+            .costume-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="site-title">黎锦纹铭</a>
+            <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
+            <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
+            <a href="锦织经纬2.html" class="nav-item">锦织经纬</a>
+            <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
+            <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
+        </div>
+    </header>
+
+    <div class="map-desc">
+        从黎族人口分布情况来看，哈、杞、润等方言人口占黎族人口的大部分，分别居住在海南岛沿海、中部和南部大部分地区。美孚方言人口居住在海南岛西部，主要聚居在昌化江下游流域。赛方言人口居住在海南岛东南部。因受地理、气候、物产等自然因素的影响，黎族各方言的生产生活及风俗习惯略有不同，织锦图案的题材丰富多样，体现出不同方言的艺术风格。
+    </div>
+
+    <div class="svg-map-container">
+        <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.33/build/spline-viewer.js"></script>
+        <spline-viewer loading-anim-type="none"
+            url="https://prod.spline.design/tiaJ79HP323qjMSt/scene.splinecode"></spline-viewer>
+    </div>
+
+    <section class="culture-section">
+        <h2 class="section-title">五大方言区文化特征与纹面习俗</h2>
+        
+        <div class="dialect-container">
+            <div class="dialect-img">
+                <div class="dialect-img-container">
+                    <img src="./imgs/纹面.jpg" alt="黎族纹面文化" >
+                    <div class="img-caption">拍摄于海南省博物馆</div>
+                </div>
+            </div>
+            <!-- 哈方言区块 -->
+            <div class="dialect-block dialect-h">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">哈方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：主要分布在海南岛沿海及丘陵地带，以三亚、陵水、乐东等地为核心</li>
+                            <li><strong>传统生计</strong>：以稻作农业为主，兼营渔业和热带作物种植，擅长利用海洋资源</li>
+                            <li><strong>节庆习俗</strong>：最隆重的节日为"三月三"，祭祀祖先与自然神灵，伴有对歌、跳竹竿舞等活动</li>
+                            <li><strong>艺术特色</strong>：织锦以几何纹、人形纹为主，色彩明快，常用红、黄、蓝三色搭配</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            哈方言妇女纹面多在十二至十五岁之间进行，图案呈几何形分布：
+                            <ul class="feature-list">
+                                <li>前额纹为横向平行线，象征规整的田垄</li>
+                                <li>两颊纹为放射状线条，如太阳光芒般扩散</li>
+                                <li>下颌纹呈网格状，代表丰收的粮仓</li>
+                            </ul>
+                            纹面寓意为"成年礼"与"家族标识"，同时认为可避邪祈福，死后能顺利回归祖先之地。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 杞方言区块 -->
+            <div class="dialect-block dialect-qi">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">杞方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：集中在海南岛中部山区，五指山、琼中一带为主要聚居地</li>
+                            <li><strong>传统生计</strong>：山地农耕为主，种植水稻、玉米和薯类，擅长狩猎与采集山货</li>
+                            <li><strong>节庆习俗</strong>：重视"牛节"，每年春耕前祭祀耕牛，祈求农事顺利，有"祭山"的传统</li>
+                            <li><strong>艺术特色</strong>：音乐舞蹈带有山地文化特质，织锦喜用黑色底布，以动物纹（如鹿纹、鸟纹）为特色</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            杞方言纹面风格简约而独特：
+                            <ul class="feature-list">
+                                <li>额头至鼻梁有纵向条纹，象征山路蜿蜒</li>
+                                <li>眼角两侧有对称的曲线纹，形似山涧溪流</li>
+                                <li>纹面工具多用荆棘刺蘸烟灰调制的颜料，分三次完成</li>
+                            </ul>
+                            纹面被视为"山地通行证"，认为能获得山神庇护，同时也是区分不同支系的重要标志。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 润方言区块 -->
+            <div class="dialect-block dialect-run">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">润方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：主要居住在海南岛南部山区，以白沙、昌江等地的盆地与河谷为主</li>
+                            <li><strong>传统生计</strong>：稻作与手工业并重，擅长纺织、制陶，有"纺织之乡"的美誉</li>
+                            <li><strong>节庆习俗</strong>："祭神树节"最为独特，崇拜千年古木，认为其是祖先的化身</li>
+                            <li><strong>艺术特色</strong>：织锦以"龙被"最负盛名，图案繁复华丽，融合神话传说与自然意象</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            润方言纹面是黎族中最复杂的样式之一：
+                            <ul class="feature-list">
+                                <li>全脸布满连续纹样，前额至下颌形成整体图案，如织锦般连贯</li>
+                                <li>包含圆形纹（象征太阳）、方形纹（代表土地）、曲线纹（寓意河流）</li>
+                                <li>纹面过程分阶段进行，从童年开始，至成年完成全部图案</li>
+                            </ul>
+                            纹面不仅是美的象征，更代表家族的尊贵地位，不同家族有固定的纹面图谱。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 美孚方言区块 -->
+            <div class="dialect-block dialect-meifu">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">美孚方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：分布于海南岛西部，集中在昌化江下游流域的东方、昌江等地</li>
+                            <li><strong>传统生计</strong>：灌溉农业发达，擅长利用河流资源种植水稻和甘蔗，手工艺以制糖闻名</li>
+                            <li><strong>节庆习俗</strong>："年节"（春节）最为隆重，有"送旧迎新"的祭祀仪式，注重家族团聚</li>
+                            <li><strong>艺术特色</strong>：织锦以"联珠纹"为典型，色彩沉稳，常用深蓝、靛蓝与白色组合</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            美孚方言纹面具有鲜明的地域特色：
+                            <ul class="feature-list">
+                                <li>以"人"字形纹为核心，从鼻梁向两颊延伸，如水流分支</li>
+                                <li>下巴处有半月形纹，象征昌化江的弯道</li>
+                                <li>纹面时会加入少量矿物颜料，使图案呈青蓝色，更为持久</li>
+                            </ul>
+                            纹面被视为"河流的印记"，与他们依赖昌化江生存的生活方式密切相关，代表对水源的敬畏。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赛方言区块 -->
+            <div class="dialect-block dialect-sai">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">赛方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：位于海南岛东南部，以保亭、万宁等地的热带雨林边缘为主</li>
+                            <li><strong>传统生计</strong>：刀耕火种与梯田农业结合，擅长种植热带水果和药用植物</li>
+                            <li><strong>节庆习俗</strong>："祭雷节"独具特色，认为雷声是丰收的信号，有模仿雷声的歌舞表演</li>
+                            <li><strong>艺术特色</strong>：音乐以鼻箫、口弓琴为代表，织锦喜用植物纹（如槟榔纹、稻穗纹）</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            赛方言纹面风格轻盈灵动：
+                            <ul class="feature-list">
+                                <li>以点状纹和曲线纹为主，分布于眼周、颧骨和鼻翼两侧</li>
+                                <li>图案模仿热带雨林中的藤蔓与花卉，寓意与自然共生</li>
+                                <li>纹面由家族中的女性长辈完成，是传承技艺的重要载体</li>
+                            </ul>
+                            纹面被视为"自然的纹身"，象征女子已具备采集植物、辨识草药的能力，是成年的标志。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

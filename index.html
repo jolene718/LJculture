@@ -7,8 +7,8 @@
     <title>黎锦纹铭 - 首页</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
-    <link rel="stylesheet" href="./navbar.css">
-    </link>
+    <link rel="stylesheet" href="./navbars.css">
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         :root {
             --rotate-speed: 60;
@@ -21,6 +21,7 @@
             --text-dark: #3e3a2f;
             --accent-gray: #b7a9a1;
             --accent-green: #5f7161;
+            --text-sm: 1.2rem; /* 增大字体大小变量 */
         }
 
         body {
@@ -49,7 +50,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 60px 20px 40px;
+            padding: 15px 10px 10px; /* 减小上下 padding，拉近“欢迎”和抽屉之间的距离 */
         }
 
         .home-title {
@@ -62,28 +63,35 @@
         }
 
         .home-description {
-            font-family: "方正国美进道体 简";
+            font-family: "方正国美进道体 简", sans-serif;
             color: var(--text-dark);
-            max-width: 800px;
-            margin-bottom: 60px;
-            transition: font-size 0.3s ease;
+            max-width: 1000px; /* 增加最大宽度 */
+            margin: 1.5rem auto;
             line-height: 1.6;
+            font-size: var(--text-sm);
+            text-align: center;
+            padding: 0 1rem;
+            border-top: 1px solid rgba(160, 95, 72, 0.2);
+            border-bottom: 1px solid rgba(160, 95, 72, 0.2);
+            padding: 1rem 0;
         }
-
 
         /* Click 页面样式 - 整合抽屉式效果 */
         .shell {
             width: 100%;
             padding: 20px;
             box-sizing: border-box;
+            display: flex;
+            justify-content: center; /* 新增：水平居中 */
         }
 
         .box-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 10px; /* 减小抽屉之间的间隔 */
             padding: 20px 0;
+            max-width: 1400px; /* 增加最大宽度 */
         }
 
         .box {
@@ -123,8 +131,8 @@
             }
 
             .box {
-                flex: 1;
-                margin: 0 20px;
+                flex: 1.2; /* 增加每个抽屉的宽度 */
+                margin: 0 10px; /* 减小抽屉之间的外边距 */
             }
 
             .box>video {
@@ -165,6 +173,74 @@
                 font-size: 28px;
             }
         }
+
+        /* 特别鸣谢部分样式 */
+        .special-thanks {
+            margin: 2rem auto;
+            padding: 1.5rem 1rem;
+            max-width: 1100px; /* 增加最大宽度 */
+            background-color: rgba(255, 255, 255, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            display: flex; /* 新增：使用 flex 布局 */
+            flex-direction: column; /* 新增：垂直排列 */
+            align-items: center; /* 新增：水平居中 */
+        }
+
+        .special-thanks::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-green));
+        }
+
+        .special-thanks h3 {
+            font-family: "阿里妈妈刀隶体", serif;
+            color: var(--primary-color);
+            font-size: clamp(1.3rem, 2vw, 1.8rem);
+            margin: 0 0 1rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .special-thanks h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--border-color);
+        }
+
+        .special-thanks p {
+            font-size: var(--text-sm);
+            line-height: 1.8;
+            text-align: justify;
+            margin: 0;
+            text-indent: 2em;
+        }
+
+        .thanks-decoration {
+            display: flex;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .thanks-decoration span {
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            margin: 0 5px;
+            opacity: 0.6;
+        }
     </style>
 </head>
 
@@ -173,7 +249,7 @@
     <header class="header">
         <div class="header-container">
             <a href="index.html" class="site-title">黎锦纹铭</a>
-            <a href="锦纹黎韵.html" class="nav-item">锦纹黎韵</a>
+            <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
             <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
             <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
             <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
@@ -184,15 +260,14 @@
     <!-- 首页内容 -->
     <div class="home-content">
         <h2 class="home-title">欢迎来到黎锦纹铭！</h2>
-        <p class="home-description">“黎锦纹铭”是关于海南黎族传统纹样的信息可视化网页。探索黎族纺织技术与服饰文化的奥秘，领略海南黎族文化的魅力。</p>
     </div>
 
     <!-- Click 页面内容 - 抽屉式效果 -->
     <div class="shell">
         <div class="box-container">
-            <div class="box" onclick="window.location.href='锦纹黎韵.html'">
+            <div class="box" onclick="window.location.href='黎纹锦韵.html'">
                 <video src="./Click/video(1).mp4" muted loop autoplay></video>
-                <span>锦纹黎韵</span>
+                <span>黎纹锦韵</span>
             </div>
             <div class="box" onclick="window.location.href='黎锦飞光.html'">
                 <video src="./Click/video(2).mp4" muted loop autoplay></video>
@@ -209,6 +284,25 @@
             <div class="box" onclick="window.location.href='黎锦生成.html'">
                 <video src="./Click/video(5).mp4" muted loop autoplay></video>
                 <span>黎纹生成</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 首页内容 -->
+    <div class="home-content">
+        <p class="home-description">“黎锦纹铭”是关于海南黎族传统纹样的信息可视化网页。通过探索黎族纺织技术与服饰文化的奥秘，您将领略海南黎族文化的独特魅力。</p>
+    </div>
+
+    <!-- 特别鸣谢部分 -->
+    <div class="special-thanks">
+        <h3>特别鸣谢</h3>
+        <p>本项目从讲座学习到完成开发，历经数月。在此期间，我们得到了多位老师在文化、设计、技术等各层面维度的悉心辅导。特别感谢李鑫老师在黎族文化研究方面的专业指导，带领我们系统性地学习了黎族纹样背后的历史渊源；感谢符秀英老师关于黎族纺织技艺的倾情分享，让我们深入了解黎锦纹样背后的文化内涵；也很感激张芸皓老师在设计理念与视觉呈现上的宝贵建议，使我们的作品更具艺术性与观赏性。同时，感谢学校提供的支持与资源、教务处张一琳老师一直以来的热心相助，以及所有参与调研和给予帮助的同学们。正是大家的共同努力，才使得这个项目得以顺利完成。</p>
+        <div class="thanks-decoration">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
     </div>
 </body>
