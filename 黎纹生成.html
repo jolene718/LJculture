@@ -4,66 +4,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>黎纹锦韵: 海南黎族织绣图案艺术</title>
-    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    <title>黎纹生成：探索你的个性化纹样</title>
+    <link rel="stylesheet" href="./navbars.css">
     <link rel="stylesheet" href="./css/stylesheet.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-    <link rel="stylesheet" href="./navbar.css">
     <style>
         body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background-color: #f8f5f0;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
             color: #333;
         }
 
-        .nav-item {
-            position: relative;
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
-        .nav-item::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: #3b82f6;
-            transition: width 0.3s ease;
+        h1 {
+            color: #444;
+            text-align: center;
         }
 
-        .nav-item:hover::after {
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea,
+        select {
             width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            border-radius: 4px;
         }
 
-        .pattern-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        textarea {
+            height: 100px;
+            resize: vertical;
         }
 
-        .pattern-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
         }
 
-        .modal {
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+        button:hover {
+            background-color: #45a049;
         }
 
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.7);
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
         }
 
-        .image-zoom {
-            transition: transform 0.3s ease;
+        #loading {
+            display: none;
+            text-align: center;
+            margin: 15px 0;
+            color: #666;
         }
 
-        .image-zoom:hover {
-            transform: scale(1.03);
-            cursor: zoom-in;
+        #error {
+            display: none;
+            background-color: #ffebee;
+            color: #b71c1c;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+
+        #results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .result-item {
+            background-color: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .result-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .download-btn {
+            background-color: #008CBA;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .preset-btn {
+            background-color: #607D8B;
+            color: white;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+            font-size: 14px;
+        }
+
+        .presets {
+            margin-bottom: 15px;
+        }
+
+        .advanced-options {
+            margin-top: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+        }
+
+        .advanced-toggle {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #008CBA;
+            cursor: pointer;
+        }
+
+        .debug-info {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e8f5e9;
+            border-radius: 4px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* 用户生成图示例区域样式 */
+        .user-generated-examples {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .user-generated-examples h2 {
+            font-family: "Alimama DaoLiTi";
+            color: #c2412d;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .example-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .example-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 
-<body class="min-h-screen">
+<body>
     <!-- 导航栏 -->
     <header class="header">
         <div class="header-container">
@@ -76,607 +202,265 @@
         </div>
     </header>
 
-    <!-- 移动端菜单按钮 -->
-    <button class="md:hidden text-gray-700 focus:outline-none" id="mobileMenuBtn">
-        <i class="fas fa-bars text-xl"></i>
-    </button>
+    <div class="container">
+        <h1>Stable Diffusion 纹样生成器</h1>
 
-    <!-- 移动端菜单 -->
-    <div class="md:hidden hidden bg-white py-2 px-4 shadow-lg" id="mobileMenu">
-        <a href="#intro" class="block py-2 text-gray-700 hover:text-blue-600"><i
-                class="fas fa-book-open mr-2"></i>引言</a>
-        <a href="#plant" class="block py-2 text-gray-700 hover:text-blue-600"><i class="fas fa-leaf mr-2"></i>植物图案</a>
-        <a href="#animal" class="block py-2 text-gray-700 hover:text-blue-600"><i class="fas fa-paw mr-2"></i>动物图案</a>
-        <a href="#human" class="block py-2 text-gray-700 hover:text-blue-600"><i class="fas fa-user mr-2"></i>人物图案</a>
-        <a href="#scenery" class="block py-2 text-gray-700 hover:text-blue-600"><i
-                class="fas fa-mountain mr-2"></i>景物图案</a>
-        <a href="#text" class="block py-2 text-gray-700 hover:text-blue-600"><i class="fas fa-font mr-2"></i>文字图案</a>
-        <a href="#myth" class="block py-2 text-gray-700 hover:text-blue-600"><i class="fas fa-dragon mr-2"></i>神话故事</a>
+        <div class="form-group">
+            <label for="api-url">API地址</label>
+            <input type="text" id="api-url" placeholder="https://dutch-madrid-recognize-wholesale.trycloudflare.com" value="https://dutch-madrid-recognize-wholesale.trycloudflare.com">
+        </div>
+
+        <div class="presets">
+            <label>预设提示词:</label>
+            <div>
+                <button class="preset-btn" onclick="setPreset('黎族蛙纹，对称布局，精细线条，传统黎锦风格')">黎族蛙纹</button>
+                <button class="preset-btn" onclick="setPreset('几何纹样，红黑配色，纺织质感，黎族传统图案')">几何纹样</button>
+                <button class="preset-btn" onclick="setPreset('螺旋图案，抽象设计，手工编织感，高清细节')">螺旋图案</button>
+                <button class="preset-btn" onclick="setPreset('人形纹样，图腾元素，传统工艺，黎族文化')">人形纹样</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="prompt">主要提示词</label>
+            <textarea id="prompt" placeholder="描述你想要生成的纹样..."></textarea>
+        </div>
+
+        <!-- 高级选项 -->
+        <div class="advanced-options">
+            <div class="advanced-toggle" onclick="toggleAdvancedOptions()">
+                <span id="toggle-text">显示高级选项</span> <span class="arrow">&or;</span>
+            </div>
+            <div id="advanced-content" style="display: none;">
+                <div class="form-group">
+                    <label for="negative-prompt">负向提示词</label>
+                    <textarea id="negative-prompt" placeholder="不想要出现在图片中的元素...">ng_deepnegative_v1_75t, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, soft, deformed, distorted, disfigured, ugly, missing arms, missing legs, extra arms, extra legs, mutated hands, mutated feet</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="sampler">采样器</label>
+                    <select id="sampler">
+                        <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+                        <option value="Euler a">Euler a</option>
+                        <option value="Euler">Euler</option>
+                        <option value="LMS">LMS</option>
+                        <option value="Heun">Heun</option>
+                        <option value="DPM2">DPM2</option>
+                        <option value="DPM2 a">DPM2 a</option>
+                        <option value="DPM++ 2S a">DPM++ 2S a</option>
+                        <option value="DPM++ SDE">DPM++ SDE</option>
+                        <option value="DPM fast">DPM fast</option>
+                        <option value="DPM adaptive">DPM adaptive</option>
+                        <option value="LMS Karras">LMS Karras</option>
+                        <option value="DPM2 Karras">DPM2 Karras</option>
+                        <option value="DPM2 a Karras">DPM2 a Karras</option>
+                        <option value="DPM++ 2M Karras">DPM++ 2M Karras</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="steps">采样步数</label>
+                    <input type="number" id="steps" min="1" max="150" value="25">
+                </div>
+
+                <div class="form-group">
+                    <label for="cfg-scale">CFG缩放</label>
+                    <input type="number" id="cfg-scale" min="1" max="30" step="0.1" value="7.5">
+                </div>
+
+                <div class="form-group">
+                    <label for="width">宽度</label>
+                    <input type="number" id="width" min="64" max="2048" step="64" value="512">
+                </div>
+
+                <div class="form-group">
+                    <label for="height">高度</label>
+                    <input type="number" id="height" min="64" max="2048" step="64" value="512">
+                </div>
+
+                <div class="form-group">
+                    <label for="batch-count">批次数量</label>
+                    <input type="number" id="batch-count" min="1" max="100" value="3">
+                </div>
+            </div>
+        </div>
+
+        <button onclick="generateImages()" id="generate-btn">生成图片</button>
+
+        <div id="loading">
+            <p>正在生成图片，请稍候...</p>
+            <div class="spinner" style="border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #4CAF50; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
+            <style>
+                @keyframes spin {
+                    0% {
+                        transform: rotate(0deg);
+                    }
+
+                    100% {
+                        transform: rotate(360deg);
+                    }
+                }
+            </style>
+        </div>
+
+        <div id="error"></div>
+
+        <div id="debug-info" class="debug-info"></div>
+
+        <div id="results"></div>
     </div>
 
-    <!-- 引言部分 -->
-    <section id="intro" class="py-16 bg-blue-50">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-3xl md:text-4xl font-bold text-blue-800 mb-6">黎纹锦韵：海南黎族织绣图案艺术</h2>
-                <div class="bg-white rounded-lg shadow-md p-6 mb-8">
-                    <p class="text-gray-700 mb-4">
-                        黎族传统纺染织绣技艺是中国纺织史上的"活化石"，2009年被联合国教科文组织列入"急需保护的非物质文化遗产名录"，2024年成功转入"人类非物质文化遗产代表作名录"。</p>
-                    <p class="text-gray-700">黎锦图案多达160余种，浓缩了黎族人民对自然的观察、对生活的热爱以及对祖先的崇拜，是黎族文化的重要载体。</p>
-                </div>
-                <div class="grid grid-cols-2 md:grid-cols-6 gap-4">
-                    <div class="bg-white rounded-lg shadow-sm p-3 flex flex-col items-center">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <span class="text-sm font-medium">植物图案</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm p-3 flex flex-col items-center">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-paw"></i>
-                        </div>
-                        <span class="text-sm font-medium">动物图案</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm p-3 flex flex-col items-center">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <span class="text-sm font-medium">人物图案</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm p-3 flex flex-col items-center">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-mountain"></i>
-                        </div>
-                        <span class="text-sm font-medium">景物图案</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm p-3 flex flex-col items-center">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-font"></i>
-                        </div>
-                        <span class="text-sm font-medium">文字图案</span>
-                    </div>
-                    <div class="bg-white rounded-lg shadow-sm p-3 flex flex-col items-center">
-                        <div
-                            class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-2">
-                            <i class="fas fa-dragon"></i>
-                        </div>
-                        <span class="text-sm font-medium">神话故事</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 植物图案部分 -->
-    <section id="plant" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center mb-8">
-                <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white mr-4">
-                    <i class="fas fa-leaf"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">一、植物图案</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-700 mb-6">
-                        黎族织锦中的植物图案源于对海南岛热带植被的观察与抽象，常见的有花卉纹、树叶纹、槟榔树纹、芭蕉纹等。这些图案通常采用几何化处理，通过菱形、三角形等基本单元组合，展现植物的生命力。</p>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">典型植物纹样</h3>
-                    <ul class="space-y-4 mb-6">
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">花卉纹</h4>
-                                <p class="text-gray-600">
-                                    以牡丹、荷花、梅花等为原型，常出现在龙被的边框装饰中，象征吉祥富贵。例如明双凤朝阳双狮戏球图三联幅龙被的上下边框就采用了黎族传统花草纹。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">槟榔树纹</h4>
-                                <p class="text-gray-600">黎族重要的经济作物，其纹样常以垂直的线条表现树干，顶部有伞状树冠，象征生命力与繁衍。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center text-green-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">芭蕉纹</h4>
-                                <p class="text-gray-600">叶片宽大，纹样多以波浪形曲线表现，寓意丰收与富足。</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">植物图案的文化内涵</h3>
-                    <p class="text-gray-700">
-                        植物图案不仅是对自然的模仿，更承载着黎族人民对丰收的祈愿和对环境的适应。例如，美孚方言区的絣染筒裙上的连续菱形图案，代表了长辈对孩子生命力旺盛的美好祝福。</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-                    <img src="https://ts4.tc.mm.bing.net/th/id/OIP-C.BRsOA_MI25gUNrt6IOBkbwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3"
-                        alt="黎族织锦植物图案示例" class="rounded-lg shadow-md w-full h-auto image-zoom"
-                        onclick="openModal('https://ts4.tc.mm.bing.net/th/id/OIP-C.BRsOA_MI25gUNrt6IOBkbwHaE8?rs=1&pid=ImgDetMain&o=7&rm=3')">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 动物图案部分 -->
-    <section id="animal" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center mb-8">
-                <div class="w-10 h-10 bg-orange-600 rounded-full flex items-center justify-center text-white mr-4">
-                    <i class="fas fa-paw"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">二、动物图案</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-700 mb-6">动物图案是黎锦中最为丰富的类别之一，反映了黎族先民的图腾崇拜和对自然的敬畏，主要包括龙纹、凤纹、蛙纹、斑鸠纹、蝴蝶纹等。</p>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">典型动物纹样</h3>
-                    <ul class="space-y-4 mb-6">
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">龙纹</h4>
-                                <p class="text-gray-600">
-                                    润方言区的代表作，外形近似巨蟒，有首、身、尾、眼、角、爪、须、鳞等，常以红、黄、白、黑色为主，龙鳞以三角或六角几何纹样表示。龙被上的龙纹融合了黎汉文化，象征吉祥与权力。
-                                </p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">蛙纹</h4>
-                                <p class="text-gray-600">
-                                    黎族最古老的图腾之一，因蛙类强大的繁殖能力被赋予生殖崇拜色彩。老年妇女的寿衣上必须织有蛙纹，否则被认为无法"归祖"。蛙纹经过抽象化处理，形成菱形化的基本构图。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">斑鸠纹</h4>
-                                <p class="text-gray-600">源于洪水传说，黎语称"攀扣"，常以对称形式出现在筒裙上，象征对祖先的纪念。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">蝴蝶纹</h4>
-                                <p class="text-gray-600">杞方言区常用纹样，象征吉祥和幸福，其飞翔的姿态代表自由与希望。</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">动物图案的艺术特点</h3>
-                    <p class="text-gray-700">黎族动物图案采用侧面剪影法，注重动态表现。例如哈方言区的龟纹，通过简洁的线条勾勒出龟的形态，寓意长寿。龙被上的双狮戏球图则通过夸张的造型表现喜庆气氛。
-                    </p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-                    <img src="imgs\动物纹.png" alt="黎族织锦龙纹示例" class="rounded-lg shadow-md w-full h-auto image-zoom"
-                        onclick="openModal('imgs/动物纹.png')">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 人物图案部分 -->
-    <section id="human" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center mb-8">
-                <div class="w-10 h-10 bg-purple-600 rounded-full flex items-center justify-center text-white mr-4">
-                    <i class="fas fa-user"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">三、人物图案</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-700 mb-6">人物图案是黎锦的核心纹样，主要包括人形纹、祖先纹、婚礼图、耕耘图等，反映了黎族的社会生活和宗教信仰。</p>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">典型人物纹样</h3>
-                    <ul class="space-y-4 mb-6">
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">人形纹</h4>
-                                <p class="text-gray-600">
-                                    黎语称"jiangmei"，有男女之分，女性头插发钗，男性头戴头冠。造型多为叉腰站立或舞蹈姿态，四肢夸张地向内或向外弯折，富有动感。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">祖先纹</h4>
-                                <p class="text-gray-600">
-                                    黎语称"攀剖"，意为祖先的影像，是所有织绣染物中不可缺少的基本纹饰。润支系的复合祖先图最为典型，外形像金字形茅屋，中央有大人，腹、腿、臂套着小人，取意"房子—父亲—儿子—孙子"代代相传。
-                                </p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">婚礼图</h4>
-                                <p class="text-gray-600">
-                                    哈方言区三亚鹿回头一带的传统婚服纹样，分为"迎娶"、"送娘"、"送礼"三部分，生动记录了黎族婚俗。画面中有花轿、长者、新娘、抬轿人、伴娘等，气氛欢快。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center text-purple-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">耕耘图</h4>
-                                <p class="text-gray-600">描绘农耕场景，有双人骑牛相斗、耕牛犁田等画面，体现黎族的农业生活。</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">人物图案的文化意义</h3>
-                    <p class="text-gray-700">
-                        人物图案承载着黎族的祖先崇拜和对生命延续的重视。例如，黎族妇女去世时必须穿着带有祖先纹的民族服装，否则被认为无法"入祖归宗"。龙被上的人形纹则用于宗教祭祀或丧事，象征阴阳两界的沟通。</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-                    <img src="https://p3-search.byteimg.com/obj/tos-cn-i-qvj2lq49k0/8bbd17992a73407aa456ce8c75c661ad"
-                        alt="黎族织锦人物纹样示例" class="rounded-lg shadow-md w-full h-auto image-zoom"
-                        onclick="openModal('https://p3-search.byteimg.com/obj/tos-cn-i-qvj2lq49k0/8bbd17992a73407aa456ce8c75c661ad')">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 景物图案部分 -->
-    <section id="scenery" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center mb-8">
-                <div class="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white mr-4">
-                    <i class="fas fa-mountain"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">四、景物图案</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-700 mb-6">景物图案反映了黎族人民对自然环境的观察和认知，主要包括日月星辰纹、山川流水纹、船型屋纹、波浪纹等。</p>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">典型景物纹样</h3>
-                    <ul class="space-y-4 mb-6">
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">日月星辰纹</h4>
-                                <p class="text-gray-600">杞方言区常用，以圆形表示太阳，月牙形表示月亮，小点表示星星，象征对天体的崇拜。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">船型屋纹</h4>
-                                <p class="text-gray-600">黎族传统民居的抽象表现，常以三角形和方形组合呈现，代表家园与庇护。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">水波纹</h4>
-                                <p class="text-gray-600">以连续的曲线表现，常见于筒裙底部，象征生命之源和丰收的希望。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">风雨雷电纹</h4>
-                                <p class="text-gray-600">通过折线和锯齿形线条表现自然现象，反映黎族对自然力量的敬畏。</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">景物图案的艺术表现</h3>
-                    <p class="text-gray-700">
-                        景物图案多采用抽象化处理，注重线条的韵律感。例如，哈方言区的屋纹以几何线条勾勒出房屋轮廓，简洁而富有张力；水波纹则通过有规律的重复形成节奏感，增强织物的动感。</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-                    <img src="https://tse2-mm.cn.bing.net/th/id/OIP-C.QnIErQbcZnkBJ8-P-pUeWgHaC3?w=340&h=135&c=7&r=0&o=7&pid=1.7&rm=3"
-                        alt="黎族织锦人物纹样示例" class="rounded-lg shadow-md w-full h-auto image-zoom"
-                        onclick="openModal('https://tse2-mm.cn.bing.net/th/id/OIP-C.QnIErQbcZnkBJ8-P-pUeWgHaC3?w=340&h=135&c=7&r=0&o=7&pid=1.7&rm=3')">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 文字图案部分 -->
-    <section id="text" class="py-16 bg-white">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center mb-8">
-                <div class="w-10 h-10 bg-indigo-600 rounded-full flex items-center justify-center text-white mr-4">
-                    <i class="fas fa-font"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">五、文字图案</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-700 mb-6">文字图案是黎汉文化交融的产物，主要包括汉字吉祥语和诗词格言，常见于美孚方言区的头巾和筒裙。</p>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">典型文字纹样</h3>
-                    <ul class="space-y-4 mb-6">
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">吉祥汉字</h4>
-                                <p class="text-gray-600">"福"、"寿"、"喜"、"卍"等，其中"卍"字纹象征吉祥、平安、长寿，在黎锦中常以连续图案出现。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">诗词格言</h4>
-                                <p class="text-gray-600">清代绣字头巾上有"正守十年不字在，闺门贤圣学坚贞"、"无事读书习圣贤，词华毕业在闺门"等诗句，传递传统道德观和价值观。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">双喜字</h4>
-                                <p class="text-gray-600">婚礼相关织物上的常见图案，象征喜庆与婚姻美满。</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">文字图案的文化内涵</h3>
-                    <p class="text-gray-700">
-                        文字图案体现了黎族对汉文化的吸收与融合。例如，昌化江中下游美孚方言地区的绣字头巾，将汉字与黎族传统纹样结合，既保留了本民族特色，又融入了汉族文化元素，反映了民族文化的包容性。</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-                    <img src="https://tse3-mm.cn.bing.net/th/id/OIP-C.UQpVxcg-_Zi2ixLRz8vO8AHaFg?w=218&h=180&c=7&r=0&o=7&pid=1.7&rm=3"
-                        alt="黎族织锦人物纹样示例" class="rounded-lg shadow-md w-full h-auto image-zoom"
-                        onclick="openModal('https://tse3-mm.cn.bing.net/th/id/OIP-C.UQpVxcg-_Zi2ixLRz8vO8AHaFg?w=218&h=180&c=7&r=0&o=7&pid=1.7&rm=3')">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 神话故事图案部分 -->
-    <section id="myth" class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="flex items-center mb-8">
-                <div class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-white mr-4">
-                    <i class="fas fa-dragon"></i>
-                </div>
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800">六、神话故事图案</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <p class="text-gray-700 mb-6">神话故事图案是黎族古老传说的视觉载体，主要包括大力神纹、甘工鸟纹、龙与少女纹等，展现了黎族的创世观和价值观。</p>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">典型神话纹样</h3>
-                    <ul class="space-y-4 mb-6">
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">大力神纹</h4>
-                                <p class="text-gray-600">
-                                    黎族创世神话中的核心形象，图案外形如金字形茅屋，中央有高大主体人形纹，腹部、双腿、双臂嵌套较小人形纹，象征开天辟地的祖先。大力神传说讲述其射落多余日月、造山叠岭、创造江河的壮举。
-                                </p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">甘工鸟纹</h4>
-                                <p class="text-gray-600">源于黎族爱情神话，鸟形纹样常出现在服饰上，象征忠贞的爱情和自由的灵魂。</p>
-                            </div>
-                        </li>
-                        <li class="flex">
-                            <div
-                                class="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-3 mt-1">
-                                <i class="fas fa-check"></i>
-                            </div>
-                            <div>
-                                <h4 class="font-medium text-gray-800">龙与少女纹</h4>
-                                <p class="text-gray-600">赛方言区的"jiangmei"纹样，源自《龙与少女》传说，描绘人与龙的爱情故事，纹样中少女头戴发钗，姿态优美。</p>
-                            </div>
-                        </li>
-                    </ul>
-
-                    <h3 class="text-xl font-semibold text-gray-800 mb-4">神话图案的象征意义</h3>
-                    <p class="text-gray-700">
-                        神话故事图案是黎族精神世界的反映，通过视觉符号传递民族记忆。例如，大力神纹不仅是装饰，更是黎族身份认同的标志，体现了对祖先创造力的崇拜和对美好生活的向往。</p>
-                </div>
-
-                <div class="bg-gray-50 rounded-lg p-4 flex items-center justify-center">
-                    <img src="https://p3-search.byteimg.com/obj/labis/0c59b4120970ed463a93bebbb6bc7221" alt="黎族织锦大力神纹示例"
-                        class="rounded-lg shadow-md w-full h-auto image-zoom"
-                        onclick="openModal('https://p3-search.byteimg.com/obj/labis/0c59b4120970ed463a93bebbb6bc7221')">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 bg-gray-700 text-white">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-2xl md:text-3xl font-bold mb-6">黎锦的文化价值与传承</h2>
-                <div class="bg-gray-600 rounded-lg shadow-md p-6 mb-8">
-                    <p class="mb-4">黎族传统织锦不仅是一种工艺，更是黎族历史、文化、信仰的"无字史书"。从汉代的"广幅布"到现代的文创产品，黎锦见证了海南的发展与变迁。</p>
-                    <p>如今，黎族织锦技艺通过传承人培养、数字化保护、创新设计等方式获得新生，成为海南自由贸易港的文化名片。</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-gray-600 rounded-lg p-4">
-                        <div class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center text-white mx-auto mb-3">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="font-semibold mb-2">传承人培养</h3>
-                        <p class="text-sm">建立完善的传承人体系，确保技艺代代相传</p>
-                    </div>
-                    <div class="bg-gray-600 rounded-lg p-4">
-                        <div class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center text-white mx-auto mb-3">
-                            <i class="fas fa-laptop-code"></i>
-                        </div>
-                        <h3 class="font-semibold mb-2">数字化保护</h3>
-                        <p class="text-sm">利用现代技术记录和保存传统工艺</p>
-                    </div>
-                    <div class="bg-gray-600 rounded-lg p-4">
-                        <div class="w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center text-white mx-auto mb-3">
-                            <i class="fas fa-lightbulb"></i>
-                        </div>
-                        <h3 class="font-semibold mb-2">创新设计</h3>
-                        <p class="text-sm">将传统元素融入现代产品，拓展应用场景</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 图片放大模态框 -->
-    <div class="modal fixed inset-0 z-50 flex items-center justify-center opacity-0 invisible" id="imageModal">
-        <div class="modal-overlay absolute inset-0"></div>
-        <div class="relative z-10 bg-white rounded-lg max-w-4xl w-full mx-4 max-h-screen overflow-auto">
-            <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-700" onclick="closeModal()">
-                <i class="fas fa-times text-2xl"></i>
-            </button>
-            <div class="p-4">
-                <img src="" alt="" class="w-full h-auto" id="modalImage">
-            </div>
+    <!-- 用户生成图示例区域 -->
+    <div class="user-generated-examples">
+        <h2>用户生成图示例</h2>
+        <div class="example-images">
+            <!-- 请将以下图片路径替换为你电脑上文件夹里的图片路径 -->
+            <img src=".\Lora模型测试图\人神纹\flux-lora_e000002.png" alt="示例图片1">
+            <img src=".\Lora模型测试图\人神纹\flux-lora_e000009.png" alt="示例图片2">
+            <img src=".\Lora模型测试图\人神纹\flux-lora_e000004.png" alt="示例图片3">
+            <img src=".\Lora模型测试图\SD\00007-3319918608.png" alt="示例图片1">
+            <img src=".\Lora模型测试图\SD\00008-2274050148.png" alt="示例图片2">
+            <img src=".\Lora模型测试图\SD\00009-2630558314.png" alt="示例图片3">
+            <img src=".\Lora模型测试图\SD\generated_pattern_4.png" alt="示例图片1">
+            <img src=".\Lora模型测试图\SD\generated_pattern_5.png" alt="示例图片2">
+            <img src=".\Lora模型测试图\SD\generated_pattern_6.png" alt="示例图片3">
         </div>
     </div>
 
     <script>
-        // 移动端菜单切换
-        document.getElementById('mobileMenuBtn').addEventListener('click', function () {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
-        });
-
-        // 图片放大功能
-        function openModal(imageUrl) {
-            const modal = document.getElementById('imageModal');
-            const modalImage = document.getElementById('modalImage');
-            modalImage.src = imageUrl;
-            modalImage.alt = '放大查看图片';
-            modal.classList.remove('opacity-0', 'invisible');
-            modal.classList.add('opacity-100', 'visible');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('imageModal');
-            modal.classList.remove('opacity-100', 'visible');
-            modal.classList.add('opacity-0', 'invisible');
-            document.body.style.overflow = 'auto';
-        }
-
-        // 点击模态框外部关闭
-        document.getElementById('imageModal').addEventListener('click', function (e) {
-            if (e.target === this) {
-                closeModal();
-            }
-        });
-
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-
-                    // 如果是移动端菜单，点击后关闭菜单
-                    if (window.innerWidth < 768) {
-                        document.getElementById('mobileMenu').classList.add('hidden');
-                    }
-                }
-            });
-        });
-
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function () {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.classList.add('shadow-lg');
-                nav.classList.add('bg-opacity-90');
+        function toggleAdvancedOptions() {
+            const content = document.getElementById('advanced-content');
+            const text = document.getElementById('toggle-text');
+            const arrow = document.querySelector('.arrow');
+            
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                text.textContent = '隐藏高级选项';
+                arrow.innerHTML = '&and;';
             } else {
-                nav.classList.remove('shadow-lg');
-                nav.classList.remove('bg-opacity-90');
+                content.style.display = 'none';
+                text.textContent = '显示高级选项';
+                arrow.innerHTML = '&or;';
             }
-        });
+        }
+
+        function setPreset(text) {
+            document.getElementById('prompt').value = text;
+        }
+
+        async function generateImages() {
+            const apiUrl = document.getElementById('api-url').value.trim();
+            const prompt = document.getElementById('prompt').value.trim();
+
+            // 输入验证
+            if (!prompt) {
+                showError('请输入主要提示词');
+                return;
+            }
+
+            if (!apiUrl) {
+                showError('请输入API地址');
+                return;
+            }
+
+            // 显示加载状态
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('results').innerHTML = '';
+            document.getElementById('generate-btn').disabled = true;
+            document.getElementById('debug-info').innerHTML = '';
+
+            // 获取高级选项值
+            const negativePrompt = document.getElementById('negative-prompt').value.trim();
+            const sampler = document.getElementById('sampler').value;
+            const steps = parseInt(document.getElementById('steps').value);
+            const cfgScale = parseFloat(document.getElementById('cfg-scale').value);
+            const width = parseInt(document.getElementById('width').value);
+            const height = parseInt(document.getElementById('height').value);
+            const batchCount = parseInt(document.getElementById('batch-count').value);
+
+            // 构建API请求参数（基于Create.html但包含用户输入的高级选项）
+            const requestData = {
+                "prompt": `${prompt}Li nationality dialect cultural patterns, (changing frog patterns:1.3), (traditional geometric patterns:1.2), (black and white:1.5), symmetrical layout, delicate lines, high definition, ethnic art, textile patterns ,<lora:frog:0.8>`,
+                "negative_prompt": negativePrompt,
+                "sampler_index": sampler,
+                "steps": steps,
+                "cfg_scale": cfgScale,
+                "width": width,
+                "height": height,
+                "n_iter": batchCount
+            }
+
+            // 显示调试信息
+            document.getElementById('debug-info').innerHTML = `
+            <strong>请求参数:</strong>
+            <pre>${JSON.stringify(requestData, null, 2)}</pre>
+            `;
+
+            console.log('请求数据:', requestData);
+
+            try {
+                // 发送API请求
+                const response = await fetch(`${apiUrl}/sdapi/v1/txt2img`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`API请求失败: ${response.status} ${response.statusText}`);
+                }
+
+                const data = await response.json();
+
+                // 处理返回的图片
+                if (data.images && data.images.length > 0) {
+                    const resultsContainer = document.getElementById('results');
+
+                    data.images.forEach((imgBase64, index) => {
+                        const imgContainer = document.createElement('div');
+                        imgContainer.className = 'result-item';
+
+                        const img = document.createElement('img');
+                        img.src = `data:image/png;base64,${imgBase64}`;
+                        img.alt = `生成的纹样 ${index + 1}`;
+                        imgContainer.appendChild(img);
+
+                        const downloadBtn = document.createElement('button');
+                        downloadBtn.className = 'download-btn';
+                        downloadBtn.textContent = '下载图片';
+                        downloadBtn.onclick = () => downloadImage(imgBase64, `纹样_${index + 1}.png`);
+                        imgContainer.appendChild(downloadBtn);
+
+                        resultsContainer.appendChild(imgContainer);
+                    });
+                } else {
+                    throw new Error('未返回图片数据');
+                }
+
+            } catch (error) {
+                console.error('生成错误:', error);
+                showError(`生成失败: ${error.message}`);
+            } finally {
+                // 隐藏加载状态
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('generate-btn').disabled = false;
+            }
+        }
+
+        function showError(message) {
+            const errorElement = document.getElementById('error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function downloadImage(base64Data, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = `data:image/png;base64,${base64Data}`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
     </script>
 </body>
 
