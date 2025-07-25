@@ -4,8 +4,8 @@
 
 @font-face {
     font-family: 'alimama_daolitiregular';
-    src: url('alimamadaoliti-webfont.woff2') format('woff2'),
-         url('alimamadaoliti-webfont.woff') format('woff');
+    src: url('../fonts/alimamadaoliti-webfont.woff2') format('woff2'),
+         url('../fonts/alimamadaoliti-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -13,8 +13,8 @@
 
 @font-face {
     font-family: 'fzguomeijindaotisregular';
-    src: url('fzguomjdtjw-webfont.woff2') format('woff2'),
-         url('fzguomjdtjw-webfont.woff') format('woff');
+    src: url('../fonts/fzguomjdtjw-webfont.woff2') format('woff2'),
+         url('../fonts/fzguomjdtjw-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -22,8 +22,8 @@
 
 @font-face {
     font-family: 'FZLiQiBeiLiShuS';
-    src: url('FZLIQBLSS--GB1-0.woff2') format('woff2'),
-        url('FZLIQBLSS--GB1-0.woff') format('woff');
+    src: url('../fonts/FZLIQBLSS--GB1-0.woff2') format('woff2'),
+        url('../fonts/FZLIQBLSS--GB1-0.woff') format('woff');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
