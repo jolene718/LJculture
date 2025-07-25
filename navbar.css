@@ -31,7 +31,7 @@
   font-size: 3rem;
   color: #000;
   text-decoration: none;
-  font-family: "方正礼器碑隶书 简";
+  font-family: "FZLiQiBeiLiShuS";
   margin: 0;
   padding: 0;
   margin-left: 1%;
@@ -48,7 +48,7 @@
 }
 
 .nav-item {
-  font-family: "阿里妈妈刀隶体";
+  font-family: "alimama_daolitiregular";
   position: relative;
   font-size: 42px;
   color: #c2412d;
