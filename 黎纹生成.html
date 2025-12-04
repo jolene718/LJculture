@@ -5,188 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>黎纹生成：探索你的个性化纹样</title>
-    <link rel="stylesheet" href="./navbars.css">
-    <link rel="stylesheet" href="./css/stylesheet.css"> 
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        h1 {
-            color: #444;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input,
-        textarea,
-        select {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-
-        textarea {
-            height: 100px;
-            resize: vertical;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 100%;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-
-        #loading {
-            display: none;
-            text-align: center;
-            margin: 15px 0;
-            color: #666;
-        }
-
-        #error {
-            display: none;
-            background-color: #ffebee;
-            color: #b71c1c;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 4px;
-        }
-
-        #results {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-
-        .result-item {
-            background-color: white;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            padding: 10px;
-            text-align: center;
-        }
-
-        .result-item img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-
-        .download-btn {
-            background-color: #008CBA;
-            color: white;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .preset-btn {
-            background-color: #607D8B;
-            color: white;
-            padding: 6px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin: 5px 5px 5px 0;
-            font-size: 14px;
-        }
-
-        .presets {
-            margin-bottom: 15px;
-        }
-
-        .advanced-options {
-            margin-top: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
-        }
-
-        .advanced-toggle {
-            text-align: center;
-            margin-bottom: 10px;
-            color: #008CBA;
-            cursor: pointer;
-        }
-
-        .debug-info {
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #e8f5e9;
-            border-radius: 4px;
-            font-size: 14px;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
-
-        /* 用户生成图示例区域样式 */
-        .user-generated-examples {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .user-generated-examples h2 {
-            font-family: "Alimama DaoLiTi";
-            color: #c2412d;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .example-images {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 15px;
-        }
-
-        .example-images img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
@@ -196,18 +15,19 @@
             <a href="index.html" class="site-title">黎锦纹铭</a>
             <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
             <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
-            <a href="锦织经纬2.html" class="nav-item">锦织经纬</a>
+            <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
             <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
             <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
         </div>
     </header>
 
-    <div class="container">
+    <div class="generator-container">
         <h1>Stable Diffusion 纹样生成器</h1>
 
         <div class="form-group">
             <label for="api-url">API地址</label>
-            <input type="text" id="api-url" placeholder="https://dutch-madrid-recognize-wholesale.trycloudflare.com" value="https://dutch-madrid-recognize-wholesale.trycloudflare.com">
+            <input type="text" id="api-url" placeholder="https://dutch-madrid-recognize-wholesale.trycloudflare.com"
+                value="https://dutch-madrid-recognize-wholesale.trycloudflare.com">
         </div>
 
         <div class="presets">
@@ -233,7 +53,8 @@
             <div id="advanced-content" style="display: none;">
                 <div class="form-group">
                     <label for="negative-prompt">负向提示词</label>
-                    <textarea id="negative-prompt" placeholder="不想要出现在图片中的元素...">ng_deepnegative_v1_75t, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, soft, deformed, distorted, disfigured, ugly, missing arms, missing legs, extra arms, extra legs, mutated hands, mutated feet</textarea>
+                    <textarea id="negative-prompt"
+                        placeholder="不想要出现在图片中的元素...">ng_deepnegative_v1_75t, lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, soft, deformed, distorted, disfigured, ugly, missing arms, missing legs, extra arms, extra legs, mutated hands, mutated feet</textarea>
                 </div>
 
                 <div class="form-group">
@@ -288,18 +109,7 @@
 
         <div id="loading">
             <p>正在生成图片，请稍候...</p>
-            <div class="spinner" style="border: 3px solid #f3f3f3; border-radius: 50%; border-top: 3px solid #4CAF50; width: 20px; height: 20px; animation: spin 1s linear infinite; margin: 0 auto;"></div>
-            <style>
-                @keyframes spin {
-                    0% {
-                        transform: rotate(0deg);
-                    }
-
-                    100% {
-                        transform: rotate(360deg);
-                    }
-                }
-            </style>
+            <div class="spinner"></div>
         </div>
 
         <div id="error"></div>
@@ -331,7 +141,7 @@
             const content = document.getElementById('advanced-content');
             const text = document.getElementById('toggle-text');
             const arrow = document.querySelector('.arrow');
-            
+
             if (content.style.display === 'none') {
                 content.style.display = 'block';
                 text.textContent = '隐藏高级选项';

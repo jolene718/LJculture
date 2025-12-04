@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>黎纹密码 - 织梦千年的文化之谜</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <!-- 游戏头部 -->
+        <header class="game-header">
+            <button class="btn-back" id="btnBack">返回</button>
+            <div class="level-info">
+                <span id="chapterName">第一章：织机初识</span>
+                <span class="level-number">关卡 <span id="currentLevel">1</span></span>
+            </div>
+            <div class="game-controls">
+                <span class="hints-count">提示: <span id="hintsLeft">3</span></span>
+                <button class="btn-menu" id="btnMenu">菜单</button>
+            </div>
+        </header>
+
+        <!-- 主游戏区域 -->
+        <main class="game-main">
+            <!-- 左侧信息面板 -->
+            <aside class="info-panel">
+                <div class="pattern-preview">
+                    <h3>纹样预览</h3>
+                    <canvas id="patternPreview" width="100" height="100"></canvas>
+                </div>
+                <div class="pattern-info">
+                    <h3>文化背景</h3>
+                    <p id="patternDescription">十字纹象征大地四方，天地相连，是黎族最基础的纹样之一。</p>
+                </div>
+                <div class="collected-patterns">
+                    <h3>已收集纹样</h3>
+                    <div id="collectedList" class="pattern-list"></div>
+                </div>
+            </aside>
+
+            <!-- 游戏网格区域 -->
+            <div class="puzzle-area">
+                <div class="puzzle-container">
+                    <!-- 列提示区 -->
+                    <div class="col-hints" id="colHints"></div>
+                    
+                    <!-- 行提示和网格的组合 -->
+                    <div class="puzzle-main">
+                        <div class="row-hints" id="rowHints"></div>
+                        <div class="grid-container" id="gridContainer"></div>
+                    </div>
+                </div>
+
+                <!-- 工具栏 -->
+                <div class="toolbar">
+                    <div class="color-palette">
+                        <button class="color-btn active" data-color="empty" title="空白">
+                            <span class="color-empty"></span>
+                        </button>
+                        <button class="color-btn" data-color="black" title="黑色">
+                            <span class="color-black"></span>
+                        </button>
+                        <button class="color-btn" data-color="red" title="红色">
+                            <span class="color-red"></span>
+                        </button>
+                        <button class="color-btn" data-color="yellow" title="黄色">
+                            <span class="color-yellow"></span>
+                        </button>
+                        <button class="color-btn" data-color="white" title="白色">
+                            <span class="color-white"></span>
+                        </button>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn-action" id="btnUndo" title="撤销">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-action" id="btnRedo" title="重做">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-action" id="btnClear" title="清空">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-action" id="btnHint" title="提示">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z"/>
+                            </svg>
+                        </button>
+                        <button class="btn-action" id="btnValidate" title="验证答案">
+                            <svg width="24" height="24" viewBox="0 0 24 24">
+                                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 进度条 -->
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <span class="progress-text" id="progressText">完成度: 0%</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- 欢迎界面 -->
+        <div id="welcomeScreen" class="screen-overlay">
+            <div class="welcome-content">
+                <h1 class="game-title">黎纹密码</h1>
+                <p class="game-subtitle">织梦千年的文化之谜</p>
+                
+                <div class="story-intro">
+                    <p>在海南岛的深山中，年轻的黎族女孩阿织发现了一本尘封已久的《黎锦图谱》。</p>
+                    <p>这本古老的图谱记载着失传已久的织锦技艺和神秘的纹样密码...</p>
+                    <p>帮助阿织解开这些纹样之谜，重现黎族千年的织锦文化！</p>
+                </div>
+                
+                <button class="btn-primary" id="btnStart">开始游戏</button>
+                <button class="btn-secondary" id="btnTutorial">游戏教程</button>
+            </div>
+        </div>
+
+        <!-- 关卡完成界面 -->
+        <div id="levelCompleteScreen" class="screen-overlay" style="display: none;">
+            <div class="complete-content">
+                <h2>关卡完成！</h2>
+                <div class="pattern-unlocked">
+                    <canvas id="unlockedPattern" width="150" height="150"></canvas>
+                    <h3 id="patternName">十字纹</h3>
+                </div>
+                <div class="score-info">
+                    <div class="score-item">
+                        <span>基础分数:</span>
+                        <span id="baseScore">100</span>
+                    </div>
+                    <div class="score-item">
+                        <span>时间奖励:</span>
+                        <span id="timeBonus">50</span>
+                    </div>
+                    <div class="score-item">
+                        <span>完美奖励:</span>
+                        <span id="perfectBonus">0</span>
+                    </div>
+                    <div class="score-total">
+                        <span>总分:</span>
+                        <span id="totalScore">150</span>
+                    </div>
+                </div>
+                <div class="cultural-info">
+                    <h3>文化小百科</h3>
+                    <p id="culturalDescription"></p>
+                </div>
+                <div class="complete-actions">
+                    <button class="btn-primary" id="btnNextLevel">下一关</button>
+                    <button class="btn-secondary" id="btnReplay">重玩本关</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 教程界面 -->
+        <div id="tutorialScreen" class="screen-overlay" style="display: none;">
+            <div class="tutorial-content">
+                <h2>游戏教程</h2>
+                <div class="tutorial-steps">
+                    <div class="tutorial-step active" data-step="1">
+                        <h3>1. 理解提示</h3>
+                        <div class="tutorial-image"></div>
+                        <p>每行每列的数字代表该行/列中连续同色格子的数量。</p>
+                        <p>例如："2 1"表示有2个连续的格子，然后至少一个空格，再有1个格子。</p>
+                    </div>
+                    <div class="tutorial-step" data-step="2">
+                        <h3>2. 填充格子</h3>
+                        <div class="tutorial-image"></div>
+                        <p>选择颜色后，点击格子进行填充。</p>
+                        <p>再次点击可以清除格子。</p>
+                    </div>
+                    <div class="tutorial-step" data-step="3">
+                        <h3>3. 完成图案</h3>
+                        <div class="tutorial-image"></div>
+                        <p>当所有格子都正确填充后，你将解锁新的黎族纹样！</p>
+                        <p>每个纹样都有其独特的文化含义。</p>
+                    </div>
+                </div>
+                <div class="tutorial-nav">
+                    <button class="btn-secondary" id="btnPrevStep" disabled>上一步</button>
+                    <span class="step-indicator">1 / 3</span>
+                    <button class="btn-secondary" id="btnNextStep">下一步</button>
+                </div>
+                <button class="btn-primary" id="btnCloseTutorial">开始游戏</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

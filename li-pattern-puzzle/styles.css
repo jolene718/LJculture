@@ -1,0 +1,889 @@
+:root {
+    --primary-color: #8B4513;
+    --secondary-color: #D2691E;
+    --accent-red: #CD5C5C;
+    --accent-yellow: #FFD700;
+    --bg-dark: #2C1810;
+    --bg-light: #F5E6D3;
+    --text-dark: #3E2723;
+    --text-light: #FFF8DC;
+    --grid-border: #8B7355;
+    --cell-size: 28px;
+    --hint-width: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 游戏控制按钮样式 */
+.game-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.control-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.primary-btn {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: #6B330A;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background-color: var(--bg-light);
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.secondary-btn:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+}
+
+body {
+    font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+    background: linear-gradient(135deg, #F5E6D3 0%, #E6D2B5 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(139, 69, 19, 0.03) 35px, rgba(139, 69, 19, 0.03) 70px),
+        repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(139, 69, 19, 0.03) 35px, rgba(139, 69, 19, 0.03) 70px);
+    pointer-events: none;
+}
+
+#game-container {
+    width: 100%;
+    max-width: 1600px;
+    height: 100vh;
+    max-height: 1200px;
+    background: var(--bg-light);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    border: 3px solid var(--primary-color);
+}
+
+/* 游戏头部 */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    color: var(--text-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.level-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.level-number {
+    font-size: 14px;
+    opacity: 0.9;
+    margin-top: 4px;
+}
+
+.game-controls {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.hints-count {
+    font-size: 16px;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+}
+
+/* 按钮样式 */
+button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: inherit;
+}
+
+.btn-back,
+.btn-menu {
+    padding: 8px 20px;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 5px;
+    font-size: 14px;
+    backdrop-filter: blur(10px);
+}
+
+.btn-back:hover,
+.btn-menu:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    padding: 15px 40px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(139, 69, 19, 0.3);
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(139, 69, 19, 0.4);
+}
+
+.btn-secondary {
+    padding: 12px 30px;
+    background: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    font-size: 16px;
+    border-radius: 8px;
+}
+
+.btn-secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* 主游戏区域 */
+.game-main {
+    display: flex;
+    height: calc(100% - 100px);
+    padding: 20px;
+    gap: 20px;
+    overflow: hidden;
+}
+
+/* 左侧信息面板 */
+.info-panel {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pattern-preview,
+.pattern-info,
+.collected-patterns {
+    background: white;
+    border: 2px solid var(--grid-border);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.pattern-preview h3,
+.pattern-info h3,
+.collected-patterns h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 16px;
+    border-bottom: 1px solid var(--grid-border);
+    padding-bottom: 8px;
+}
+
+#patternPreview {
+    display: block;
+    margin: 10px auto;
+    border: 1px solid var(--grid-border);
+    background: white;
+}
+
+.pattern-info p {
+    color: var(--text-dark);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.pattern-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.pattern-item {
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--grid-border);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 1px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pattern-item canvas {
+    display: block;
+}
+
+.pattern-item:hover {
+    transform: scale(1.1);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 8px rgba(139, 69, 19, 0.3);
+}
+
+/* 游戏网格区域 */
+.puzzle-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.puzzle-container {
+    background: white;
+    border: 3px solid var(--primary-color);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.col-hints {
+    display: flex;
+    margin-left: var(--hint-width);
+    margin-bottom: 5px;
+}
+
+.col-hint {
+    width: var(--cell-size);
+    min-height: var(--hint-width);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 2px;
+    padding: 5px 2px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.puzzle-main {
+    display: flex;
+}
+
+.row-hints {
+    display: flex;
+    flex-direction: column;
+    margin-right: 5px;
+}
+
+.row-hint {
+    height: var(--cell-size);
+    min-width: var(--hint-width);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
+    padding: 0 5px;
+    font-size: 12px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.hint-number {
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.hint-number.black {
+    background: #333;
+    color: white;
+}
+
+.hint-number.red {
+    background: var(--accent-red);
+    color: white;
+}
+
+.hint-number.yellow {
+    background: var(--accent-yellow);
+    color: var(--text-dark);
+}
+
+.hint-number.white {
+    background: white;
+    color: var(--text-dark);
+    border: 1px solid var(--grid-border);
+}
+
+.grid-container {
+    display: grid;
+    gap: 1px;
+    background: var(--grid-border);
+    border: 2px solid var(--primary-color);
+    padding: 1px;
+}
+
+.grid-cell {
+    width: var(--cell-size);
+    height: var(--cell-size);
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.grid-cell:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(139, 69, 19, 0.3);
+}
+
+.grid-cell.filled-black {
+    background: #2C1810;
+}
+
+.grid-cell.filled-red {
+    background: var(--accent-red);
+}
+
+.grid-cell.filled-yellow {
+    background: var(--accent-yellow);
+}
+
+.grid-cell.filled-white {
+    background: white;
+    border: 1px solid var(--grid-border);
+}
+
+.grid-cell.marked-x::after {
+    content: '×';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: #999;
+}
+
+.grid-cell.correct {
+    animation: correctPulse 0.5s ease;
+}
+
+.grid-cell.wrong {
+    animation: wrongShake 0.5s ease;
+}
+
+@keyframes correctPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+        background: #90EE90;
+    }
+}
+
+@keyframes wrongShake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+        background: #FFB6C1;
+    }
+
+    75% {
+        transform: translateX(5px);
+        background: #FFB6C1;
+    }
+}
+
+/* 工具栏 */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding: 15px;
+    background: white;
+    border: 2px solid var(--grid-border);
+    border-radius: 10px;
+}
+
+.color-palette {
+    display: flex;
+    gap: 10px;
+}
+
+.color-btn {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--grid-border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.color-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.color-btn.active {
+    border-color: var(--primary-color);
+    border-width: 3px;
+    box-shadow: 0 0 15px rgba(139, 69, 19, 0.3);
+}
+
+.color-btn span {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+}
+
+.color-empty {
+    background: white;
+    border: 2px dashed #ccc;
+}
+
+.color-black {
+    background: #2C1810;
+}
+
+.color-red {
+    background: var(--accent-red);
+}
+
+.color-yellow {
+    background: var(--accent-yellow);
+}
+
+.color-white {
+    background: white;
+    border: 1px solid #ccc;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--bg-light);
+    border: 1px solid var(--grid-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.btn-action:hover {
+    background: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.btn-action:hover svg {
+    fill: white;
+}
+
+.btn-action svg {
+    fill: var(--text-dark);
+    transition: fill 0.2s;
+}
+
+/* 进度条 */
+.progress-bar {
+    width: 100%;
+    max-width: 500px;
+    height: 30px;
+    background: white;
+    border: 2px solid var(--grid-border);
+    border-radius: 15px;
+    margin-top: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-yellow), var(--accent-red));
+    width: 0%;
+    transition: width 0.5s ease;
+    border-radius: 13px;
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+/* 欢迎界面 */
+.screen-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.welcome-content,
+.complete-content,
+.tutorial-content {
+    background: var(--bg-light);
+    border: 3px solid var(--primary-color);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.game-title {
+    font-size: 48px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.game-subtitle {
+    font-size: 20px;
+    color: var(--secondary-color);
+    margin-bottom: 30px;
+}
+
+.story-intro {
+    background: white;
+    border: 1px solid var(--grid-border);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.story-intro p {
+    color: var(--text-dark);
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.story-intro p:last-child {
+    margin-bottom: 0;
+}
+
+/* 关卡完成界面 */
+.pattern-unlocked {
+    margin: 20px 0;
+}
+
+#unlockedPattern {
+    border: 2px solid var(--primary-color);
+    border-radius: 10px;
+    background: white;
+    margin-bottom: 10px;
+}
+
+#patternName {
+    color: var(--primary-color);
+    font-size: 24px;
+}
+
+.score-info {
+    background: white;
+    border: 1px solid var(--grid-border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.score-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: var(--text-dark);
+}
+
+.score-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--primary-color);
+    border-top: 2px solid var(--grid-border);
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.cultural-info {
+    background: rgba(139, 69, 19, 0.1);
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.cultural-info h3 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.cultural-info p {
+    color: var(--text-dark);
+    line-height: 1.6;
+}
+
+.complete-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+/* 教程界面 */
+.tutorial-steps {
+    margin: 30px 0;
+}
+
+.tutorial-step {
+    display: none;
+    text-align: left;
+}
+
+.tutorial-step.active {
+    display: block;
+}
+
+.tutorial-step h3 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+.tutorial-image {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
+        linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    border: 2px solid var(--grid-border);
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.tutorial-step p {
+    color: var(--text-dark);
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.tutorial-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.step-indicator {
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    #game-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 15px;
+    }
+
+    .info-panel {
+        width: 240px;
+    }
+
+    /* 调整网格单元格大小 */
+    :root {
+        --cell-size: 24px;
+    }
+}
+
+/* 平板设备优化 */
+@media (max-width: 768px) {
+    #game-container {
+        padding: 10px;
+    }
+
+    .game-main {
+        flex-direction: column;
+    }
+
+    .info-panel {
+        width: 100%;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 15px 20px;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .color-palette,
+    .action-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* 进一步减小单元格大小 */
+    :root {
+        --cell-size: 20px;
+        --hint-width: 40px;
+    }
+
+    /* 调整弹窗大小 */
+    .welcome-content,
+    .complete-content,
+    .tutorial-content {
+        width: 95%;
+        max-width: 400px;
+        padding: 20px;
+    }
+}
+
+/* 手机设备优化 */
+@media (max-width: 480px) {
+    #game-container {
+        padding: 5px;
+        border-width: 2px;
+    }
+
+    .game-header h3 {
+        font-size: 18px;
+    }
+
+    .level-info {
+        font-size: 16px;
+    }
+
+    .game-controls {
+        gap: 10px;
+    }
+
+    .info-panel {
+        flex-direction: column;
+        overflow-x: visible;
+    }
+
+    .pattern-preview,
+    .pattern-info,
+    .collected-patterns {
+        width: 100%;
+    }
+
+    /* 最小单元格大小 */
+    :root {
+        --cell-size: 16px;
+    }
+
+    /* 颜色选择器按钮缩小 */
+    .color-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    /* 工具栏按钮适应小屏幕 */
+    .btn-action {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* 弹窗内容适应手机 */
+    .welcome-content,
+    .complete-content,
+    .tutorial-content {
+        padding: 15px;
+    }
+
+    .game-title {
+        font-size: 32px;
+    }
+}
+
+/* 极小屏幕适配 */
+@media (max-width: 360px) {
+    :root {
+        --cell-size: 14px;
+    }
+
+    .game-header h3 {
+        font-size: 16px;
+    }
+
+    .level-info {
+        font-size: 14px;
+    }
+}

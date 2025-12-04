@@ -1,311 +1,528 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>黎锦纹铭 - 首页</title>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
-    <link rel="stylesheet" href="./navbars.css">
-    <link rel="stylesheet" href="./css/stylesheet.css"> 
-    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --rotate-speed: 60;
-            --count: 14;
-            --easing: linear;
-            --radius: 200px;
-            --primary-color: #c2412d;
-            --border-color: #a05f48;
-            --bg-light: #edeee8;
-            --text-dark: #3e3a2f;
-            --accent-gray: #b7a9a1;
-            --accent-green: #5f7161;
-            --text-sm: 1.2rem; /* 增大字体大小变量 */
-        }
-
-        body {
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            font-family: "KaiTi", "STKaiti", serif;
-            color: #3e3a2f;
-            background: linear-gradient(to bottom, #edeee8, #f3e6e8);
-            cursor: url('./鼠标.cur'), auto;
-        }
-
-        /* 视频样式 */
-        video {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* 首页内容样式 */
-        .home-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 15px 10px 10px; /* 减小上下 padding，拉近“欢迎”和抽屉之间的距离 */
-        }
-
-        .home-title {
-            font-family: "Alimama DaoLiTi";
-            color: var(--primary-color);
-            margin-bottom: 0.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
-            transition: font-size 0.3s ease;
-            line-height: 1.2;
-        }
-
-        .home-description {
-            font-family: "FZGuoMeiJinDaoTiS", sans-serif;
-            color: var(--text-dark);
-            max-width: 1000px; /* 增加最大宽度 */
-            margin: 1.5rem auto;
-            line-height: 1.6;
-            font-size: var(--text-sm);
-            text-align: center;
-            padding: 0 1rem;
-            border-top: 1px solid rgba(160, 95, 72, 0.2);
-            border-bottom: 1px solid rgba(160, 95, 72, 0.2);
-            padding: 1rem 0;
-        }
-
-        /* Click 页面样式 - 整合抽屉式效果 */
-        .shell {
-            width: 100%;
-            padding: 20px;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: center; /* 新增：水平居中 */
-        }
-
-        .box-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px; /* 减小抽屉之间的间隔 */
-            padding: 20px 0;
-            max-width: 1400px; /* 增加最大宽度 */
-        }
-
-        .box {
-            overflow: hidden;
-            transition: .5s;
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, .5);
-            border-radius: 20px;
-            border: 10px solid #fff;
-            background-color: #fff;
-        }
-
-        .box>video {
-            object-fit: cover;
-            transition: .5s;
-        }
-
-        .box>span {
-            font: 200 45px 'Alimama DaoLiTi';
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* 大屏幕抽屉式效果（横向排列） */
-        @media (min-width: 768px) {
-            .shell {
-                height: 600px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-            }
-
-            .box-container {
-                flex-wrap: nowrap;
-                width: 100%;
-            }
-
-            .box {
-                flex: 1.2; /* 增加每个抽屉的宽度 */
-                margin: 0 10px; /* 减小抽屉之间的外边距 */
-            }
-
-            .box>video {
-                width: 200%;
-                height: 85%;
-            }
-
-            .box>span {
-                height: 15%;
-            }
-
-            .box:hover {
-                flex-basis: 40%;
-            }
-
-            .box:hover>video {
-                width: 100%;
-                height: 100%;
-            }
-        }
-
-        /* 小屏幕垂直排列 */
-        @media (max-width: 767px) {
-            .box {
-                width: 100%;
-                max-width: 400px;
-                margin-bottom: 20px;
-            }
-
-            .box>video {
-                width: 100%;
-                height: auto;
-            }
-
-            .box>span {
-                height: auto;
-                padding: 20px 0;
-                font-size: 28px;
-            }
-        }
-
-        /* 特别鸣谢部分样式 */
-        .special-thanks {
-            margin: 2rem auto;
-            padding: 1.5rem 1rem;
-            max-width: 1100px; /* 增加最大宽度 */
-            background-color: rgba(255, 255, 255, 0.6);
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            display: flex; /* 新增：使用 flex 布局 */
-            flex-direction: column; /* 新增：垂直排列 */
-            align-items: center; /* 新增：水平居中 */
-        }
-
-        .special-thanks::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-green));
-        }
-
-        .special-thanks h3 {
-            font-family: "Alimama DaoLiTi", serif;
-            color: var(--primary-color);
-            font-size: clamp(1.3rem, 2vw, 1.8rem);
-            margin: 0 0 1rem 0;
-            text-align: center;
-            position: relative;
-        }
-
-        .special-thanks h3::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80px;
-            height: 2px;
-            background-color: var(--border-color);
-        }
-
-        .special-thanks p {
-            font-size: var(--text-sm);
-            line-height: 1.8;
-            text-align: justify;
-            margin: 0;
-            text-indent: 2em;
-        }
-
-        .thanks-decoration {
-            display: flex;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-
-        .thanks-decoration span {
-            width: 10px;
-            height: 10px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            margin: 0 5px;
-            opacity: 0.6;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>index</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.4/dist/lenis.min.js"></script>
 </head>
 
 <body>
-    <!-- 更新后的页顶栏 -->
-    <header class="header">
-        <div class="header-container">
-            <a href="index.html" class="site-title">黎锦纹铭</a>
-            <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
-            <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
-            <a href="锦织经纬2.html" class="nav-item">锦织经纬</a>
-            <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
-            <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
-        </div>
-    </header>
+  <!-- 加载界面 -->
+  <div class="loader-container" id="loader">
+    <div class="loader-logo">黎锦纹铭</div>
+    <div class="loader-spinner">
+      <div class="loader-circle"></div>
+      <div class="loader-circle"></div>
+    </div>
+    <div class="loader-text">正在加载黎锦之美...</div>
+  </div>
+  <!-- 顶部导航栏 -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="site-title">黎锦纹铭</a>
+      <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
+      <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
+      <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
+      <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
+      <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
+    </div>
+  </header>
 
-    <!-- 首页内容 -->
+  <!-- 波浪线和欢迎文字容器 -->
+  <div class="hero-section">
     <div class="home-content">
-        <h2 class="home-title">欢迎来到黎锦纹铭！</h2>
+      <h1 class="home-title">你好，黎锦纹铭</h1>
     </div>
 
-    <!-- Click 页面内容 - 抽屉式效果 -->
-    <div class="shell">
-        <div class="box-container">
-            <div class="box" onclick="window.location.href='黎纹锦韵.html'">
-                <video src="./Click/video(1).mp4" muted loop autoplay></video>
-                <span>黎纹锦韵</span>
-            </div>
-            <div class="box" onclick="window.location.href='黎锦飞光.html'">
-                <video src="./Click/video(2).mp4" muted loop autoplay></video>
-                <span>黎锦飞光</span>
-            </div>
-            <div class="box" onclick="window.location.href='锦织经纬2.html'">
-                <video src="./Click/video(3).mp4" muted loop autoplay></video>
-                <span>锦织经纬</span>
-            </div>
-            <div class="box" onclick="window.location.href='锦绣千针.html'">
-                <video src="./Click/video(4).mp4" muted loop autoplay></video>
-                <span>锦绣千针</span>
-            </div>
-            <div class="box" onclick="window.location.href='黎纹生成.html'">
-                <video src="./Click/video(5).mp4" muted loop autoplay></video>
-                <span>黎纹生成</span>
-            </div>
-        </div>
-    </div>
+    <a-waves>
+      <svg></svg>
+    </a-waves>
+  </div>
 
-    <!-- 首页内容 -->
-    <div class="home-content">
-        <p class="home-description">“黎锦纹铭”是关于海南黎族传统纹样的信息可视化网页。通过探索黎族纺织技术与服饰文化的奥秘，您将领略海南黎族文化的独特魅力。</p>
+  <!-- 横向滑动模块 -->
+  <div class="wapper">
+    <div class="container">
+      <div class="cardsbox">
+        <a href="黎纹锦韵.html" class="cardsbox_card-link">
+          <div class="cardsbox_card">
+            <video class="cardsbox_card-video" autoplay muted loop playsinline>
+              <source src="./indexClick/video(1).mp4" type="video/mp4">
+            </video>
+            <div class="cardsbox_card-content">
+              黎纹锦韵
+            </div>
+          </div>
+        </a>
+        <a href="黎锦飞光.html" class="cardsbox_card-link">
+          <div class="cardsbox_card">
+            <video class="cardsbox_card-video" autoplay muted loop playsinline>
+              <source src="./indexClick/video(2).mp4" type="video/mp4">
+            </video>
+            <div class="cardsbox_card-content">
+              黎锦飞光
+            </div>
+          </div>
+        </a>
+        <a href="锦织经纬.html" class="cardsbox_card-link">
+          <div class="cardsbox_card">
+            <video class="cardsbox_card-video" autoplay muted loop playsinline>
+              <source src="./indexClick/video(3).mp4" type="video/mp4">
+            </video>
+            <div class="cardsbox_card-content">
+              锦织经纬
+            </div>
+          </div>
+        </a>
+        <a href="锦绣千针.html" class="cardsbox_card-link">
+          <div class="cardsbox_card">
+            <video class="cardsbox_card-video" autoplay muted loop playsinline>
+              <source src="./indexClick/video(4).mp4" type="video/mp4">
+            </video>
+            <div class="cardsbox_card-content">
+              锦绣千针
+            </div>
+          </div>
+        </a>
+        <a href="黎纹生成.html" class="cardsbox_card-link">
+          <div class="cardsbox_card">
+            <video class="cardsbox_card-video" autoplay muted loop playsinline>
+              <source src="./indexClick/video(5).mp4" type="video/mp4">
+            </video>
+            <div class="cardsbox_card-content">
+              黎纹生成
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
+  </div>
 
-    <!-- 特别鸣谢部分 -->
-    <div class="special-thanks">
-        <h3>特别鸣谢</h3>
-        <p>本项目从讲座学习到完成开发，历经数月。在此期间，我们得到了多位老师在文化、设计、技术等各层面维度的悉心辅导。特别感谢李鑫老师在黎族文化研究方面的专业指导，带领我们系统性地学习了黎族纹样背后的历史渊源；感谢符秀英老师关于黎族纺织技艺的倾情分享，让我们深入了解黎锦纹样背后的文化内涵；同时，感谢学校提供的支持与资源、教务处张一琳老师一直以来的热心相助，以及所有参与调研和给予帮助的同学们。正是大家的共同努力，才使得这个项目得以顺利完成。</p>
-        <div class="thanks-decoration">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-    </div>
+  <!-- 网页介绍模块 -->
+  <div class="page-footer">
+    <p class="home-description">“黎锦纹铭”是关于海南黎族传统纹样的信息可视化网页。通过探索黎族纺织技术与服饰文化的奥秘，您将领略海南黎族文化的独特魅力。</p>
+  </div>
+
+  <!-- 致谢部分 -->
+  <div class="special-thanks">
+    <h3>特别鸣谢</h3>
+    <p>
+      本项目从讲座学习到完成开发，历经数月。在此期间，我们得到了多位老师在文化、设计、技术等各层面维度的悉心辅导。特别感谢李鑫老师在黎族文化研究方面的专业指导，带领我们系统性地学习了黎族纹样背后的历史渊源；感谢符秀英老师关于黎族纺织技艺的倾情分享，让我们深入了解黎锦纹样背后的文化内涵；同时，感谢学校提供的支持与资源、教务处张一琳老师一直以来的热心相助，以及所有参与调研和给予帮助的同学们。正是大家的共同努力，才使得这个项目得以顺利完成。
+    </p>
+    <div class="thanks-decoration"></div>
+  </div>
+
 </body>
+
+<script>
+  class AWaves extends HTMLElement {
+    connectedCallback() {
+      this.svg = this.querySelector('svg')
+      this.mouse = {
+        x: 0,
+        y: 0,
+        lx: 0,
+        ly: 0,
+        sx: 0,
+        sy: 0,
+        v: 0,
+        vs: 0,
+        a: 0,
+      }
+      this.lines = []
+      this.paths = []
+      this.waveTime = 0 // 波纹时间跟踪
+
+      this.bindEvents()
+      this.setSize()
+      this.setLines()
+
+      requestAnimationFrame(this.tick.bind(this))
+    }
+    bindEvents() {
+      window.addEventListener('resize', () => {
+        this.setSize()
+        this.setLines()
+      })
+      window.addEventListener('mousemove', (e) => {
+        this.updateMousePosition(e.pageX, e.pageY)
+      })
+      this.addEventListener('touchmove', (e) => {
+        e.preventDefault()
+        this.updateMousePosition(e.touches[0].clientX, e.touches[0].clientY)
+      })
+    }
+    setSize() {
+      this.bounding = this.getBoundingClientRect()
+      this.svg.style.width = `${this.bounding.width}px`
+      this.svg.style.height = `${this.bounding.height}px`
+    }
+    setLines() {
+      const { width, height } = this.bounding
+
+      this.lines = []
+      this.paths.forEach((path) => {
+        path.remove()
+      })
+      this.paths = []
+
+      const xGap = 10
+      const yGap = 32
+
+      const oWidth = width + 200
+      const oHeight = height + 30
+
+      const totalLines = Math.ceil(oWidth / xGap)
+      const totalPoints = Math.ceil(oHeight / yGap)
+
+      const xStart = (width - xGap * totalLines) / 2
+      const yStart = (height - yGap * totalPoints) / 2
+
+      for (let i = 0; i <= totalLines; i++) {
+        const points = []
+        for (let j = 0; j <= totalPoints; j++) {
+          // 组合效果：波浪 + 随机扰动
+          const waveAmplitude = 90  // 波浪振幅
+          const waveFrequency = 0.015  // 波浪频率
+          const randomFactor = 70  // 随机扰动强度
+
+          const waveX = Math.sin(j * waveFrequency + i * 0.3) * waveAmplitude
+          const waveY = Math.cos(i * waveFrequency + j * 0.2) * waveAmplitude * 0.7
+          const randomX = (Math.random() - 0.5) * randomFactor
+          const randomY = (Math.random() - 0.5) * randomFactor
+
+          const initialX = waveX + randomX
+          const initialY = waveY + randomY
+
+          const point = {
+            x: xStart + xGap * i,
+            y: yStart + yGap * j,
+            cursor: { x: initialX, y: initialY, vx: 0, vy: 0 },
+          }
+          points.push(point)
+        }
+        this.lines.push(points)
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+        this.svg.appendChild(path)
+        this.paths.push(path)
+      }
+    }
+    updateMousePosition(x, y) {
+      const { mouse } = this
+      mouse.x = x - this.bounding.left
+      mouse.y = y - this.bounding.top + window.scrollY
+    }
+    movePoints(time) {
+      const { lines, mouse } = this
+      const { width, height } = this.bounding
+
+      // 更新波纹时间
+      this.waveTime += 0.02
+
+      // 屏幕中心坐标
+      const centerX = width / 2
+      const centerY = height / 2
+
+      // 波纹参数
+      const waveSpeed = 0.3 // 波纹扩散速度
+      const waveAmplitude = 20 // 波纹振幅
+      const waveFrequency = 0.03 // 波纹频率
+
+      lines.forEach((points) => {
+        points.forEach((p, i) => {
+          const dx = p.x - mouse.sx
+          const dy = p.y - mouse.sy
+          const d = Math.hypot(dx, dy)
+          const l = Math.max(175, mouse.vs)
+
+          if (d < l) {
+            const f = 1 - d / l
+            p.cursor.vx += Math.cos(mouse.a) * f * mouse.vs * 0.08
+            p.cursor.vy += Math.sin(mouse.a) * f * mouse.vs * 0.08
+          }
+
+          // 从中心向外扩散的波纹效果
+          const distanceToCenter = Math.hypot(p.x - centerX, p.y - centerY)
+          const waveOffset = (distanceToCenter * waveFrequency) - (this.waveTime * waveSpeed)
+          const waveEffect = Math.sin(waveOffset) * waveAmplitude
+
+          // 计算波纹方向（从中心向外）
+          const waveDirX = (p.x - centerX) / distanceToCenter || 0
+          const waveDirY = (p.y - centerY) / distanceToCenter || 0
+
+          // 添加微动画效果（轻微的呼吸感）
+          const breatheAmount = 0.5
+          const breatheSpeed = 0.005
+          const breatheX = Math.sin(time * breatheSpeed + p.x * 0.01) * breatheAmount
+          const breatheY = Math.cos(time * breatheSpeed + p.y * 0.01) * breatheAmount
+
+          // 组合效果：波纹 + 呼吸 + 回归原始位置
+          p.cursor.vx += (0 - p.cursor.x + breatheX + waveDirX * waveEffect) * 0.005
+          p.cursor.vy += (0 - p.cursor.y + breatheY + waveDirY * waveEffect) * 0.005
+
+          p.cursor.vx *= 0.925
+          p.cursor.vy *= 0.925
+
+          p.cursor.x += p.cursor.vx * 2
+          p.cursor.y += p.cursor.vy * 2
+
+          p.cursor.x = Math.min(100, Math.max(-100, p.cursor.x))
+          p.cursor.y = Math.min(100, Math.max(-100, p.cursor.y))
+        })
+      })
+    }
+    moved(point, withCursorForce = true) {
+      const coords = {
+        x: point.x + (withCursorForce ? point.cursor.x : 0),
+        y: point.y + (withCursorForce ? point.cursor.y : 0),
+      }
+
+      coords.x = Math.round(coords.x * 10) / 10
+      coords.y = Math.round(coords.y * 10) / 10
+
+      return coords
+    }
+    drawLines() {
+      const { lines, moved, paths } = this
+
+      lines.forEach((points, lIndex) => {
+        let p1 = moved(points[0], false)
+        let d = `M ${p1.x} ${p1.y}`
+
+        points.forEach((p, pIndex) => {
+          const isLast = pIndex === points.length - 1
+          p = moved(p, !isLast)
+          d += `L ${p.x} ${p.y}`
+        })
+
+        paths[lIndex].setAttribute('d', d)
+      })
+    }
+    tick(time) {
+      const { mouse } = this
+
+      mouse.sx += (mouse.x - mouse.sx) * 0.1
+      mouse.sy += (mouse.y - mouse.sy) * 0.1
+
+      const dx = mouse.x - mouse.lx
+      const dy = mouse.y - mouse.ly
+      const d = Math.hypot(dx, dy)
+
+      mouse.v = d
+      mouse.vs += (d - mouse.vs) * 0.1
+      mouse.vs = Math.min(100, mouse.vs)
+
+      mouse.lx = mouse.x
+      mouse.ly = mouse.y
+
+      mouse.a = Math.atan2(dy, dx)
+
+      this.movePoints(time)
+      this.drawLines()
+
+      requestAnimationFrame(this.tick.bind(this))
+    }
+  }
+
+  customElements.define('a-waves', AWaves)
+</script>
+
+<script>
+  window.addEventListener('scroll', function () {
+    const navbar = document.querySelector('.top-navbar');
+    if (window.scrollY > 50) {
+      navbar.classList.add('scrolled');
+    } else {
+      navbar.classList.remove('scrolled');
+    }
+  });
+
+  // 横向滑动模块脚本
+  document.addEventListener('DOMContentLoaded', function () {
+    // 初始化Lenis实现平滑滚动
+    const lenis = new Lenis({
+      duration: 1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smoothWheel: true,
+      autoRaf: true,
+    });
+
+    // 横向滑动逻辑
+    const scrollbox = {
+      // DOM元素引用
+      wapper: document.querySelector(".wapper"),
+      cardsbox: document.querySelector(".cardsbox"),
+      cards: document.querySelectorAll(".cardsbox_card"),
+
+      // 计算属性
+      distance: 0, // 滑动总距离
+      if_leave: false, // 是否已离开视口
+      currentCenterIndex: 0, // 当前居中卡片索引
+      liwenIndex: 0, // 黎纹锦韵卡片索引
+
+      /**
+       * 初始化函数
+       * 调用顺序：resize -> 设置初始居中 -> 创建滚动触发器 -> 更新活动卡片
+       */
+      init() {
+        // 找到黎纹锦韵卡片的索引
+        this.cards.forEach((card, index) => {
+          const content = card.querySelector('.cardsbox_card-content');
+          if (content && content.textContent.includes('黎纹锦韵')) {
+            this.liwenIndex = index;
+          }
+        });
+
+        this.resize();
+        window.addEventListener("resize", this.resize.bind(this));
+        this.setInitialCenter();
+        this.create_scrolltrigger();
+        this.updateActiveCard();
+      },
+
+      /**
+       * 设置初始居中位置
+       * 确保黎纹锦韵卡片在初始状态下居中显示
+       */
+      setInitialCenter() {
+        // 计算初始偏移量，使黎纹锦韵卡片居中
+        const cardWidth = this.cards[0].offsetWidth;
+        const gap = 20 * 16; // 20rem转换为像素
+        const initialOffset = this.liwenIndex * (cardWidth + gap) - (window.innerWidth - cardWidth) / 2;
+
+        // 设置初始位置
+        gsap.set(this.cardsbox, {
+          x: -initialOffset,
+          overwrite: "all"
+        });
+      },
+
+      /**
+       * 创建ScrollTrigger触发器
+       * 实现滚动驱动的横向滑动效果，添加阻尼效果
+       */
+      create_scrolltrigger() {
+        ScrollTrigger.create({
+          trigger: this.wapper,
+          start: "top top",
+          end: "bottom bottom",
+          onUpdate: (self) => {
+            // 计算目标位置
+            const targetX = -self.progress * this.distance;
+
+            // 使用自定义阻尼效果的easing函数
+            // 阻尼效果：开始快，结束慢，模拟真实物理阻尼
+            const dampingEase = (t) => {
+              return 1 - Math.exp(-t * 5);
+            };
+
+            // 使用GSAP实现带阻尼效果的平滑过渡动画
+            gsap.to(this.cardsbox, {
+              x: targetX,
+              duration: 0.8, // 较长的持续时间增强阻尼感
+              ease: dampingEase,
+              overwrite: "auto" // 自动覆盖之前的动画，避免冲突
+            });
+            this.updateActiveCard();
+          },
+          onLeave: () => {
+            this.if_leave = true;
+          },
+          onEnterBack: () => {
+            this.if_leave = false;
+          }
+        });
+      },
+
+      /**
+       * 更新当前居中的卡片
+       * 为居中卡片添加active类，实现视觉突出效果
+       */
+      updateActiveCard() {
+        // 移除所有卡片的active类
+        this.cards.forEach(card => card.classList.remove('active'));
+
+        // 计算当前居中的卡片
+        const centerX = window.innerWidth / 2;
+
+        let closestIndex = 0;
+        let minDistance = Infinity;
+
+        // 遍历所有卡片，找到距离屏幕中心最近的卡片
+        this.cards.forEach((card, index) => {
+          const cardRect = card.getBoundingClientRect();
+          const cardCenter = cardRect.left + cardRect.width / 2;
+          const distance = Math.abs(cardCenter - centerX);
+
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestIndex = index;
+          }
+        });
+
+        // 为当前居中的卡片添加active类
+        this.cards[closestIndex].classList.add('active');
+        this.currentCenterIndex = closestIndex;
+      },
+
+      /**
+       * 响应式调整
+       * 计算滑动距离并更新容器高度
+       */
+      resize() {
+        // 计算卡片容器总宽度与视口宽度的差值，作为滑动总距离
+        this.distance = this.cardsbox.offsetWidth - innerWidth;
+        this.wapper.style.height = `${this.distance}px`;
+
+        // 如果已离开视口，将卡片容器定位到最右侧，使用阻尼效果
+        if (this.if_leave) {
+          gsap.to(this.cardsbox, {
+            x: -this.distance,
+            duration: 0.8,
+            ease: (t) => 1 - Math.exp(-t * 5), // 阻尼效果
+            overwrite: "auto"
+          });
+        }
+
+        // 重新计算当前居中卡片
+        this.updateActiveCard();
+      }
+    };
+
+    // 初始化横向滑动
+    scrollbox.init();
+  });
+</script>
+
+<script>
+  // 页面加载完成后隐藏加载界面
+  document.addEventListener('DOMContentLoaded', function () {
+    // 模拟加载过程，确保至少显示1.5秒以获得良好体验
+    setTimeout(function () {
+      // 监听所有资源加载完成
+      window.addEventListener('load', function () {
+        hideLoader();
+      });
+
+      // 如果在一定时间内（5秒）资源仍未加载完成，也隐藏加载界面
+      setTimeout(hideLoader, 5000);
+    }, 1500);
+
+    function hideLoader() {
+      const loader = document.getElementById('loader');
+      if (loader) {
+        loader.classList.add('fade-out');
+        // 等待过渡效果完成后，设置display: none以释放资源
+        setTimeout(function () {
+          loader.style.display = 'none';
+        }, 800);
+      }
+    }
+  });
+</script>
 
 </html>

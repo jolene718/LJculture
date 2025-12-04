@@ -6,11 +6,239 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>黎锦飞光：海南黎族服饰文化历史</title>
   <script src="https://cdn.tailwindcss.com/3.3.3"></script>
-  <link rel="stylesheet" href="./navbar.css">
-  <link rel="stylesheet" href="./css/stylesheet.css"> 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+    .header {
+      width: 100%;
+      background-color: #edeee8;
+      border-bottom: 1px solid #a05f48;
+      padding: 25px 0;
+      position: relative;
+    }
+
+    .header::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, transparent, #c2412d, transparent);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 0 20px;
+    }
+
+    .site-title {
+      font-size: 3.1rem;
+      color: #000;
+      text-decoration: none;
+      font-family: "FZLiQiBeiLiShuS";
+      margin: 0;
+      padding: 0;
+      margin-left: 1%;
+      transition: font-size 0.1s ease;
+    }
+
+    .site-title:hover {
+      font-size: 85px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .site-title:active {
+      font-size: 80px;
+    }
+
+    .nav-item {
+      font-family: "Alimama DaoLiTi";
+      position: relative;
+      font-size: 42px;
+      color: #c2412d;
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 5px 0;
+      border-radius: 8px;
+      background-color: rgba(194, 65, 45, 0.1);
+      transition: color 0.3s ease, background-color 0.3s ease;
+    }
+
+    .nav-item:hover {
+      color: #000;
+    }
+
+    .nav-item::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: #c2412d;
+      transition: width 0.3s ease;
+    }
+
+    .nav-item:hover::after {
+      width: 100%;
+    }
+
+    /* 响应式导航优化 */
+    @media (min-width: 1600px) {
+      .home-title {
+        font-size: 6.5em;
+      }
+
+      .home-description {
+        font-size: 2.2em;
+      }
+    }
+
+    @media (max-width: 1600px) and (min-width: 1400px) {
+      .home-title {
+        font-size: 6em;
+      }
+
+      .home-description {
+        font-size: 2.1em;
+      }
+
+      .nav-item {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 1400px) {
+      .home-title {
+        font-size: 5.5em;
+      }
+
+      .home-description {
+        font-size: 2em;
+      }
+
+      .nav-item {
+        font-size: 38px;
+      }
+    }
+
+    @media (max-width: 1200px) {
+      .home-title {
+        font-size: 5em;
+      }
+
+      .home-description {
+        font-size: 1.8em;
+      }
+
+      .nav-item {
+        font-size: 36px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .home-title {
+        font-size: 4.5em;
+      }
+
+      .home-description {
+        font-size: 1.6em;
+      }
+
+      .nav-item {
+        font-size: 32px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .home-title {
+        font-size: 4em;
+      }
+
+      .home-description {
+        font-size: 1.4em;
+      }
+
+      .nav-item {
+        font-size: 28px;
+      }
+    }
+
+    @media (max-width: 800px) {
+      .header-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+      }
+
+      .site-title {
+        font-size: 60px;
+        margin: 0;
+      }
+
+      .nav-item {
+        font-size: 24px;
+        padding: 5px 10px;
+      }
+
+      .home-title {
+        font-size: 3.5em;
+      }
+
+      .home-description {
+        font-size: 1.2em;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .site-title {
+        font-size: 50px;
+      }
+
+      .nav-item {
+        font-size: 20px;
+        padding: 5px 8px;
+      }
+
+      .home-title {
+        font-size: 3em;
+      }
+
+      .home-description {
+        font-size: 1em;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header {
+        padding: 15px 0;
+      }
+
+      .site-title {
+        font-size: 40px;
+      }
+
+      .nav-item {
+        font-size: 18px;
+        padding: 4px 6px;
+      }
+
+      .home-title {
+        font-size: 2.5em;
+      }
+
+      .home-description {
+        font-size: 0.9em;
+        margin-bottom: 40px;
+      }
+    }
 
     body {
       font-family: 'Noto Sans SC', sans-serif;
@@ -118,7 +346,7 @@
       align-items: center;
     }
 
-        /* 小屏幕响应式布局（宽度小于 768px） */
+    /* 小屏幕响应式布局（宽度小于 768px） */
     @media (max-width: 768px) {
       .timeline-media {
         flex-direction: column;
@@ -126,13 +354,15 @@
 
       .timeline-img {
         width: 100%;
-        max-width: 300px; /* 保持最大宽度限制 */
+        max-width: 300px;
+        /* 保持最大宽度限制 */
         margin-bottom: 1rem;
       }
 
       .timeline-desc-box {
         width: 100%;
-        min-height: auto; /* 取消最小高度限制 */
+        min-height: auto;
+        /* 取消最小高度限制 */
       }
     }
 
@@ -190,16 +420,16 @@
 </head>
 
 <body>
-    <!-- 导航栏 -->
-    <header class="header">
-      <div class="header-container">
-          <a href="index.html" class="site-title">黎锦纹铭</a>
-          <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
-          <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
-          <a href="锦织经纬2.html" class="nav-item">锦织经纬</a>
-          <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
-          <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
-      </div>
+  <!-- 导航栏 -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="site-title">黎锦纹铭</a>
+      <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
+      <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
+      <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
+      <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
+      <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
+    </div>
   </header>
 
   <!-- 主要内容 -->
@@ -266,7 +496,7 @@
                 </div>
               </div>
             </div>
-          
+
             <div class="timeline-item">
               <div class="timeline-content">
                 <div class="timeline-year">宋代</div>
@@ -305,7 +535,10 @@
                   <img src=".\imgs\福禄寿龙被.png" alt="福禄寿龙被" class="timeline-img">
                   <div class="timeline-desc-box">
                     <div class="timeline-desc">
-                      明清时期是黎锦工艺的鼎盛阶段，其中 “儋崖二帐”（儋州、崖州两地生产的锦帐）以极致工艺闻名全国，成为文人雅士与达官显贵的珍藏。这类锦帐采用 “通经断纬” 技法，以木棉为经、彩线为纬，纹样多融合龙凤、麒麟等吉祥图案，兼具黎族图腾与中原审美。作为黎锦中的 “织绣极品”，龙被以其宏大篇幅（最长可达 3 米）、繁复纹样（常见 “双凤朝阳”“五龙戏珠”）和精湛刺绣（融合平绣、盘金绣）成为宫廷主要贡品。史料记载，明代海南土司曾将龙被作为觐见礼物，其工艺之精令宫廷织工叹服。龙被的织造需集合多位织娘耗时数年完成，仅配色就需用到蓝靛草、苏木、黄姜等十余种天然染料，是黎族 “织、染、绣” 技艺的集大成者。
+                      明清时期是黎锦工艺的鼎盛阶段，其中 “儋崖二帐”（儋州、崖州两地生产的锦帐）以极致工艺闻名全国，成为文人雅士与达官显贵的珍藏。这类锦帐采用 “通经断纬”
+                      技法，以木棉为经、彩线为纬，纹样多融合龙凤、麒麟等吉祥图案，兼具黎族图腾与中原审美。作为黎锦中的 “织绣极品”，龙被以其宏大篇幅（最长可达 3 米）、繁复纹样（常见
+                      “双凤朝阳”“五龙戏珠”）和精湛刺绣（融合平绣、盘金绣）成为宫廷主要贡品。史料记载，明代海南土司曾将龙被作为觐见礼物，其工艺之精令宫廷织工叹服。龙被的织造需集合多位织娘耗时数年完成，仅配色就需用到蓝靛草、苏木、黄姜等十余种天然染料，是黎族
+                      “织、染、绣” 技艺的集大成者。
                     </div>
                   </div>
                 </div>
@@ -320,7 +553,9 @@
                   <img src=".\imgs\符林早.png" alt="符林早" class="timeline-img">
                   <div class="timeline-desc-box">
                     <div class="timeline-desc">
-                      2006 年，黎族传统纺染织绣技艺（含黎锦）被列入第一批国家级非物质文化遗产名录，标志着这一古老技艺从 “民间传承” 走向 “国家保护”。此前，随着工业化冲击，黎锦技艺曾一度濒临失传 —— 年轻一代多外出务工，掌握踞腰织机与絣染技艺的织娘不足千人。此次列入名录后，海南启动了首批传承人认定（如美孚方言区织娘符林早），并在琼中、白沙等地建立传习所，通过 “老带新” 模式抢救技艺。同年，首部《黎锦技艺保护规范》发布，明确了纺轮、染缸等传统工具的保护标准，为后续传承奠定了制度基础。
+                      2006 年，黎族传统纺染织绣技艺（含黎锦）被列入第一批国家级非物质文化遗产名录，标志着这一古老技艺从 “民间传承” 走向 “国家保护”。此前，随着工业化冲击，黎锦技艺曾一度濒临失传 ——
+                      年轻一代多外出务工，掌握踞腰织机与絣染技艺的织娘不足千人。此次列入名录后，海南启动了首批传承人认定（如美孚方言区织娘符林早），并在琼中、白沙等地建立传习所，通过 “老带新”
+                      模式抢救技艺。同年，首部《黎锦技艺保护规范》发布，明确了纺轮、染缸等传统工具的保护标准，为后续传承奠定了制度基础。
                     </div>
                   </div>
                 </div>
@@ -335,7 +570,9 @@
                   <img src=".\imgs\2009.png" alt="2009" class="timeline-img">
                   <div class="timeline-desc-box">
                     <div class="timeline-desc">
-                      2009 年，黎锦技艺因其 “活态传承面临断裂风险”，被列入联合国教科文组织“急需保护的非物质文化遗产名录”。当时评估显示：掌握双面绣、絣染等核心技艺的传承人不足 50 人，部分纹样因无文字记载濒临失传。这一认定推动了国际社会对黎锦的关注：联合国教科文组织资助建立 “黎锦数字档案馆”，对 160 余种传统图案进行数字化保存；海南与东南亚国家开展织染技艺交流，引入现代设计理念活化传统工艺。此后，黎锦工坊在乡村振兴政策支持下兴起，逐步实现 “保护 — 生产 — 销售” 的良性循环。
+                      2009 年，黎锦技艺因其 “活态传承面临断裂风险”，被列入联合国教科文组织“急需保护的非物质文化遗产名录”。当时评估显示：掌握双面绣、絣染等核心技艺的传承人不足 50
+                      人，部分纹样因无文字记载濒临失传。这一认定推动了国际社会对黎锦的关注：联合国教科文组织资助建立 “黎锦数字档案馆”，对 160
+                      余种传统图案进行数字化保存；海南与东南亚国家开展织染技艺交流，引入现代设计理念活化传统工艺。此后，黎锦工坊在乡村振兴政策支持下兴起，逐步实现 “保护 — 生产 — 销售” 的良性循环。
                     </div>
                   </div>
                 </div>
@@ -350,7 +587,9 @@
                   <img src=".\imgs\2024.png" alt="2024" class="timeline-img">
                   <div class="timeline-desc-box">
                     <div class="timeline-desc">
-                      2024 年，黎锦技艺从 “急需保护名录” 成功转入人类非物质文化遗产代表作名录，标志着其保护工作取得里程碑式成果。这一转变的背后，是 15 年间的系统保护：传承人从不足千人增至 2 万余人，100 多所中小学开设黎锦实践课，“黎锦 + 时尚”“黎锦 + 文旅” 等创新模式让古老技艺焕发新生 —— 巴黎时装周上的黎锦元素礼服、故宫文创中的黎锦纹样衍生品，均展现了其当代生命力。此次转入不仅是对黎族妇女集体智慧的认可，更凸显了中国传统工艺在 “活态传承” 与 “创新发展” 中的典范价值。
+                      2024 年，黎锦技艺从 “急需保护名录” 成功转入人类非物质文化遗产代表作名录，标志着其保护工作取得里程碑式成果。这一转变的背后，是 15 年间的系统保护：传承人从不足千人增至 2
+                      万余人，100 多所中小学开设黎锦实践课，“黎锦 + 时尚”“黎锦 + 文旅” 等创新模式让古老技艺焕发新生 ——
+                      巴黎时装周上的黎锦元素礼服、故宫文创中的黎锦纹样衍生品，均展现了其当代生命力。此次转入不仅是对黎族妇女集体智慧的认可，更凸显了中国传统工艺在 “活态传承” 与 “创新发展” 中的典范价值。
                     </div>
                   </div>
                 </div>
@@ -518,8 +757,9 @@
         <p class="mb-6">黎族因分布区域、语言差异分为哈、杞、润、赛、美孚五大方言区，服饰各具特色，成为区分不同血缘集团的重要标志。</p>
 
         <div class="mb-8">
-          <img src="https://bkimg.cdn.bcebos.com/pic/f636afc379310a55b31999e0d80e54a98226cffcbac6?x-bce-process=image/format,f_auto/resize,m_lfit,limit_1,h_461" alt="黎族五大方言服饰区分"
-            class="w-full rounded-lg shadow">
+          <img
+            src="https://bkimg.cdn.bcebos.com/pic/f636afc379310a55b31999e0d80e54a98226cffcbac6?x-bce-process=image/format,f_auto/resize,m_lfit,limit_1,h_461"
+            alt="黎族五大方言服饰区分" class="w-full rounded-lg shadow">
         </div>
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

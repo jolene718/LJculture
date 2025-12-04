@@ -6,12 +6,242 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>锦绣千针：黎族传统服饰织造工艺</title>
     <script src="https://cdn.tailwindcss.com/3.3.3"></script>
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.29.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
-    <link rel="stylesheet" href="./navbar.css">
-    <link rel="stylesheet" href="./css/stylesheet.css"> 
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/neo4j-driver@5.15.0/lib/browser/neo4j-web.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <style>
+        .header {
+            width: 100%;
+            background-color: #edeee8;
+            border-bottom: 1px solid #a05f48;
+            padding: 25px 0;
+            position: relative;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, transparent, #c2412d, transparent);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .site-title {
+            font-size: 3.1rem;
+            color: #000;
+            text-decoration: none;
+            font-family: "FZLiQiBeiLiShuS";
+            margin: 0;
+            padding: 0;
+            margin-left: 1%;
+            transition: font-size 0.1s ease;
+        }
+
+        .site-title:hover {
+            font-size: 85px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        .site-title:active {
+            font-size: 80px;
+        }
+
+        .nav-item {
+            font-family: "Alimama DaoLiTi";
+            position: relative;
+            font-size: 42px;
+            color: #c2412d;
+            text-decoration: none;
+            white-space: nowrap;
+            padding: 5px 0;
+            border-radius: 8px;
+            background-color: rgba(194, 65, 45, 0.1);
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            color: #000;
+        }
+
+        .nav-item::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #c2412d;
+            transition: width 0.3s ease;
+        }
+
+        .nav-item:hover::after {
+            width: 100%;
+        }
+
+        /* 响应式导航优化 */
+        @media (min-width: 1600px) {
+            .home-title {
+                font-size: 6.5em;
+            }
+
+            .home-description {
+                font-size: 2.2em;
+            }
+        }
+
+        @media (max-width: 1600px) and (min-width: 1400px) {
+            .home-title {
+                font-size: 6em;
+            }
+
+            .home-description {
+                font-size: 2.1em;
+            }
+
+            .nav-item {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 1400px) {
+            .home-title {
+                font-size: 5.5em;
+            }
+
+            .home-description {
+                font-size: 2em;
+            }
+
+            .nav-item {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .home-title {
+                font-size: 5em;
+            }
+
+            .home-description {
+                font-size: 1.8em;
+            }
+
+            .nav-item {
+                font-size: 36px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .home-title {
+                font-size: 4.5em;
+            }
+
+            .home-description {
+                font-size: 1.6em;
+            }
+
+            .nav-item {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .home-title {
+                font-size: 4em;
+            }
+
+            .home-description {
+                font-size: 1.4em;
+            }
+
+            .nav-item {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .header-container {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+            }
+
+            .site-title {
+                font-size: 60px;
+                margin: 0;
+            }
+
+            .nav-item {
+                font-size: 24px;
+                padding: 5px 10px;
+            }
+
+            .home-title {
+                font-size: 3.5em;
+            }
+
+            .home-description {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .site-title {
+                font-size: 50px;
+            }
+
+            .nav-item {
+                font-size: 20px;
+                padding: 5px 8px;
+            }
+
+            .home-title {
+                font-size: 3em;
+            }
+
+            .home-description {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px 0;
+            }
+
+            .site-title {
+                font-size: 40px;
+            }
+
+            .nav-item {
+                font-size: 18px;
+                padding: 4px 6px;
+            }
+
+            .home-title {
+                font-size: 2.5em;
+            }
+
+            .home-description {
+                font-size: 0.9em;
+                margin-bottom: 40px;
+            }
+        }
+
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background-color: #f8f5f2;
@@ -87,7 +317,7 @@
             padding: 25px 0;
             position: relative;
         }
-    
+
         .header::after {
             content: "";
             position: absolute;
@@ -104,6 +334,83 @@
             }
         }
 
+        /* 知识图谱样式 */
+        .relation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 20px 15px;
+            flex-wrap: wrap;
+        }
+
+        .rel-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: #e8eaed;
+            color: #3c4043;
+        }
+
+        .rel-btn:hover,
+        .rel-btn.active {
+            background: #202124;
+            color: white;
+        }
+
+        #graph-container {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .node-tooltip {
+            position: absolute;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+
+        .tooltip-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .tooltip-prop {
+            margin: 3px 0;
+            color: #555;
+        }
+
+        .link-text {
+            font-size: 13px;
+            font-weight: 500;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+
+        .node circle {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+
+        .node text {
+            pointer-events: none;
+            fill: white;
+            font-weight: 500;
+        }
     </style>
 </head>
 
@@ -113,7 +420,7 @@
             <a href="index.html" class="site-title">黎锦纹铭</a>
             <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
             <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
-            <a href="锦织经纬2.html" class="nav-item">锦织经纬</a>
+            <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
             <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
             <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
         </div>
@@ -123,6 +430,7 @@
         <div class="container mx-auto px-4 py-3 flex justify-between items-center">
             <div class="text-xl font-bold text-gray-800">锦绣千针</div>
             <div class="hidden md:flex space-x-8">
+                <a href="#knowledge-graph" class="nav-link text-gray-700">知识图谱</a>
                 <a href="#intro" class="nav-link text-gray-700">引言</a>
                 <a href="#process" class="nav-link text-gray-700">四大工艺</a>
                 <a href="#pattern" class="nav-link text-gray-700">纹样与颜色</a>
@@ -135,6 +443,7 @@
         </div>
         <!-- 移动端菜单 -->
         <div class="md:hidden hidden bg-white py-2 px-4 shadow-md" id="mobileMenu">
+            <a href="#knowledge-graph" class="block py-2 text-gray-700 hover:text-gray-900">知识图谱</a>
             <a href="#intro" class="block py-2 text-gray-700 hover:text-gray-900">引言</a>
             <a href="#process" class="block py-2 text-gray-700 hover:text-gray-900">四大工艺</a>
             <a href="#pattern" class="block py-2 text-gray-700 hover:text-gray-900">纹样与颜色</a>
@@ -145,10 +454,30 @@
 
 
 
+    <!-- 知识图谱部分 -->
+    <section id="knowledge-graph" class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold mb-8 section-title">一、知识图谱：黎锦纹样的网络关系</h2>
+
+            <div class="relation-buttons">
+                <button class="rel-btn" data-rel="BELONGS_TO">属于 (belongs_to)</button>
+                <button class="rel-btn" data-rel="CONTAINS">包含 (contains)</button>
+                <button class="rel-btn" data-rel="PREVALENT_IN">流行于 (prevalent_in)</button>
+                <button class="rel-btn" data-rel="RELATED_TO">相关 (related_to)</button>
+                <button class="rel-btn" data-rel="USES">使用 (uses)</button>
+                <button class="rel-btn" data-rel="SYMBOLIZES">象征 (symbolizes)</button>
+                <button class="rel-btn" id="show-all">显示全部</button>
+            </div>
+
+            <div id="graph-container"></div>
+            <div class="node-tooltip" id="tooltip"></div>
+        </div>
+    </section>
+
     <!-- 引言部分 -->
     <section id="intro" class="py-12 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 section-title">引言：黎锦的千年传承</h2>
+            <h2 class="text-3xl font-bold mb-8 section-title">二、引言：黎锦的千年传承</h2>
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="md:w-1/2">
                     <img src="https://p3-search.byteimg.com/obj/labis/c71d9c983acad6e407690ec4fbd2e7f6" alt="黎族织锦技艺传承场景"
@@ -169,7 +498,7 @@
     <!-- 四大工艺部分 -->
     <section id="process" class="py-12 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 section-title">一、四大工艺：纺、染、织、绣</h2>
+            <h2 class="text-3xl font-bold mb-8 section-title">三、四大工艺：纺、染、织、绣</h2>
 
             <!-- 纺 -->
             <div class="mb-12 bg-white p-6 rounded-lg shadow-sm process-card">
@@ -306,7 +635,7 @@
     <!-- 纹样与颜色部分 -->
     <section id="pattern" class="py-12 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 section-title">二、纹样与颜色的文化寓意</h2>
+            <h2 class="text-3xl font-bold mb-8 section-title">四、纹样与颜色的文化寓意</h2>
 
             <div class="flex flex-col md:flex-row gap-8 mb-12">
                 <div class="md:w-1/2">
@@ -371,7 +700,7 @@
     <!-- 双面绣部分 -->
     <section id="double" class="py-12 bg-gray-50">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 section-title">三、双面绣：指尖上的艺术瑰宝</h2>
+            <h2 class="text-3xl font-bold mb-8 section-title">五、双面绣：指尖上的艺术瑰宝</h2>
 
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="md:w-1/2">
@@ -410,7 +739,7 @@
     <!-- 素色传统风部分 -->
     <section class="py-12 bg-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 section-title">四、素色传统风的美学表达</h2>
+            <h2 class="text-3xl font-bold mb-8 section-title">六、素色传统风的美学表达</h2>
 
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="md:w-1/2">
@@ -470,7 +799,7 @@
     <!-- 文化传承部分 -->
     <section id="culture" class="py-12 bg-gray-800 text-white">
         <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold mb-8 section-title">五、文化传承与当代价值</h2>
+            <h2 class="text-3xl font-bold mb-8 section-title">七、文化传承与当代价值</h2>
 
             <div class="flex flex-col md:flex-row gap-8">
                 <div class="md:w-1/2">
@@ -522,6 +851,286 @@
                 }
             });
         });
+
+        // 知识图谱代码
+        window.onload = function () {
+            class GraphApp {
+                constructor() {
+                    this.container = document.getElementById('graph-container');
+                    this.tooltip = document.getElementById('tooltip');
+                    this.width = this.container.clientWidth;
+                    this.height = this.container.clientHeight;
+
+                    // 创建可拖拽缩放的SVG
+                    this.svg = d3.select(this.container)
+                        .append("svg")
+                        .attr("width", "100%")
+                        .attr("height", "100%")
+                        .call(d3.zoom().scaleExtent([0.1, 3]).on("zoom", (e) => {
+                            this.g.attr("transform", e.transform);
+                        }));
+
+                    this.g = this.svg.append("g");
+
+                    // 数据库连接配置
+                    this.driver = neo4j.driver(
+                        "neo4j+s://d4259ad0.databases.neo4j.io",
+                        neo4j.auth.basic("neo4j", "Bgd9y8u9uWXzTM9caQjTiUuRqvCZFbnxlcH-yuFcf5k") // 替换为你的密码
+                    );
+
+                    // 实体类型配色
+                    this.nodeColors = {
+                        "Pattern": "#4285F4",       // 纹样：蓝色
+                        "Dialect": "#DB4437",       // 方言区：红色
+                        "Meaning": "#F4B400",       // 寓意：黄色
+                        "Technique": "#34A853",     // 技艺：绿色
+                        "Tool": "#80868B",          // 工具：灰色
+                        "DragonQuilt": "#8E24AA",   // 龙被：紫色
+                        "Material": "#FF9800",      // 材质：橙色
+                    };
+
+                    // 关系类型配色
+                    this.relColors = {
+                        "BELONGS_TO": "#4285F4",
+                        "CONTAINS": "#EA4335",
+                        "PREVALENT_IN": "#FBBC05",
+                        "RELATED_TO": "#34A853",
+                        "USES": "#FF6D00",
+                        "SYMBOLIZES": "#8E24AA"
+                    };
+
+                    // 节点样式（确保文字完整显示）
+                    this.baseNodeRadius = 40; // 基础半径，根据文字长度动态调整
+                    this.nodeTextSize = 14;
+
+                    // 绑定事件
+                    this.bindEvents();
+
+                    // 初始显示全部
+                    this.loadData(null);
+                }
+
+                // 从数据库加载数据（核心逻辑：按关系重新查询）
+                async loadData(relationType) {
+                    let cypher;
+                    if (relationType) {
+                        // 只查询指定关系的数据
+                        cypher = `MATCH (n)-[r:${relationType}]-(m) RETURN n, r, m`;
+                    } else {
+                        // 显示全部数据
+                        cypher = "MATCH (n)-[r]-(m) RETURN n, r, m";
+                    }
+
+                    try {
+                        const session = this.driver.session();
+                        const result = await session.run(cypher);
+                        await session.close();
+
+                        // 处理数据并渲染
+                        const { nodes, links } = this.processData(result);
+                        this.renderGraph(nodes, links);
+
+                        // 更新按钮状态
+                        this.updateButtonStates(relationType);
+                    } catch (err) {
+                        console.error("数据加载失败:", err);
+                        alert("查询失败: " + err.message);
+                    }
+                }
+
+                // 处理数据库返回的数据
+                processData(result) {
+                    const nodesMap = new Map();
+                    const links = [];
+
+                    result.records.forEach(record => {
+                        const [n, r, m] = record._fields;
+
+                        // 处理节点n
+                        const nodeN = {
+                            id: n.identity.toString(),
+                            label: n.labels[0],
+                            name: n.properties.name || "未命名",
+                            props: n.properties
+                        };
+                        if (!nodesMap.has(nodeN.id)) nodesMap.set(nodeN.id, nodeN);
+
+                        // 处理节点m
+                        const nodeM = {
+                            id: m.identity.toString(),
+                            label: m.labels[0],
+                            name: m.properties.name || "未命名",
+                            props: m.properties
+                        };
+                        if (!nodesMap.has(nodeM.id)) nodesMap.set(nodeM.id, nodeM);
+
+                        // 处理关系
+                        links.push({
+                            source: nodeN.id,
+                            target: nodeM.id,
+                            type: r.type,
+                            id: `${nodeN.id}-${r.type}-${nodeM.id}`
+                        });
+                    });
+
+                    return {
+                        nodes: Array.from(nodesMap.values()),
+                        links: links
+                    };
+                }
+
+                // 渲染图谱（确保节点和关系同时显示）
+                renderGraph(nodes, links) {
+                    // 清空现有内容
+                    this.g.selectAll("*").remove();
+
+                    // 计算节点所需半径（根据文字长度动态调整，确保完整显示）
+                    nodes.forEach(node => {
+                        const textLength = node.name.length * 10; // 每个字约10px宽度
+                        node.radius = Math.max(this.baseNodeRadius, textLength / 2 + 10); // 确保文字能放下
+                    });
+
+                    // 力导向图配置（拉大节点间距）
+                    const simulation = d3.forceSimulation(nodes)
+                        .force("link", d3.forceLink(links).id(d => d.id).distance(300).strength(0.6)) // 距离拉大到300px
+                        .force("charge", d3.forceManyBody().strength(-1000)) // 增强排斥力，避免拥挤
+                        .force("center", d3.forceCenter(this.width / 2, this.height / 2))
+                        .force("collision", d3.forceCollide().radius(d => d.radius + 15)); // 碰撞半径随节点大小变化
+
+                    // 绘制连线
+                    const link = this.g.append("g")
+                        .attr("class", "links")
+                        .selectAll("line")
+                        .data(links)
+                        .enter().append("line")
+                        .attr("stroke", d => this.relColors[d.type] || "#999")
+                        .attr("stroke-width", 2.5)
+                        .attr("stroke-opacity", 0.8);
+
+                    // 绘制关系文字
+                    const linkText = this.g.append("g")
+                        .attr("class", "link-texts")
+                        .selectAll("text")
+                        .data(links)
+                        .enter().append("text")
+                        .attr("class", "link-text")
+                        .text(d => this.getRelName(d.type))
+                        .attr("fill", d => this.relColors[d.type] || "#666");
+
+                    // 绘制节点组
+                    const node = this.g.append("g")
+                        .attr("class", "nodes")
+                        .selectAll("g")
+                        .data(nodes)
+                        .enter().append("g")
+                        .attr("class", "node")
+                        .call(d3.drag()
+                            .on("start", (e, d) => {
+                                if (!e.active) simulation.alphaTarget(0.3).restart();
+                                d.fx = d.x; d.fy = d.y;
+                            })
+                            .on("drag", (e, d) => {
+                                d.fx = e.x; d.fy = e.y;
+                            })
+                            .on("end", (e, d) => {
+                                if (!e.active) simulation.alphaTarget(0);
+                                d.fx = null; d.fy = null;
+                            })
+                        )
+                        .on("click", (e, d) => this.showNodeProps(e, d));
+
+                    // 节点圆圈（按实体类型着色）
+                    node.append("circle")
+                        .attr("r", d => d.radius)
+                        .attr("fill", d => this.nodeColors[d.label] || "#cccccc")
+                        .attr("stroke-opacity", 0.9);
+
+                    // 节点文字（完全显示，不截断）
+                    node.append("text")
+                        .attr("text-anchor", "middle")
+                        .attr("dy", "0.3em")
+                        .attr("font-size", this.nodeTextSize)
+                        .text(d => d.name); // 直接显示完整名称
+
+                    // 力导向图更新
+                    simulation.on("tick", () => {
+                        link
+                            .attr("x1", d => d.source.x)
+                            .attr("y1", d => d.source.y)
+                            .attr("x2", d => d.target.x)
+                            .attr("y2", d => d.target.y);
+
+                        linkText
+                            .attr("x", d => (d.source.x + d.target.x) / 2)
+                            .attr("y", d => (d.source.y + d.target.y) / 2 - 5);
+
+                        node.attr("transform", d => `translate(${d.x},${d.y})`);
+                    });
+                }
+
+                // 显示节点属性
+                showNodeProps(event, node) {
+                    const tooltip = this.tooltip;
+                    let html = `<div class="tooltip-title">${node.label}：${node.name}</div>`;
+                    Object.entries(node.props).forEach(([key, val]) => {
+                        html += `<div class="tooltip-prop"><strong>${key}：</strong>${val}</div>`;
+                    });
+                    tooltip.innerHTML = html;
+                    tooltip.style.left = (event.pageX + 10) + "px";
+                    tooltip.style.top = (event.pageY - 20) + "px";
+                    tooltip.style.display = "block";
+
+                    d3.select("body").on("click.tooltip", (e) => {
+                        if (!tooltip.contains(e.target)) {
+                            tooltip.style.display = "none";
+                            d3.select("body").on("click.tooltip", null);
+                        }
+                    });
+                }
+
+                // 关系名转换为中文
+                getRelName(type) {
+                    const map = {
+                        "BELONGS_TO": "属于",
+                        "CONTAINS": "包含",
+                        "PREVALENT_IN": "流行于",
+                        "RELATED_TO": "相关",
+                        "USES": "使用",
+                        "SYMBOLIZES": "象征"
+                    };
+                    return map[type] || type;
+                }
+
+                // 绑定按钮事件（点击重新查询数据库）
+                bindEvents() {
+                    document.querySelectorAll(".rel-btn[data-rel]").forEach(btn => {
+                        btn.addEventListener("click", () => {
+                            const rel = btn.getAttribute("data-rel");
+                            this.loadData(rel); // 加载该关系的数据
+                        });
+                    });
+
+                    document.getElementById("show-all").addEventListener("click", () => {
+                        this.loadData(null); // 加载全部数据
+                    });
+                }
+
+                // 更新按钮状态
+                updateButtonStates(activeRel) {
+                    document.querySelectorAll(".rel-btn").forEach(btn => {
+                        btn.classList.remove("active");
+                    });
+                    if (activeRel) {
+                        document.querySelector(`.rel-btn[data-rel="${activeRel}"]`)?.classList.add("active");
+                    } else {
+                        document.getElementById("show-all").classList.add("active");
+                    }
+                }
+            }
+
+            // 初始化知识图谱应用
+            const graphApp = new GraphApp();
+        };
     </script>
 </body>
 

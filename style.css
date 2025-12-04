@@ -1,0 +1,1823 @@
+:root {
+    --primary-color: #c2412d;
+    --text-dark: #000;
+    --text-sm: 1.2rem;
+    --background-color: #f3e6e8;
+    --secondary-background: #edeee8;
+}
+
+/* 加载界面样式 */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.loader-container.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-logo {
+    font-family: "FZLiQiBeiLiShuS";
+    font-size: clamp(3rem, 8vw, 6rem);
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease-out 0.3s forwards;
+}
+
+.loader-spinner {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 2rem;
+}
+
+.loader-circle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid transparent;
+    border-top-color: var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1.5s linear infinite;
+}
+
+.loader-circle:nth-child(2) {
+    width: 70%;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-top-color: #a05f48;
+    animation-delay: 0.3s;
+}
+
+.loader-text {
+    font-family: "FZGuoMeiJinDaoTiS";
+    font-size: var(--text-sm);
+    color: var(--text-dark);
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 0.6s forwards;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+body {
+    width: 100vw;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: #f3e6e8;
+    overflow-x: hidden;
+}
+
+a-waves {
+    position: absolute;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+a-waves svg {
+    width: 100%;
+    height: 100%;
+}
+
+a-waves svg path {
+    fill: none;
+    stroke: #c2412d;
+    stroke-width: 1px;
+}
+
+.header {
+    width: 100%;
+    background-color: #edeee8;
+    border-bottom: 1px solid #a05f48;
+    padding: 25px 0;
+    position: relative;
+}
+
+.header::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(to right, transparent, #c2412d, transparent);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+.site-title {
+    font-size: 3.1rem;
+    color: #000;
+    text-decoration: none;
+    font-family: "FZLiQiBeiLiShuS";
+    margin: 0;
+    padding: 0;
+    margin-left: 1%;
+    transition: font-size 0.1s ease;
+}
+
+.site-title:hover {
+    font-size: 85px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.site-title:active {
+    font-size: 80px;
+}
+
+.nav-item {
+    font-family: "Alimama DaoLiTi";
+    position: relative;
+    font-size: 42px;
+    color: #c2412d;
+    text-decoration: none;
+    white-space: nowrap;
+    padding: 5px 0;
+    border-radius: 8px;
+    background-color: rgba(194, 65, 45, 0.1);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav-item:hover {
+    color: #000;
+}
+
+.nav-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #c2412d;
+    transition: width 0.3s ease;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+}
+
+/* 响应式导航优化 */
+@media (min-width: 1600px) {
+    .home-title {
+        font-size: 6.5em;
+    }
+
+    .home-description {
+        font-size: 2.2em;
+    }
+}
+
+@media (max-width: 1600px) and (min-width: 1400px) {
+    .home-title {
+        font-size: 6em;
+    }
+
+    .home-description {
+        font-size: 2.1em;
+    }
+
+    .nav-item {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .home-title {
+        font-size: 5.5em;
+    }
+
+    .home-description {
+        font-size: 2em;
+    }
+
+    .nav-item {
+        font-size: 38px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .home-title {
+        font-size: 5em;
+    }
+
+    .home-description {
+        font-size: 1.8em;
+    }
+
+    .nav-item {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .home-title {
+        font-size: 4.5em;
+    }
+
+    .home-description {
+        font-size: 1.6em;
+    }
+
+    .nav-item {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 900px) {
+    .home-title {
+        font-size: 4em;
+    }
+
+    .home-description {
+        font-size: 1.4em;
+    }
+
+    .nav-item {
+        font-size: 28px;
+    }
+}
+
+@media (max-width: 800px) {
+    .header-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .site-title {
+        font-size: 60px;
+        margin: 0;
+    }
+
+    .nav-item {
+        font-size: 24px;
+        padding: 5px 10px;
+    }
+
+    .home-title {
+        font-size: 3.5em;
+    }
+
+    .home-description {
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 600px) {
+    .site-title {
+        font-size: 50px;
+    }
+
+    .nav-item {
+        font-size: 20px;
+        padding: 5px 8px;
+    }
+
+    .home-title {
+        font-size: 3em;
+    }
+
+    .home-description {
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 15px 0;
+    }
+
+    .site-title {
+        font-size: 40px;
+    }
+
+    .nav-item {
+        font-size: 18px;
+        padding: 4px 6px;
+    }
+
+    .home-title {
+        font-size: 2.5em;
+    }
+
+    .home-description {
+        font-size: 0.9em;
+        margin-bottom: 40px;
+    }
+}
+
+/* 首页内容样式 */
+.home-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.home-title {
+    font-family: "FZLiQiBeiLiShuS";
+    color: var(--primary-color);
+    margin-bottom: 0.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    transition: font-size 0.3s ease;
+    line-height: 1.2;
+}
+
+.home-description {
+    font-family: "FZGuoMeiJinDaoTiS", sans-serif;
+    color: var(--text-dark);
+    max-width: 1000px;
+    /* 增加最大宽度 */
+    margin: 1.5rem auto;
+    line-height: 1.6;
+    font-size: var(--text-sm);
+    text-align: center;
+    padding: 0 1rem;
+    border-top: 1px solid rgba(160, 95, 72, 0.2);
+    border-bottom: 1px solid rgba(160, 95, 72, 0.2);
+    padding: 1rem 0;
+}
+
+/* 页脚介绍模块样式 */
+.page-footer {
+    position: relative;
+    width: 100%;
+    padding: 4rem 0;
+    background-color: rgba(243, 230, 232, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 1;
+}
+
+/* 特别鸣谢部分样式 */
+.special-thanks {
+    margin: 2rem auto;
+    padding: 1.5rem 1rem;
+    max-width: 1100px;
+    /* 增加最大宽度 */
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    /* 新增：使用 flex 布局 */
+    flex-direction: column;
+    /* 新增：垂直排列 */
+    align-items: center;
+    /* 新增：水平居中 */
+}
+
+.special-thanks::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-green));
+}
+
+.special-thanks h3 {
+    font-family: "Alimama DaoLiTi", serif;
+    color: var(--primary-color);
+    font-size: clamp(1.3rem, 2vw, 1.8rem);
+    margin: 0 0 1rem 0;
+    text-align: center;
+    position: relative;
+}
+
+.special-thanks h3::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background-color: var(--border-color);
+}
+
+.special-thanks p {
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    text-align: justify;
+    margin: 0;
+    text-indent: 2em;
+}
+
+.thanks-decoration {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.thanks-decoration span {
+    width: 10px;
+    height: 10px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    margin: 0 5px;
+    opacity: 0.6;
+}
+
+/* 波浪线和欢迎文字容器 */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 横向滑动模块样式 */
+.cardsbox_card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.cardsbox_card-link:hover .cardsbox_card {
+    transform: translateY(-5px);
+}
+
+.wapper {
+    position: relative;
+    width: 100%;
+}
+
+.container {
+    position: sticky;
+    top: 0;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(243, 230, 232, 0.8);
+    overflow: hidden;
+    display: flex;
+}
+
+.cardsbox {
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    position: relative;
+}
+
+/* 丝线连接效果容器 */
+.cardsbox::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: rgba(194, 65, 45, 0.3);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.cardsbox_card {
+    justify-content: center;
+    align-items: center;
+    width: 70rem;
+    height: 50rem;
+    background-color: rgba(237, 238, 232, 0.3);
+    margin-right: 20rem;
+    font-family: "FZLiQiBeiLiShuS";
+    font-size: 5rem;
+    color: var(--primary-color);
+    flex-shrink: 0;
+    border: 3px solid rgba(194, 65, 45, 0.6);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        box-shadow 0.5s ease,
+        background-color 0.5s ease,
+        border-color 0.5s ease;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* 卡片悬停效果 */
+.cardsbox_card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: rgba(194, 65, 45, 0.8);
+}
+
+/* 居中卡片突出效果 */
+.cardsbox_card.active {
+    transform: scale(1.05) translateY(-15px);
+    box-shadow: 0 12px 30px rgba(194, 65, 45, 0.2);
+    border-color: rgba(194, 65, 45, 1);
+    background-color: rgba(237, 238, 232, 0.5);
+}
+
+/* 卡片之间的丝线连接 */
+.cardsbox_card::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -20rem;
+    width: 20rem;
+    height: 1px;
+    background-color: rgba(194, 65, 45, 0.3);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 最后一个卡片不显示丝线 */
+.cardsbox_card:last-child::after {
+    display: none;
+}
+
+.cardsbox_card-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+    opacity: 0.8;
+    /* 提高视频透明度 */
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.cardsbox_card:hover .cardsbox_card-video {
+    opacity: 0.9;
+    /* 悬停时进一步提高透明度 */
+}
+
+.cardsbox_card-content {
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+    transition: transform 0.3s ease;
+}
+
+.cardsbox_card:hover .cardsbox_card-content {
+    transform: scale(1.05);
+}
+
+.cardsbox_card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* 黎纹锦韵页面样式 */
+.pattern-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pattern-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.image-zoom {
+    transition: transform 0.3s ease;
+}
+
+.image-zoom:hover {
+    transform: scale(1.03);
+    cursor: zoom-in;
+}
+
+/* 引言部分样式 */
+.intro-section {
+    padding: 4rem 0;
+    background-color: rgba(239, 246, 255, 0.5);
+}
+
+.intro-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.section-title {
+    font-family: "FZLiQiBeiLiShuS";
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+.intro-text {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    line-height: 1.7;
+}
+
+/* 图案分类网格样式 */
+.pattern-categories {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+}
+
+.pattern-category {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex: 1;
+    min-width: 120px;
+    max-width: 180px;
+}
+
+.pattern-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.pattern-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(194, 65, 45, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.pattern-category-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-dark);
+}
+
+/* 图案内容部分样式 */
+.pattern-section {
+    padding: 4rem 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.pattern-section:nth-child(even) {
+    background-color: rgba(249, 250, 251, 0.8);
+}
+
+.pattern-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+}
+
+.pattern-icon-large {
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+}
+
+.pattern-section-title {
+    font-family: "FZLiQiBeiLiShuS";
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--text-dark);
+}
+
+.pattern-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    padding: 0 1rem;
+}
+
+.pattern-description {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+    font-family: "KaiTi", "STKaiti", serif;
+}
+
+.pattern-subtitle {
+    font-family: "Alimama DaoLiTi";
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.pattern-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.5rem 0;
+}
+
+.pattern-list-item {
+    display: flex;
+    margin-bottom: 1.5rem;
+}
+
+.pattern-list-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: rgba(194, 65, 45, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 0.75rem;
+    margin-right: 1rem;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.pattern-list-content {
+    flex: 1;
+}
+
+.pattern-list-title {
+    font-weight: 500;
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.pattern-list-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+    font-family: "KaiTi", "STKaiti", serif;
+}
+
+.pattern-image-container {
+    background-color: rgba(243, 230, 232, 0.5);
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pattern-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 描述文本通用样式 */
+.description-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-dark);
+    margin-bottom: 1.5rem;
+    font-family: "KaiTi", "STKaiti", serif;
+    text-align: justify;
+    text-indent: 2em;
+}
+
+/* 文化价值部分样式 */
+.cultural-value-section {
+    padding: 4rem 0;
+    background-color: rgba(239, 246, 255, 0.5);
+}
+
+.cultural-value-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    text-align: center;
+}
+
+.cultural-value-title {
+    font-family: "Alimama DaoLiTi";
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.cultural-value-intro {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: inline-block;
+    text-align: left;
+    max-width: 800px;
+}
+
+.cultural-value-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.cultural-value-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+}
+
+.cultural-value-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.cultural-value-icon {
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(194, 65, 45, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+    margin: 0 auto 1rem;
+}
+
+.cultural-value-item-title {
+    font-family: "Alimama DaoLiTi";
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+}
+
+.cultural-value-item-text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-dark);
+}
+
+/* 图片放大模态框样式 */
+#imageModal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#imageModal.show {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+#modalContent {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 8px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+#closeModal {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: white;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+#closeModal:hover {
+    color: #ccc;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .pattern-categories {
+        gap: 1.25rem;
+    }
+
+    .pattern-category {
+        min-width: 110px;
+        max-width: 160px;
+    }
+}
+
+@media (max-width: 992px) {
+    .pattern-content {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+    }
+
+    .cultural-value-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .pattern-categories {
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .pattern-category {
+        min-width: 100px;
+        max-width: 140px;
+        padding: 1rem;
+    }
+
+    .pattern-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pattern-icon-large {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .cultural-value-description {
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .cultural-value-item {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .intro-section,
+    .pattern-section,
+    .cultural-value-section {
+        padding: 2rem 0;
+    }
+
+    .pattern-categories {
+        gap: 0.75rem;
+    }
+
+    .pattern-category {
+        min-width: 80px;
+        max-width: 120px;
+        padding: 0.75rem;
+    }
+
+    .pattern-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        font-size: 1.25rem;
+    }
+
+    .pattern-category-name {
+        font-size: 0.8rem;
+    }
+
+    .pattern-image-container {
+        padding: 0.5rem;
+    }
+
+    .cultural-value-title {
+        font-size: 1.5rem;
+    }
+
+    .cultural-value-description {
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .cultural-value-description p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .cultural-value-grid {
+        gap: 1.5rem;
+    }
+
+    .cultural-value-item {
+        padding: 1.25rem;
+    }
+}
+
+/* 黎纹生成页面样式 */
+.generator-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.generator-container h1 {
+    color: var(--primary-color);
+    text-align: center;
+    font-family: "FZLiQiBeiLiShuS";
+    font-size: clamp(2rem, 5vw, 3rem);
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.form-group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-group button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.form-group button:hover {
+    background-color: #a05f48;
+}
+
+.form-group button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#loading {
+    display: none;
+    text-align: center;
+    margin: 15px 0;
+    color: var(--text-dark);
+}
+
+#error {
+    display: none;
+    background-color: #ffebee;
+    color: #b71c1c;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+#results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.result-item {
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    text-align: center;
+}
+
+.result-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.download-btn {
+    background-color: #008CBA;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #007bb5;
+}
+
+.preset-btn {
+    background-color: #607D8B;
+    color: white;
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 5px 5px 5px 0;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+.preset-btn:hover {
+    background-color: #546e7a;
+}
+
+.presets {
+    margin-bottom: 15px;
+}
+
+.advanced-options {
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.6);
+}
+
+.advanced-toggle {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #008CBA;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.debug-info {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e8f5e9;
+    border-radius: 4px;
+    font-size: 14px;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* 用户生成图示例区域样式 */
+.user-generated-examples {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 20px;
+}
+
+.user-generated-examples h2 {
+    font-family: "Alimama DaoLiTi";
+    color: var(--primary-color);
+    font-size: clamp(2rem, 4vw, 2.5rem);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.example-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.example-images img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.example-images img:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Spinner动画 */
+.spinner {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid var(--primary-color);
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* 锦织经纬页面样式 */
+:root {
+    --border-color: #a05f48;
+    --bg-light: #edeee8;
+    --accent-gray: #b7a9a1;
+    --accent-green: #5f7161;
+    --h-color: #c2412d;
+    --qi-color: #5f7161;
+    --run-color: #a05f48;
+    --meifu-color: #7d5a4f;
+    --sai-color: #6b7b8c;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: "KaiTi", "STKaiti", serif;
+    color: #3e3a2f;
+    background: linear-gradient(to bottom, #edeee8, #f3e6e8);
+    cursor: url('./鼠标.cur'), auto;
+}
+
+/* 视频样式 */
+video {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* 首页内容样式 */
+.home-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px 40px;
+}
+
+.home-title {
+    font-family: "FZLiQiBeiLiShuS";
+    color: var(--primary-color);
+    margin-bottom: 0.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15);
+    transition: font-size 0.3s ease;
+    line-height: 1.2;
+}
+
+.home-description {
+    font-family: "FZGuoMeiJinDaoTiS";
+    color: var(--text-dark);
+    max-width: 800px;
+    margin-bottom: 60px;
+    transition: font-size 0.3s ease;
+    line-height: 1.6;
+}
+
+
+/* Click 页面样式 - 整合抽屉式效果 */
+.shell {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.box {
+    overflow: hidden;
+    transition: .5s;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, .5);
+    border-radius: 20px;
+    border: 10px solid #fff;
+    background-color: #fff;
+}
+
+.box>video {
+    object-fit: cover;
+    transition: .5s;
+}
+
+.box>span {
+    font: 200 45px 'Alimama DaoLiTi';
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 大屏幕抽屉式效果（横向排列） */
+@media (min-width: 768px) {
+    .shell {
+        height: 600px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .box-container {
+        flex-wrap: nowrap;
+        width: 100%;
+    }
+
+    .box {
+        flex: 1;
+        margin: 0 20px;
+    }
+
+    .box>video {
+        width: 200%;
+        height: 85%;
+    }
+
+    .box>span {
+        height: 15%;
+    }
+
+    .box:hover {
+        flex-basis: 40%;
+    }
+
+    .box:hover>video {
+        width: 100%;
+        height: 100%;
+    }
+}
+
+/* 小屏幕垂直排列 */
+@media (max-width: 767px) {
+    .box {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 20px;
+    }
+
+    .box>video {
+        width: 100%;
+        height: auto;
+    }
+
+    .box>span {
+        height: auto;
+        padding: 20px 0;
+        font-size: 28px;
+    }
+}
+
+/* 横向滑动模块响应式设计 */
+@media (max-width: 1600px) {
+    .cardsbox_card {
+        width: 50rem;
+        height: 35rem;
+        margin-right: 15rem;
+        font-size: 4rem;
+    }
+
+    /* 调整丝线长度 */
+    .cardsbox_card::after {
+        width: 15rem;
+        right: -15rem;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cardsbox_card {
+        width: 40rem;
+        height: 30rem;
+        margin-right: 12rem;
+        font-size: 3.5rem;
+    }
+
+    /* 调整丝线长度 */
+    .cardsbox_card::after {
+        width: 12rem;
+        right: -12rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .cardsbox_card {
+        width: 35rem;
+        height: 25rem;
+        margin-right: 10rem;
+        font-size: 3rem;
+        border-width: 2px;
+    }
+
+    /* 调整丝线长度 */
+    .cardsbox_card::after {
+        width: 10rem;
+        right: -10rem;
+    }
+
+    .cardsbox {
+        padding: 0 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .cardsbox_card {
+        width: 30rem;
+        height: 20rem;
+        margin-right: 8rem;
+        font-size: 2.5rem;
+        border-width: 2px;
+        border-radius: 10px;
+    }
+
+    /* 调整丝线长度 */
+    .cardsbox_card::after {
+        width: 8rem;
+        right: -8rem;
+    }
+
+    .cardsbox {
+        padding: 0 20px;
+    }
+
+    /* 居中卡片突出效果调整 */
+    .cardsbox_card.active {
+        transform: scale(1.03) translateY(-10px);
+    }
+}
+
+@media (max-width: 576px) {
+    .cardsbox_card {
+        width: 25rem;
+        height: 18rem;
+        margin-right: 6rem;
+        font-size: 2rem;
+        border-width: 1px;
+        border-radius: 8px;
+    }
+
+    /* 调整丝线长度 */
+    .cardsbox_card::after {
+        width: 6rem;
+        right: -6rem;
+    }
+
+    .cardsbox {
+        padding: 0 15px;
+    }
+
+    /* 居中卡片突出效果调整 */
+    .cardsbox_card.active {
+        transform: scale(1.02) translateY(-8px);
+    }
+}
+
+.svg-map-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px auto;
+    padding: 32px 0;
+    background: linear-gradient(135deg, #f8f5f0 60%, #e9e2d8 100%);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(194, 65, 45, 0.08), 0 2px 8px rgba(160, 95, 72, 0.10);
+    border: 2px solid #e6d6c3;
+    max-width: 1400px;
+    width: 95vw;
+    margin-left: auto;
+    margin-right: auto;
+    transition: box-shadow 0.3s;
+}
+
+.svg-map-container spline-viewer {
+    width: 100% !important;
+    max-width: 1280px;
+    height: 700px !important;
+    margin: 0 auto;
+    display: block;
+}
+
+.svg-map-container:hover {
+    box-shadow: 0 12px 40px rgba(194, 65, 45, 0.16), 0 4px 16px rgba(160, 95, 72, 0.18);
+    background: linear-gradient(135deg, #f3e6e8 60%, #f8f5f0 100%);
+}
+
+.svg-map-container object {
+    border-radius: 16px;
+    border: 1.5px solid #b7a9a1;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(160, 95, 72, 0.10);
+    transition: box-shadow 0.3s;
+    width: 100%;
+    max-width: 900px;
+    height: 600px;
+    display: block;
+    margin: 0 auto;
+}
+
+.map-desc {
+    max-width: 1200px;
+    margin: 48px auto 0 auto;
+    padding: 28px 36px 18px 36px;
+    background: linear-gradient(90deg, #f8f5f0 80%, #f3e6e8 100%);
+    border-radius: 18px;
+    box-shadow: 0 4px 18px rgba(194, 65, 45, 0.07);
+    border: 1.5px solid #e6d6c3;
+    font-family: "FZGuoMeiJinDaoTiS", "KaiTi", serif;
+    color: #5f7161;
+    font-size: 1.18rem;
+    line-height: 1.85;
+    text-align: justify;
+    letter-spacing: 0.02em;
+}
+
+/* 方言区块排版优化 */
+.culture-section {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    font-family: "Alimama DaoLiTi";
+    color: var(--primary-color);
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 50px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 方言区块采用流式布局 */
+.dialect-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.dialect-block {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    border-left: 5px solid;
+}
+
+.dialect-block:hover {
+    transform: translateY(-5px);
+}
+
+/* 各方言区块左侧标识色 */
+.dialect-h {
+    border-color: var(--h-color);
+}
+
+.dialect-qi {
+    border-color: var(--qi-color);
+}
+
+.dialect-run {
+    border-color: var(--run-color);
+}
+
+.dialect-meifu {
+    border-color: var(--meifu-color);
+}
+
+.dialect-sai {
+    border-color: var(--sai-color);
+}
+
+.dialect-header {
+    padding: 20px 30px;
+    background: linear-gradient(90deg, #f8f5f0 0%, #f0ebe4 100%);
+    border-bottom: 1px solid #f0ebe4;
+}
+
+.dialect-title {
+    font-family: "Alimama DaoLiTi";
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--text-dark);
+}
+
+.dialect-content {
+    padding: 30px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    font-family: "FZGuoMeiJinDaoTiS";
+    color: var(--text-dark);
+    line-height: 1.8;
+}
+
+/* 新增图片容器样式 */
+.dialect-img {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 0 20px;
+}
+
+.dialect-img-container {
+    position: relative;
+    width: 100%;
+    border: 10px solid #fff;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.dialect-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.img-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    text-align: center;
+    padding: 2px 15px;
+    font-family: "FZGuoMeiJinDaoTiS";
+    font-size: 1rem;
+}
+
+/* 调整方言容器间距 */
+.dialect-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+@media (max-width: 992px) {
+    .dialect-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+.content-part h3 {
+    font-size: 1.3rem;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #5f7161;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed #e6d6c3;
+}
+
+.feature-list {
+    padding-left: 20px;
+    margin: 0;
+}
+
+.feature-list li {
+    margin-bottom: 12px;
+    position: relative;
+    padding-left: 18px;
+}
+
+.feature-list li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: inherit;
+    font-weight: bold;
+}
+
+.tattoo-desc {
+    background-color: #f8f5f0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+
+@media (max-width: 768px) {
+    .dialect-content {
+        padding: 20px;
+    }
+
+    .costume-grid {
+        grid-template-columns: 1fr;
+    }
+}

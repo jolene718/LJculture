@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>黎锦纹样知识图谱</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/neo4j-driver@5.15.0/lib/browser/neo4j-web.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            background: #f0f2f5; 
+            font-family: "Microsoft YaHei", sans-serif; 
+            overflow: hidden;
+        }
+        h1 { 
+            text-align: center; 
+            color: #2c3e50; 
+            padding: 20px 0; 
+            font-weight: 500;
+        }
+        .relation-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 0 20px 15px;
+            flex-wrap: wrap;
+        }
+        .rel-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+            background: #e8eaed;
+            color: #3c4043;
+        }
+        .rel-btn:hover, .rel-btn.active {
+            background: #202124;
+            color: white;
+        }
+        #graph-container { 
+            position: relative;
+            width: 100vw; 
+            height: calc(100vh - 120px); 
+            background: #fff;
+        }
+        .node-tooltip {
+            position: absolute;
+            padding: 10px 15px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            font-size: 14px;
+            z-index: 1000;
+            max-width: 300px;
+            display: none;
+        }
+        .tooltip-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        .tooltip-prop {
+            margin: 3px 0;
+            color: #555;
+        }
+        .link-text {
+            font-size: 13px;
+            font-weight: 500;
+            text-anchor: middle;
+            pointer-events: none;
+        }
+        .node circle {
+            stroke: #fff;
+            stroke-width: 2px;
+        }
+        .node text {
+            pointer-events: none;
+            fill: white;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <h1>海南黎锦纹样知识图谱</h1>
+    
+    <div class="relation-buttons">
+        <button class="rel-btn" data-rel="BELONGS_TO">属于 (belongs_to)</button>
+        <button class="rel-btn" data-rel="CONTAINS">包含 (contains)</button>
+        <button class="rel-btn" data-rel="PREVALENT_IN">流行于 (prevalent_in)</button>
+        <button class="rel-btn" data-rel="RELATED_TO">相关 (related_to)</button>
+        <button class="rel-btn" data-rel="USES">使用 (uses)</button>
+        <button class="rel-btn" data-rel="SYMBOLIZES">象征 (symbolizes)</button>
+        <button class="rel-btn" id="show-all">显示全部</button>
+    </div>
+    
+    <div id="graph-container"></div>
+    <div class="node-tooltip" id="tooltip"></div>
+
+    <script>
+        class GraphApp {
+            constructor() {
+                this.container = document.getElementById('graph-container');
+                this.tooltip = document.getElementById('tooltip');
+                this.width = this.container.clientWidth;
+                this.height = this.container.clientHeight;
+                
+                // 创建可拖拽缩放的SVG
+                this.svg = d3.select(this.container)
+                    .append("svg")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .call(d3.zoom().scaleExtent([0.1, 3]).on("zoom", (e) => {
+                        this.g.attr("transform", e.transform);
+                    }));
+                
+                this.g = this.svg.append("g");
+                
+                // 数据库连接配置
+                this.driver = neo4j.driver(
+                    "neo4j+s://d4259ad0.databases.neo4j.io",
+                    neo4j.auth.basic("neo4j", "Bgd9y8u9uWXzTM9caQjTiUuRqvCZFbnxlcH-yuFcf5k") // 替换为你的密码
+                );
+                
+                // 实体类型配色
+                this.nodeColors = {
+                    "Pattern": "#4285F4",       // 纹样：蓝色
+                    "Dialect": "#DB4437",       // 方言区：红色
+                    "Meaning": "#F4B400",       // 寓意：黄色
+                    "Technique": "#34A853",     // 技艺：绿色
+                    "Tool": "#80868B",          // 工具：灰色
+                    "DragonQuilt": "#8E24AA",   // 龙被：紫色
+                    "Material": "#FF9800",      // 材质：橙色
+                };
+                
+                // 关系类型配色
+                this.relColors = {
+                    "BELONGS_TO": "#4285F4",
+                    "CONTAINS": "#EA4335",
+                    "PREVALENT_IN": "#FBBC05",
+                    "RELATED_TO": "#34A853",
+                    "USES": "#FF6D00",
+                    "SYMBOLIZES": "#8E24AA"
+                };
+                
+                // 节点样式（确保文字完整显示）
+                this.baseNodeRadius = 40; // 基础半径，根据文字长度动态调整
+                this.nodeTextSize = 14;
+                
+                // 绑定事件
+                this.bindEvents();
+                
+                // 初始显示全部
+                this.loadData(null);
+            }
+
+            // 从数据库加载数据（核心逻辑：按关系重新查询）
+            async loadData(relationType) {
+                let cypher;
+                if (relationType) {
+                    // 只查询指定关系的数据
+                    cypher = `MATCH (n)-[r:${relationType}]-(m) RETURN n, r, m`;
+                } else {
+                    // 显示全部数据
+                    cypher = "MATCH (n)-[r]-(m) RETURN n, r, m";
+                }
+
+                try {
+                    const session = this.driver.session();
+                    const result = await session.run(cypher);
+                    await session.close();
+                    
+                    // 处理数据并渲染
+                    const { nodes, links } = this.processData(result);
+                    this.renderGraph(nodes, links);
+                    
+                    // 更新按钮状态
+                    this.updateButtonStates(relationType);
+                } catch (err) {
+                    console.error("数据加载失败:", err);
+                    alert("查询失败: " + err.message);
+                }
+            }
+
+            // 处理数据库返回的数据
+            processData(result) {
+                const nodesMap = new Map();
+                const links = [];
+                
+                result.records.forEach(record => {
+                    const [n, r, m] = record._fields;
+                    
+                    // 处理节点n
+                    const nodeN = {
+                        id: n.identity.toString(),
+                        label: n.labels[0],
+                        name: n.properties.name || "未命名",
+                        props: n.properties
+                    };
+                    if (!nodesMap.has(nodeN.id)) nodesMap.set(nodeN.id, nodeN);
+                    
+                    // 处理节点m
+                    const nodeM = {
+                        id: m.identity.toString(),
+                        label: m.labels[0],
+                        name: m.properties.name || "未命名",
+                        props: m.properties
+                    };
+                    if (!nodesMap.has(nodeM.id)) nodesMap.set(nodeM.id, nodeM);
+                    
+                    // 处理关系
+                    links.push({
+                        source: nodeN.id,
+                        target: nodeM.id,
+                        type: r.type,
+                        id: `${nodeN.id}-${r.type}-${nodeM.id}`
+                    });
+                });
+                
+                return {
+                    nodes: Array.from(nodesMap.values()),
+                    links: links
+                };
+            }
+
+            // 渲染图谱（确保节点和关系同时显示）
+            renderGraph(nodes, links) {
+                // 清空现有内容
+                this.g.selectAll("*").remove();
+                
+                // 计算节点所需半径（根据文字长度动态调整，确保完整显示）
+                nodes.forEach(node => {
+                    const textLength = node.name.length * 10; // 每个字约10px宽度
+                    node.radius = Math.max(this.baseNodeRadius, textLength / 2 + 10); // 确保文字能放下
+                });
+                
+                // 力导向图配置（拉大节点间距）
+                const simulation = d3.forceSimulation(nodes)
+                    .force("link", d3.forceLink(links).id(d => d.id).distance(300).strength(0.6)) // 距离拉大到300px
+                    .force("charge", d3.forceManyBody().strength(-1000)) // 增强排斥力，避免拥挤
+                    .force("center", d3.forceCenter(this.width/2, this.height/2))
+                    .force("collision", d3.forceCollide().radius(d => d.radius + 15)); // 碰撞半径随节点大小变化
+                
+                // 绘制连线
+                const link = this.g.append("g")
+                    .attr("class", "links")
+                    .selectAll("line")
+                    .data(links)
+                    .enter().append("line")
+                    .attr("stroke", d => this.relColors[d.type] || "#999")
+                    .attr("stroke-width", 2.5)
+                    .attr("stroke-opacity", 0.8);
+                
+                // 绘制关系文字
+                const linkText = this.g.append("g")
+                    .attr("class", "link-texts")
+                    .selectAll("text")
+                    .data(links)
+                    .enter().append("text")
+                    .attr("class", "link-text")
+                    .text(d => this.getRelName(d.type))
+                    .attr("fill", d => this.relColors[d.type] || "#666");
+                
+                // 绘制节点组
+                const node = this.g.append("g")
+                    .attr("class", "nodes")
+                    .selectAll("g")
+                    .data(nodes)
+                    .enter().append("g")
+                    .attr("class", "node")
+                    .call(d3.drag()
+                        .on("start", (e, d) => {
+                            if (!e.active) simulation.alphaTarget(0.3).restart();
+                            d.fx = d.x; d.fy = d.y;
+                        })
+                        .on("drag", (e, d) => {
+                            d.fx = e.x; d.fy = e.y;
+                        })
+                        .on("end", (e, d) => {
+                            if (!e.active) simulation.alphaTarget(0);
+                            d.fx = null; d.fy = null;
+                        })
+                    )
+                    .on("click", (e, d) => this.showNodeProps(e, d));
+                
+                // 节点圆圈（按实体类型着色）
+                node.append("circle")
+                    .attr("r", d => d.radius)
+                    .attr("fill", d => this.nodeColors[d.label] || "#cccccc")
+                    .attr("stroke-opacity", 0.9);
+                
+                // 节点文字（完全显示，不截断）
+                node.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.3em")
+                    .attr("font-size", this.nodeTextSize)
+                    .text(d => d.name); // 直接显示完整名称
+                
+                // 力导向图更新
+                simulation.on("tick", () => {
+                    link
+                        .attr("x1", d => d.source.x)
+                        .attr("y1", d => d.source.y)
+                        .attr("x2", d => d.target.x)
+                        .attr("y2", d => d.target.y);
+                    
+                    linkText
+                        .attr("x", d => (d.source.x + d.target.x) / 2)
+                        .attr("y", d => (d.source.y + d.target.y) / 2 - 5);
+                    
+                    node.attr("transform", d => `translate(${d.x},${d.y})`);
+                });
+            }
+
+            // 显示节点属性
+            showNodeProps(event, node) {
+                const tooltip = this.tooltip;
+                let html = `<div class="tooltip-title">${node.label}：${node.name}</div>`;
+                Object.entries(node.props).forEach(([key, val]) => {
+                    html += `<div class="tooltip-prop"><strong>${key}：</strong>${val}</div>`;
+                });
+                tooltip.innerHTML = html;
+                tooltip.style.left = (event.pageX + 10) + "px";
+                tooltip.style.top = (event.pageY - 20) + "px";
+                tooltip.style.display = "block";
+                
+                d3.select("body").on("click.tooltip", (e) => {
+                    if (!tooltip.contains(e.target)) {
+                        tooltip.style.display = "none";
+                        d3.select("body").on("click.tooltip", null);
+                    }
+                });
+            }
+
+            // 关系名转换为中文
+            getRelName(type) {
+                const map = {
+                    "BELONGS_TO": "属于",
+                    "CONTAINS": "包含",
+                    "PREVALENT_IN": "流行于",
+                    "RELATED_TO": "相关",
+                    "USES": "使用",
+                    "SYMBOLIZES": "象征"
+                };
+                return map[type] || type;
+            }
+
+            // 绑定按钮事件（点击重新查询数据库）
+            bindEvents() {
+                document.querySelectorAll(".rel-btn[data-rel]").forEach(btn => {
+                    btn.addEventListener("click", () => {
+                        const rel = btn.getAttribute("data-rel");
+                        this.loadData(rel); // 加载该关系的数据
+                    });
+                });
+                
+                document.getElementById("show-all").addEventListener("click", () => {
+                    this.loadData(null); // 加载全部数据
+                });
+            }
+
+            // 更新按钮状态
+            updateButtonStates(activeRel) {
+                document.querySelectorAll(".rel-btn").forEach(btn => {
+                    btn.classList.remove("active");
+                });
+                if (activeRel) {
+                    document.querySelector(`.rel-btn[data-rel="${activeRel}"]`)?.classList.add("active");
+                } else {
+                    document.getElementById("show-all").classList.add("active");
+                }
+            }
+        }
+
+        // 初始化应用
+        window.onload = () => {
+            const app = new GraphApp();
+        };
+    </script>
+</body>
+</html>

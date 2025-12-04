@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>锦织经纬：五大方言的服饰风采</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1"></script>
+    <link rel="stylesheet" href="./style.css">
+    <!-- 引入游戏CSS -->
+    <link rel="stylesheet" href="./li-pattern-puzzle/styles.css">
+    <style>
+        /* 游戏容器样式调整 */
+        .game-section {
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #F5E6D3;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            max-width: 1200px;
+        }
+
+        .game-section h2 {
+            text-align: center;
+            color: #8B4513;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            font-family: 'FZLIQBLSS--GB1-0', 'Microsoft YaHei', sans-serif;
+        }
+
+        .game-intro {
+            text-align: center;
+            color: #5D4037;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 调整游戏容器在页面中的显示 */
+        #game-container {
+            border-radius: 15px;
+            margin: 0 auto;
+            height: auto;
+            max-height: 95vh;
+            width: 95%;
+            max-width: 1400px;
+        }
+
+        /* 调整游戏主区域 */
+        .game-main {
+            height: calc(95vh - 200px);
+            overflow: hidden;
+        }
+
+        /* 调整游戏头部 */
+        .game-header {
+            height: auto;
+            padding: 15px;
+        }
+
+        /* 调整游戏网格区域 */
+        .puzzle-area {
+            height: calc(100% - 50px);
+        }
+
+        /* 调整进度条区域 */
+        .progress-bar {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="site-title">黎锦纹铭</a>
+            <a href="黎纹锦韵.html" class="nav-item">黎纹锦韵</a>
+            <a href="黎锦飞光.html" class="nav-item">黎锦飞光</a>
+            <a href="锦织经纬.html" class="nav-item">锦织经纬</a>
+            <a href="锦绣千针.html" class="nav-item">锦绣千针</a>
+            <a href="黎纹生成.html" class="nav-item">黎纹生成</a>
+        </div>
+    </header>
+
+    <div class="map-desc">
+        从黎族人口分布情况来看，哈、杞、润等方言人口占黎族人口的大部分，分别居住在海南岛沿海、中部和南部大部分地区。美孚方言人口居住在海南岛西部，主要聚居在昌化江下游流域。赛方言人口居住在海南岛东南部。因受地理、气候、物产等自然因素的影响，黎族各方言的生产生活及风俗习惯略有不同，织锦图案的题材丰富多样，体现出不同方言的艺术风格。
+    </div>
+
+    <div class="svg-map-container">
+        <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.33/build/spline-viewer.js"></script>
+        <spline-viewer loading-anim-type="none"
+            url="https://prod.spline.design/tiaJ79HP323qjMSt/scene.splinecode"></spline-viewer>
+    </div>
+
+    <section class="culture-section">
+        <h2 class="section-title">五大方言区文化特征与纹面习俗</h2>
+
+        <div class="dialect-container">
+            <div class="dialect-img">
+                <div class="dialect-img-container">
+                    <img src="./imgs/纹面.jpg" alt="黎族纹面文化">
+                    <div class="img-caption">拍摄于海南省博物馆</div>
+                </div>
+            </div>
+            <!-- 哈方言区块 -->
+            <div class="dialect-block dialect-h">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">哈方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：主要分布在海南岛沿海及丘陵地带，以三亚、陵水、乐东等地为核心</li>
+                            <li><strong>传统生计</strong>：以稻作农业为主，兼营渔业和热带作物种植，擅长利用海洋资源</li>
+                            <li><strong>节庆习俗</strong>：最隆重的节日为"三月三"，祭祀祖先与自然神灵，伴有对歌、跳竹竿舞等活动</li>
+                            <li><strong>艺术特色</strong>：织锦以几何纹、人形纹为主，色彩明快，常用红、黄、蓝三色搭配</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            哈方言妇女纹面多在十二至十五岁之间进行，图案呈几何形分布：
+                            <ul class="feature-list">
+                                <li>前额纹为横向平行线，象征规整的田垄</li>
+                                <li>两颊纹为放射状线条，如太阳光芒般扩散</li>
+                                <li>下颌纹呈网格状，代表丰收的粮仓</li>
+                            </ul>
+                            纹面寓意为"成年礼"与"家族标识"，同时认为可避邪祈福，死后能顺利回归祖先之地。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 杞方言区块 -->
+            <div class="dialect-block dialect-qi">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">杞方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：集中在海南岛中部山区，五指山、琼中一带为主要聚居地</li>
+                            <li><strong>传统生计</strong>：山地农耕为主，种植水稻、玉米和薯类，擅长狩猎与采集山货</li>
+                            <li><strong>节庆习俗</strong>：重视"牛节"，每年春耕前祭祀耕牛，祈求农事顺利，有"祭山"的传统</li>
+                            <li><strong>艺术特色</strong>：音乐舞蹈带有山地文化特质，织锦喜用黑色底布，以动物纹（如鹿纹、鸟纹）为特色</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            杞方言纹面风格简约而独特：
+                            <ul class="feature-list">
+                                <li>额头至鼻梁有纵向条纹，象征山路蜿蜒</li>
+                                <li>眼角两侧有对称的曲线纹，形似山涧溪流</li>
+                                <li>纹面工具多用荆棘刺蘸烟灰调制的颜料，分三次完成</li>
+                            </ul>
+                            纹面被视为"山地通行证"，认为能获得山神庇护，同时也是区分不同支系的重要标志。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 润方言区块 -->
+            <div class="dialect-block dialect-run">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">润方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：主要居住在海南岛南部山区，以白沙、昌江等地的盆地与河谷为主</li>
+                            <li><strong>传统生计</strong>：稻作与手工业并重，擅长纺织、制陶，有"纺织之乡"的美誉</li>
+                            <li><strong>节庆习俗</strong>："祭神树节"最为独特，崇拜千年古木，认为其是祖先的化身</li>
+                            <li><strong>艺术特色</strong>：织锦以"龙被"最负盛名，图案繁复华丽，融合神话传说与自然意象</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            润方言纹面是黎族中最复杂的样式之一：
+                            <ul class="feature-list">
+                                <li>全脸布满连续纹样，前额至下颌形成整体图案，如织锦般连贯</li>
+                                <li>包含圆形纹（象征太阳）、方形纹（代表土地）、曲线纹（寓意河流）</li>
+                                <li>纹面过程分阶段进行，从童年开始，至成年完成全部图案</li>
+                            </ul>
+                            纹面不仅是美的象征，更代表家族的尊贵地位，不同家族有固定的纹面图谱。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 美孚方言区块 -->
+            <div class="dialect-block dialect-meifu">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">美孚方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：分布于海南岛西部，集中在昌化江下游流域的东方、昌江等地</li>
+                            <li><strong>传统生计</strong>：灌溉农业发达，擅长利用河流资源种植水稻和甘蔗，手工艺以制糖闻名</li>
+                            <li><strong>节庆习俗</strong>："年节"（春节）最为隆
+                                重，有"送旧迎新"的祭祀仪式，注重家族团聚</li>
+                            <li><strong>艺术特色</strong>：织锦以"联珠纹"为典型，色彩沉稳，常用深蓝、靛蓝与白色组合</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            美孚方言纹面具有鲜明的地域特色：
+                            <ul class="feature-list">
+                                <li>以"人"字形纹为核心，从鼻梁向两颊延伸，如水流分支</li>
+                                <li>下巴处有半月形纹，象征昌化江的弯道</li>
+                                <li>纹面时会加入少量矿物颜料，使图案呈青蓝色，更为持久</li>
+                            </ul>
+                            纹面被视为"河流的印记"，与他们依赖昌化江生存的生活方式密切相关，代表对水源的敬畏。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赛方言区块 -->
+            <div class="dialect-block dialect-sai">
+                <div class="dialect-header">
+                    <h2 class="dialect-title">赛方言</h2>
+                </div>
+                <div class="dialect-content">
+                    <div class="content-part">
+                        <h3>文化特征</h3>
+                        <ul class="feature-list">
+                            <li><strong>聚居环境</strong>：位于海南岛东南部，以保亭、万宁等地的热带雨林边缘为主</li>
+                            <li><strong>传统生计</strong>：刀耕火种与梯田农业结合，擅长种植热带水果和药用植物</li>
+                            <li><strong>节庆习俗</strong>："祭雷节"最具特色，认为雷声是丰收的信号，有模仿雷声的歌舞表演</li>
+                            <li><strong>艺术特色</strong>：音乐以鼻箫、口弓琴为代表，织锦喜用植物纹（如槟榔纹、稻穗纹）</li>
+                        </ul>
+                    </div>
+                    <div class="content-part">
+                        <h3>纹面习俗</h3>
+                        <div class="tattoo-desc">
+                            赛方言纹面风格轻盈灵动：
+                            <ul class="feature-list">
+                                <li>以点状纹和曲线纹为主，分布于眼周、颧骨和鼻翼两侧</li>
+                                <li>图案模仿热带雨林中的藤蔓与花卉，寓意与自然共生</li>
+                                <li>纹面由家族中的女性长辈完成，是传承技艺的重要载体</li>
+                            </ul>
+                            纹面被视为"自然的纹身"，象征女子已具备采集植物、辨识草药的能力，是成年的标志。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏模块区域 -->
+    <section class="game-section">
+        <h2>黎纹密码 - 织梦千年的文化之谜</h2>
+        <p class="game-intro">
+            探索黎族织锦的奥秘，通过填充图案来学习黎族传统纹样文化。每个纹样都蕴含着丰富的文化内涵，帮助你更深入地了解黎族的历史与艺术。
+        </p>
+
+        <!-- 游戏控制区域 -->
+        <div class="game-controls">
+            <button id="toggleGameView" class="control-btn primary-btn">显示游戏</button>
+            <button id="resetGame" class="control-btn secondary-btn">重置游戏</button>
+        </div>
+
+        <!-- 游戏容器 -->
+        <div id="game-container" style="display: none;">
+            <!-- 游戏头部 -->
+            <header class="game-header">
+                <button class="btn-back" id="btnBack">返回</button>
+                <div class="level-info">
+                    <span id="chapterName">第一章：织机初识</span>
+                    <span class="level-number">关卡 <span id="currentLevel">1</span></span>
+                </div>
+                <div class="game-controls">
+                    <span class="hints-count">提示: <span id="hintsLeft">3</span></span>
+                    <button class="btn-menu" id="btnMenu">菜单</button>
+                </div>
+            </header>
+
+            <!-- 主游戏区域 -->
+            <main class="game-main">
+                <!-- 左侧信息面板 -->
+                <aside class="info-panel">
+                    <div class="pattern-preview">
+                        <h3>纹样预览</h3>
+                        <canvas id="patternPreview" width="100" height="100"></canvas>
+                    </div>
+                    <div class="pattern-info">
+                        <h3>文化背景</h3>
+                        <p id="patternDescription">十字纹象征大地四方，天地相连，是黎族最基础的纹样之一。</p>
+                    </div>
+                    <div class="collected-patterns">
+                        <h3>已收集纹样</h3>
+                        <div id="collectedList" class="pattern-list"></div>
+                    </div>
+                </aside>
+
+                <!-- 游戏网格区域 -->
+                <div class="puzzle-area">
+                    <div class="puzzle-container">
+                        <!-- 列提示区 -->
+                        <div class="col-hints" id="colHints"></div>
+
+                        <!-- 行提示和网格的组合 -->
+                        <div class="puzzle-main">
+                            <div class="row-hints" id="rowHints"></div>
+                            <div class="grid-container" id="gridContainer"></div>
+                        </div>
+                    </div>
+
+                    <!-- 工具栏 -->
+                    <div class="toolbar">
+                        <div class="color-palette">
+                            <button class="color-btn active" data-color="empty" title="空白">
+                                <span class="color-empty"></span>
+                            </button>
+                            <button class="color-btn" data-color="black" title="黑色">
+                                <span class="color-black"></span>
+                            </button>
+                            <button class="color-btn" data-color="red" title="红色">
+                                <span class="color-red"></span>
+                            </button>
+                            <button class="color-btn" data-color="yellow" title="黄色">
+                                <span class="color-yellow"></span>
+                            </button>
+                            <button class="color-btn" data-color="white" title="白色">
+                                <span class="color-white"></span>
+                            </button>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn-action" id="btnUndo" title="撤销">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12.5 8c-2.65 0-5.05.99-6.9 2.6L2 7v9h9l-3.62-3.62c1.39-1.16 3.16-1.88 5.12-1.88 3.54 0 6.55 2.31 7.6 5.5l2.37-.78C21.08 11.03 17.15 8 12.5 8z" />
+                                </svg>
+                            </button>
+                            <button class="btn-action" id="btnRedo" title="重做">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M18.4 10.6C16.55 8.99 14.15 8 11.5 8c-4.65 0-8.58 3.03-9.96 7.22L3.9 16c1.05-3.19 4.05-5.5 7.6-5.5 1.95 0 3.73.72 5.12 1.88L13 16h9V7l-3.6 3.6z" />
+                                </svg>
+                            </button>
+                            <button class="btn-action" id="btnClear" title="清空">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                </svg>
+                            </button>
+                            <button class="btn-action" id="btnHint" title="提示">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <path
+                                        d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7z" />
+                                </svg>
+                            </button>
+                            <button class="btn-action" id="btnValidate" title="验证答案">
+                                <svg width="24" height="24" viewBox="0 0 24 24">
+                                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 进度条 -->
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                        <span class="progress-text" id="progressText">完成度: 0%</span>
+                    </div>
+                </div>
+            </main>
+
+            <!-- 欢迎界面 -->
+            <div id="welcomeScreen" class="screen-overlay">
+                <div class="welcome-content">
+                    <h1 class="game-title">黎纹密码</h1>
+                    <p class="game-subtitle">织梦千年的文化之谜</p>
+
+                    <div class="story-intro">
+                        <p>在海南岛的深山中，年轻的黎族女孩阿织发现了一本尘封已久的《黎锦图谱》。</p>
+                        <p>这本古老的图谱记载着失传已久的织锦技艺和神秘的纹样密码...</p>
+                        <p>帮助阿织解开这些纹样之谜，重现黎族千年的织锦文化！</p>
+                    </div>
+
+                    <button class="btn-primary" id="btnStart">开始游戏</button>
+                    <button class="btn-secondary" id="btnTutorial">游戏教程</button>
+                </div>
+            </div>
+
+            <!-- 关卡完成界面 -->
+            <div id="levelCompleteScreen" class="screen-overlay" style="display: none;">
+                <div class="complete-content">
+                    <h2>关卡完成！</h2>
+                    <div class="pattern-unlocked">
+                        <canvas id="unlockedPattern" width="150" height="150"></canvas>
+                        <h3 id="patternName">十字纹</h3>
+                    </div>
+                    <div class="score-info">
+                        <div class="score-item">
+                            <span>基础分数:</span>
+                            <span id="baseScore">100</span>
+                        </div>
+                        <div class="score-item">
+                            <span>时间奖励:</span>
+                            <span id="timeBonus">50</span>
+                        </div>
+                        <div class="score-item">
+                            <span>完美奖励:</span>
+                            <span id="perfectBonus">0</span>
+                        </div>
+                        <div class="score-total">
+                            <span>总分:</span>
+                            <span id="totalScore">150</span>
+                        </div>
+                    </div>
+                    <div class="cultural-info">
+                        <h3>文化小百科</h3>
+                        <p id="culturalDescription"></p>
+                    </div>
+                    <div class="complete-actions">
+                        <button class="btn-primary" id="btnNextLevel">下一关</button>
+                        <button class="btn-secondary" id="btnReplay">重玩本关</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 教程界面 -->
+            <div id="tutorialScreen" class="screen-overlay" style="display: none;">
+                <div class="tutorial-content">
+                    <h2>游戏教程</h2>
+                    <div class="tutorial-steps">
+                        <div class="tutorial-step active" data-step="1">
+                            <h3>1. 理解提示</h3>
+                            <div class="tutorial-image"></div>
+                            <p>每行每列的数字代表该行/列中连续同色格子的数量。</p>
+                            <p>例如："2 1"表示有2个连续的格子，然后至少一个空格，再有1个格子。</p>
+                        </div>
+                        <div class="tutorial-step" data-step="2">
+                            <h3>2. 填充格子</h3>
+                            <div class="tutorial-image"></div>
+                            <p>选择颜色后，点击格子进行填充。</p>
+                            <p>再次点击可以清除格子。</p>
+                        </div>
+                        <div class="tutorial-step" data-step="3">
+                            <h3>3. 完成图案</h3>
+                            <div class="tutorial-image"></div>
+                            <p>当所有格子都正确填充后，你将解锁新的黎族纹样！</p>
+                            <p>每个纹样都有其独特的文化含义。</p>
+                        </div>
+                    </div>
+                    <div class="tutorial-nav">
+                        <button class="btn-secondary" id="btnPrevStep" disabled>上一步</button>
+                        <span class="step-indicator">1 / 3</span>
+                        <button class="btn-secondary" id="btnNextStep">下一步</button>
+                    </div>
+                    <button class="btn-primary" id="btnCloseTutorial">开始游戏</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 游戏交互脚本 -->
+    <script>
+        // 游戏与页面交互逻辑
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleButton = document.getElementById('toggleGameView');
+            const gameContainer = document.getElementById('game-container');
+            const resetButton = document.getElementById('resetGame');
+
+            // 切换游戏显示/隐藏
+            toggleButton.addEventListener('click', function () {
+                if (gameContainer.style.display === 'none' || gameContainer.style.display === '') {
+                    gameContainer.style.display = 'block';
+                    toggleButton.textContent = '隐藏游戏';
+
+                    // 确保游戏尺寸正确调整
+                    if (window.gameInstance) {
+                        window.gameInstance.adjustGameSize();
+                    }
+                } else {
+                    gameContainer.style.display = 'none';
+                    toggleButton.textContent = '显示游戏';
+                }
+            });
+
+            // 重置游戏
+            resetButton.addEventListener('click', function () {
+                if (confirm('确定要重置游戏进度吗？')) {
+                    // 清除游戏状态
+                    localStorage.removeItem('liPatternProgress');
+
+                    // 重新加载游戏
+                    if (window.gameInstance) {
+                        // 移除所有事件监听器
+                        const oldGame = window.gameInstance;
+                        window.removeEventListener('resize', oldGame.adjustGameSize);
+                    }
+
+                    // 重新初始化游戏
+                    gameContainer.innerHTML = gameContainer.innerHTML; // 强制重新渲染
+                    const game = new LiPatternPuzzle();
+                    window.gameInstance = game;
+
+                    // 显示欢迎界面
+                    game.showWelcomeScreen();
+
+                    alert('游戏已重置，请点击"显示游戏"开始新游戏。');
+                }
+            });
+
+            // 监听游戏容器内部的返回按钮
+            document.addEventListener('click', function (e) {
+                if (e.target.id === 'btnBack' || e.target.closest('#btnBack')) {
+                    // 确保游戏返回到欢迎界面
+                    if (window.gameInstance) {
+                        window.gameInstance.showWelcomeScreen();
+                    }
+                }
+            });
+
+            // 监听页面滚动，调整游戏容器的位置
+            window.addEventListener('scroll', function () {
+                const gameSection = document.querySelector('.game-section');
+                if (gameSection) {
+                    const rect = gameSection.getBoundingClientRect();
+                    // 可以根据滚动位置添加一些动态效果
+                }
+            });
+        });
+
+        // 修改LiPatternPuzzle类的初始化，将实例保存到全局
+        document.addEventListener('DOMContentLoaded', function () {
+            // 保存原来的初始化代码
+            const originalInit = LiPatternPuzzle.prototype.init;
+
+            // 重写init方法
+            LiPatternPuzzle.prototype.init = function () {
+                // 调用原初始化方法
+                originalInit.call(this);
+
+                // 保存实例到全局
+                window.gameInstance = this;
+            };
+        });
+    </script>
+
+    <!-- 引入游戏JavaScript -->
+    <script src="./li-pattern-puzzle/game.js"></script>
+</body>
+
+</html>
